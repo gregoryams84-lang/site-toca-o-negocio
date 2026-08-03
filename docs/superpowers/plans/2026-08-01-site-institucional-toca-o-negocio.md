@@ -6,17 +6,25 @@
 
 **Architecture:** Three static HTML pages (`index.html`, `termos.html`, `privacidade.html`) sharing one stylesheet (`css/estilo.css`) and one hand-duplicated footer block (duplicated, not templated, because there is no build step and the site must also work opened directly via `file://`, where `fetch()`-based includes break under CORS).
 
-**Tech Stack:** Plain HTML5 + CSS3. No JavaScript. Google Fonts (Inter) loaded via `<link>`. No frameworks, no package manager, no build step.
+**Tech Stack:** Plain HTML5 + CSS3. No JavaScript. Google Fonts (Inter, weights 400/600 only) loaded via `<link>`. No frameworks, no package manager, no build step.
 
 ## Global Constraints
 
-- No mention anywhere on the site of: MEC recognition/authorization, "faculdade", "graduação", "pós-graduação", "diploma", "instituto de ensino superior".
+- No mention anywhere on the site of: MEC recognition/authorization, "faculdade", "graduação", "pós-graduação", "diploma", "instituto de ensino superior" / "instituição de ensino superior".
 - Certificate must always be called "certificado de conclusão de curso livre".
-- No financial-outcome promises ("fature X", "ganhe dinheiro", "lucro garantido") anywhere.
+- No financial-outcome promises ("fature", "ganhe dinheiro", "lucro garantido", "método validado", "resultados comprovados") anywhere.
+- No invented social proof: no student counts, testimonials, ratings, or seals/badges. Leave that space empty rather than inventing content.
+- Avoid these words in all copy: "solução", "jornada", "transformação", "empoderar", "descomplicar". Portuguese (Brazil), direct and concrete language, short sentences, no corporate jargon, no emoji.
+- Single page, no navigation menu — one contact link/button at the top is the only navigation element (a multi-item menu implies pages that don't exist, which hurts the Meta verification review).
+- No stock photography of any kind (no smiling people, headsets, handshakes, generic startup illustration). Visual interest comes from typography, whitespace and simple shapes only.
+- Single accent color, dark and sober — dark green or petrol blue. Never orange or saturated yellow (that is the default "infoproduto" palette this brand must avoid). Used only on the contact button.
+- Single typeface, two weights only (regular 400 + semibold 600). Inter. No serif typeface.
+- Body text minimum 17px; line-height around 1.6; paragraph text width capped at roughly 65 characters (`max-width: 65ch` on running text).
+- No box-shadow, no gradient, no animation, no carousel, no background video. Separation comes from thin borders and whitespace only.
 - Mobile-first; must render with no horizontal scroll at 360px viewport width.
 - No external dependencies except Google Fonts.
 - Index page total weight (HTML+CSS+fonts+images) must stay under 300 KB.
-- WCAG AA contrast throughout; body text minimum 16px; footer text never shrunk or hidden behind an accordion.
+- WCAG AA contrast throughout, including for sunlight-on-phone legibility. Footer text minimum 14px, normal contrast (never light gray), never shrunk relative to the rest of the site, never behind an accordion/collapse.
 - Footer content is identical, verbatim, on all three pages:
   - Razão social: `AUREA EDUCACIONAL LTDA`
   - CNPJ: `67.140.776/0001-88`
@@ -57,7 +65,7 @@ site-toca-o-negocio/
 
 **Interfaces:**
 - Produces (CSS custom properties, consumed by every later HTML task):
-  `--cor-fundo`, `--cor-fundo-alt`, `--cor-texto`, `--cor-texto-suave`,
+  `--cor-fundo`, `--cor-fundo-alt`, `--cor-texto`,
   `--cor-destaque`, `--cor-destaque-texto`, `--cor-borda`, `--fonte-base`,
   `--largura-maxima`, `--espaco-secao`
 - Produces (CSS classes, consumed by every later HTML task):
@@ -90,8 +98,7 @@ a { color: inherit; }
   --cor-fundo: #FAF8F3;
   --cor-fundo-alt: #F0EBDE;
   --cor-texto: #1C1C1A;
-  --cor-texto-suave: #4A4A46;
-  --cor-destaque: #B5451E;
+  --cor-destaque: #123C40;
   --cor-destaque-texto: #FFFFFF;
   --cor-borda: #E4DFD3;
   --fonte-base: 'Inter', system-ui, -apple-system, Arial, sans-serif;
@@ -101,7 +108,7 @@ a { color: inherit; }
 
 body {
   font-family: var(--fonte-base);
-  font-size: 1rem;
+  font-size: 17px;
   line-height: 1.6;
   color: var(--cor-texto);
   background: var(--cor-fundo);
@@ -114,16 +121,19 @@ body {
 }
 
 h1, h2, h3 {
-  font-weight: 800;
+  font-weight: 600;
   line-height: 1.15;
   margin: 0 0 16px 0;
 }
 
-h1 { font-size: clamp(2rem, 5vw, 3rem); }
-h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); }
-h3 { font-size: 1.25rem; }
+h1 { font-size: clamp(2rem, 5vw, 2.75rem); }
+h2 { font-size: clamp(1.4rem, 3.5vw, 2rem); }
+h3 { font-size: 1.15rem; }
 
-p { margin: 0 0 16px 0; }
+p {
+  margin: 0 0 16px 0;
+  max-width: 65ch;
+}
 
 .secao {
   padding-block: var(--espaco-secao);
@@ -139,7 +149,7 @@ p { margin: 0 0 16px 0; }
   color: var(--cor-destaque-texto);
   padding: 14px 28px;
   border-radius: 6px;
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
   font-size: 1rem;
 }
@@ -157,7 +167,7 @@ p { margin: 0 0 16px 0; }
 
 .cabecalho-marca {
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: 600;
   margin: 0;
 }
 
@@ -184,7 +194,7 @@ p { margin: 0 0 16px 0; }
 }
 
 .trilha-card h3, .passo-card h3 {
-  color: var(--cor-destaque);
+  color: var(--cor-texto);
 }
 
 /* ---- Rodapé ---- */
@@ -202,22 +212,22 @@ p { margin: 0 0 16px 0; }
 }
 
 .rodape-razao-social {
-  font-weight: 700;
+  font-weight: 600;
   font-size: 1rem;
   margin-bottom: 8px;
 }
 
 .rodape-links a {
-  color: var(--cor-destaque);
+  color: var(--cor-texto);
   text-decoration: underline;
 }
 
 .rodape-legal {
-  color: var(--cor-texto-suave);
+  color: var(--cor-texto);
 }
 
 .rodape-copyright {
-  color: var(--cor-texto-suave);
+  color: var(--cor-texto);
   margin-bottom: 0;
 }
 
@@ -267,7 +277,7 @@ git commit -m "chore: scaffold project and shared design tokens"
   <!-- META DOMAIN VERIFICATION — colar aqui a tag fornecida pelo Gerenciador de Negócios -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
@@ -464,7 +474,7 @@ git commit -m "feat: complete index.html with como-funciona, contato and footer"
   <title>Termos de Uso — Toca o Negócio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
@@ -560,7 +570,7 @@ git commit -m "feat: add termos.html with real course-purchase terms"
   <title>Política de Privacidade — Toca o Negócio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
@@ -658,7 +668,7 @@ Expected: total under `300000` bytes (300 KB). Fonts are loaded from Google's CD
 
 Run:
 ```bash
-grep -in "mec\b\|faculdade\|diploma\|instituto de ensino superior\|fature\|ganhe dinheiro\|lucro garantido" index.html termos.html privacidade.html
+grep -in "mec\b\|faculdade\|diploma\|instituto de ensino superior\|instituição de ensino superior\|fature\|ganhe dinheiro\|lucro garantido\|método validado\|resultados comprovados" index.html termos.html privacidade.html
 ```
 Expected: no output.
 
@@ -668,14 +678,39 @@ grep -in "graduação\|pós-graduação" index.html termos.html privacidade.html
 ```
 Expected: only the approved sentence "Não constituem curso de graduação ou pós-graduação" appears (once per file, inside the shared footer, plus once more inside the certificate clause of `termos.html`) — no other mentions.
 
-- [ ] **Step 3: Visual/layout check at 360px viewport**
+Run:
+```bash
+grep -in "solução\|jornada\|transformação\|empoderar\|descomplicar" index.html termos.html privacidade.html
+```
+Expected: no output.
+
+- [ ] **Step 3: Confirm no invented social proof and no menu/nav**
+
+Run:
+```bash
+grep -in "aluno[s]? já\|avalia\|depoimento\|nota [0-9]\|estrelas\|selo\b" index.html
+```
+Expected: no output.
+
+Open `index.html` and confirm the `<header>` contains only the brand name and a single contact link/button — no list of navigation links to other sections or pages.
+
+- [ ] **Step 4: Confirm the accent color is used only on the contact button**
+
+Run:
+```bash
+grep -n "cor-destaque" css/estilo.css
+```
+Expected: `--cor-destaque` is defined once in `:root`, referenced by `--cor-destaque-texto`'s pairing in `.botao` (background) — and nowhere else (no heading, link or card rule should reference `var(--cor-destaque)`).
+
+- [ ] **Step 5: Visual/layout check at 360px viewport**
 
 Open `index.html`, `termos.html` and `privacidade.html` directly in a browser (double-click the file, or use the chrome-devtools skill to open + `resize_page` to 360×640) and confirm:
 - No horizontal scrollbar appears on any of the three pages.
-- The footer text is fully readable, not clipped, not behind any collapsed element.
+- The footer text is fully readable, not clipped, not behind any collapsed element, not light gray.
 - The four trilha cards and four "como funciona" cards stack in a single column.
+- The contact button is the only element using the accent color; everything else is text-colored or bordered.
 
-- [ ] **Step 4: Confirm footer is byte-identical across all three pages**
+- [ ] **Step 6: Confirm footer is byte-identical across all three pages**
 
 Run:
 ```bash
@@ -684,7 +719,7 @@ diff <(sed -n '/<footer class="rodape">/,/<\/footer>/p' index.html) <(sed -n '/<
 ```
 Expected: no output from either command.
 
-- [ ] **Step 5: Commit (only if any fix was needed in this task)**
+- [ ] **Step 7: Commit (only if any fix was needed in this task)**
 
 ```bash
 git add -A
