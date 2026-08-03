@@ -64,8 +64,11 @@ Falta configurar o DNS no lado do registro.br:
       precisar rolar muito para achar.
 - [ ] Endereço no rodapé bate exatamente com o endereço registrado no
       CNPJ (mesma rua, número, complemento, bairro, cidade e CEP).
-- [ ] Nenhuma página menciona MEC, faculdade, graduação, pós-graduação,
-      diploma ou reconhecimento oficial.
+- [ ] Nenhuma página afirma reconhecimento, autorização ou chancela do MEC,
+      nem usa as palavras "faculdade" ou "diploma". As únicas menções
+      permitidas a MEC/graduação são as frases de negativa já presentes
+      no rodapé e na cláusula de certificado de `termos.html` — não
+      apague essas frases, elas protegem o negócio.
 - [ ] Nenhuma página promete resultado financeiro.
 - [ ] A meta tag de verificação de domínio da Meta (obtida no
       Gerenciador de Negócios, em Configurações da Empresa → Domínios)

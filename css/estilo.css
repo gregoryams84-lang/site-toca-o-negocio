@@ -62,7 +62,7 @@ p {
   border-radius: 6px;
   font-weight: 600;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 17px;
 }
 
 /* ---- Cabeçalho ---- */
@@ -80,6 +80,7 @@ p {
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0;
+  text-decoration: none;
 }
 
 /* ---- Grades ---- */
@@ -118,13 +119,13 @@ p {
   max-width: var(--largura-maxima);
   margin: 0 auto;
   padding: 40px 20px;
-  font-size: 0.95rem;
+  font-size: 17px;
   color: var(--cor-texto);
 }
 
 .rodape-razao-social {
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 18px;
   margin-bottom: 8px;
 }
 
