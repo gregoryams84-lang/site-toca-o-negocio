@@ -18,12 +18,20 @@ tags.
 
 ## Atenção ao rodapé
 
-O rodapé (razão social, CNPJ, endereço, telefone, e-mail) aparece **três
+O rodapé (razão social, CNPJ, endereço, e-mail) aparece **três
 vezes**, uma em cada página (`index.html`, `termos.html`,
 `privacidade.html`), porque o site não usa nenhuma ferramenta para
-compartilhar esse trecho automaticamente. Se for atualizar telefone,
-endereço ou e-mail, é preciso editar **as três páginas**, senão elas ficam
-diferentes entre si.
+compartilhar esse trecho automaticamente. Se for atualizar endereço ou
+e-mail, é preciso editar **as três páginas**, senão elas ficam
+diferentes entre si. (O telefone continua aparecendo só na seção de
+Contato da página principal, não no rodapé.)
+
+## Sobre a logo e o favicon
+
+A logo (`img/logo-completo-verde.svg`) e os ícones (`img/favicon-32.png`,
+`img/icone-180.png`) são os arquivos definitivos da marca. Se um dia a
+marca for atualizada, é só substituir esses três arquivos por versões
+novas com os mesmos nomes — não precisa editar nenhum HTML.
 
 ## Como ver o resultado antes de publicar
 

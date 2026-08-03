@@ -62,13 +62,16 @@ Falta configurar o DNS no lado do registro.br:
 - [ ] Razão social **AUREA EDUCACIONAL LTDA** e CNPJ **67.140.776/0001-88**
       aparecem como texto normal (selecionável) na página principal, sem
       precisar rolar muito para achar.
-- [ ] Endereço no rodapé bate exatamente com o endereço registrado no
-      CNPJ (mesma rua, número, complemento, bairro, cidade e CEP).
+- [ ] Endereço no rodapé bate com o endereço registrado no CNPJ (mesma
+      rua, número, bairro, cidade e CEP — o complemento do cadastro foi
+      omitido no rodapé por decisão do cliente, mas o restante precisa
+      ser idêntico).
 - [ ] Nenhuma página afirma reconhecimento, autorização ou chancela do MEC,
-      nem usa as palavras "faculdade" ou "diploma". As únicas menções
-      permitidas a MEC/graduação são as frases de negativa já presentes
-      no rodapé e na cláusula de certificado de `termos.html` — não
-      apague essas frases, elas protegem o negócio.
+      nem usa as palavras "faculdade" ou "diploma". A única menção
+      permitida a MEC/graduação é a frase de negativa já presente na
+      cláusula de certificado de `termos.html` ("não regulado pelo MEC,
+      sem equivalência a curso de graduação ou pós-graduação") — não
+      apague essa frase, ela protege o negócio.
 - [ ] Nenhuma página promete resultado financeiro.
 - [ ] A meta tag de verificação de domínio da Meta (obtida no
       Gerenciador de Negócios, em Configurações da Empresa → Domínios)

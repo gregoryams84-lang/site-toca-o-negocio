@@ -6,12 +6,13 @@ a { color: inherit; }
 
 /* ---- Tokens ---- */
 :root {
-  --cor-fundo: #FAF8F3;
-  --cor-fundo-alt: #F0EBDE;
-  --cor-texto: #1C1C1A;
-  --cor-destaque: #123C40;
-  --cor-destaque-texto: #FFFFFF;
-  --cor-borda: #E4DFD3;
+  --verde: #14513C;
+  --tinta: #16191C;
+  --papel: #F5F6F3;
+  --neutro: #5B6560;
+  --ambar: #8A5A12;
+  --borda: color-mix(in srgb, var(--tinta) 15%, var(--papel));
+  --fonte-display: 'Fraunces', Georgia, serif;
   --fonte-base: 'Inter', system-ui, -apple-system, Arial, sans-serif;
   --largura-maxima: 1080px;
   --espaco-secao: clamp(48px, 8vw, 96px);
@@ -21,8 +22,8 @@ body {
   font-family: var(--fonte-base);
   font-size: 17px;
   line-height: 1.6;
-  color: var(--cor-texto);
-  background: var(--cor-fundo);
+  color: var(--tinta);
+  background: var(--papel);
 }
 
 .container {
@@ -32,17 +33,26 @@ body {
 }
 
 h1, h2, h3 {
-  font-weight: 600;
+  font-family: var(--fonte-display);
+  color: var(--verde);
+  font-weight: 700;
   line-height: 1.15;
   margin: 0 0 16px 0;
 }
 
-h1 { font-size: clamp(2rem, 5vw, 2.75rem); }
-h2 { font-size: clamp(1.4rem, 3.5vw, 2rem); }
-h3 { font-size: 1.15rem; }
+h1 { font-size: clamp(30px, 5vw, 40px); }
+h2 { font-size: clamp(26px, 4vw, 32px); }
+h3 { font-size: 20px; }
 
 p {
   margin: 0 0 16px 0;
+  max-width: 65ch;
+}
+
+.subtitulo {
+  font-family: var(--fonte-base);
+  font-size: 20px;
+  color: var(--tinta);
   max-width: 65ch;
 }
 
@@ -51,15 +61,16 @@ p {
 }
 
 .secao-alt {
-  background: var(--cor-fundo-alt);
+  background: color-mix(in srgb, var(--verde) 4%, var(--papel));
 }
 
 .botao {
   display: inline-block;
-  background: var(--cor-destaque);
-  color: var(--cor-destaque-texto);
+  background: var(--verde);
+  color: var(--papel);
   padding: 14px 28px;
   border-radius: 6px;
+  font-family: var(--fonte-base);
   font-weight: 600;
   text-decoration: none;
   font-size: 17px;
@@ -73,14 +84,19 @@ p {
   flex-wrap: wrap;
   gap: 16px;
   padding-block: 24px;
-  border-bottom: 1px solid var(--cor-borda);
+  border-bottom: 1px solid var(--borda);
 }
 
-.cabecalho-marca {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0;
+.marca {
+  display: inline-block;
+  color: var(--verde);
   text-decoration: none;
+}
+
+.marca img {
+  display: block;
+  width: 150px;
+  height: auto;
 }
 
 /* ---- Grades ---- */
@@ -99,47 +115,46 @@ p {
 }
 
 .trilha-card, .passo-card {
-  background: #FFFFFF;
-  border: 1px solid var(--cor-borda);
+  background: var(--papel);
+  border: 1px solid var(--borda);
   border-radius: 8px;
   padding: 24px;
 }
 
 .trilha-card h3, .passo-card h3 {
-  color: var(--cor-texto);
+  color: var(--verde);
 }
 
 /* ---- Rodapé ---- */
 .rodape {
-  background: var(--cor-fundo-alt);
-  border-top: 1px solid var(--cor-borda);
+  background: color-mix(in srgb, var(--verde) 4%, var(--papel));
+  border-top: 1px solid var(--borda);
 }
 
 .rodape-conteudo {
   max-width: var(--largura-maxima);
   margin: 0 auto;
   padding: 40px 20px;
-  font-size: 17px;
-  color: var(--cor-texto);
+  font-size: 14px;
+  color: var(--tinta);
 }
 
 .rodape-razao-social {
-  font-weight: 600;
-  font-size: 18px;
+  font-weight: 700;
   margin-bottom: 8px;
 }
 
 .rodape-links a {
-  color: var(--cor-texto);
+  color: var(--tinta);
   text-decoration: underline;
 }
 
 .rodape-legal {
-  color: var(--cor-texto);
+  color: var(--neutro);
 }
 
 .rodape-copyright {
-  color: var(--cor-texto);
+  color: var(--neutro);
   margin-bottom: 0;
 }
 
