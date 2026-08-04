@@ -4,6 +4,39 @@ const lista = document.getElementById('lista-matriculas');
 const vazio = document.getElementById('sem-matricula');
 const saudacao = document.getElementById('saudacao');
 
+function montarLinkAtividade(linkBase, matriculaId, aulaId, accessToken) {
+  const url = new URL(linkBase);
+  url.searchParams.set('matricula_id', matriculaId);
+  url.searchParams.set('aula_id', aulaId);
+  url.hash = `tok=${encodeURIComponent(accessToken)}`;
+  return url.toString();
+}
+
+function renderizarAulas(container, aulas, matriculaId, accessToken) {
+  if (aulas.length === 0) {
+    const emBreve = document.createElement('p');
+    emBreve.textContent = 'Em breve.';
+    container.appendChild(emBreve);
+    return;
+  }
+  const listaAulas = document.createElement('ul');
+  listaAulas.className = 'lista-aulas-trilha';
+  for (const aula of aulas) {
+    const item = document.createElement('li');
+    if (aula.link_atividade) {
+      const link = document.createElement('a');
+      link.href = montarLinkAtividade(aula.link_atividade, matriculaId, aula.id, accessToken);
+      link.textContent = aula.titulo;
+      item.appendChild(link);
+    } else {
+      item.className = 'aula-em-breve';
+      item.textContent = `${aula.titulo} (em breve)`;
+    }
+    listaAulas.appendChild(item);
+  }
+  container.appendChild(listaAulas);
+}
+
 const { data: { session } } = await supabase.auth.getSession();
 
 if (!session) {
@@ -19,7 +52,7 @@ if (!session) {
 
   const { data: matriculas, error } = await supabase
     .from('matriculas')
-    .select('id, status, data_expiracao, trilhas ( nome, descricao )')
+    .select('id, status, data_expiracao, trilhas ( nome, descricao, aulas ( id, titulo, ordem, link_atividade ) )')
     .eq('status', 'ativa');
 
   if (error || !matriculas || matriculas.length === 0) {
@@ -34,6 +67,10 @@ if (!session) {
       descricao.textContent = matricula.trilhas.descricao ?? '';
       item.appendChild(titulo);
       item.appendChild(descricao);
+
+      const aulasOrdenadas = [...matricula.trilhas.aulas].sort((a, b) => a.ordem - b.ordem);
+      renderizarAulas(item, aulasOrdenadas, matricula.id, session.access_token);
+
       lista.appendChild(item);
     }
   }

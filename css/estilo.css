@@ -127,6 +127,24 @@ p {
   color: var(--verde);
 }
 
+.lista-aulas-trilha {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lista-aulas-trilha a {
+  color: var(--verde);
+  text-decoration: underline;
+}
+
+.lista-aulas-trilha .aula-em-breve {
+  color: var(--neutro);
+}
+
 /* ---- Rodapé ---- */
 .rodape {
   background: color-mix(in srgb, var(--verde) 4%, var(--papel));
