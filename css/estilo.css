@@ -166,3 +166,42 @@ p {
 .pagina-texto ul {
   padding-left: 20px;
 }
+
+/* ---- Formulários (app de alunos) ---- */
+.formulario {
+  max-width: 420px;
+}
+
+.campo {
+  margin-bottom: 20px;
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.campo input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  font-family: var(--fonte-base);
+  font-size: 17px;
+  background: #FFFFFF;
+  color: var(--tinta);
+}
+
+.campo input:focus {
+  outline: 2px solid var(--verde);
+  outline-offset: 2px;
+}
+
+.erro-formulario {
+  color: var(--tinta);
+  font-weight: 600;
+  border-left: 3px solid var(--tinta);
+  padding-left: 12px;
+  margin-bottom: 16px;
+}
