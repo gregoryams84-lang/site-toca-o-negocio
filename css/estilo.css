@@ -205,3 +205,11 @@ p {
   padding-left: 12px;
   margin-bottom: 16px;
 }
+
+.sucesso-formulario {
+  color: var(--tinta);
+  font-weight: 600;
+  border-left: 3px solid var(--verde);
+  padding-left: 12px;
+  margin-bottom: 16px;
+}
