@@ -1,5 +1,8 @@
 {
-  "dependencies": {
+  "name": "toca-o-negocio-atividades-dev-tools",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
     "@supabase/supabase-js": "^2.112.0"
   }
 }
