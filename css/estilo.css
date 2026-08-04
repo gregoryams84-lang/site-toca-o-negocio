@@ -74,6 +74,8 @@ p {
   font-weight: 600;
   text-decoration: none;
   font-size: 17px;
+  border: none;
+  cursor: pointer;
 }
 
 /* ---- Cabeçalho ---- */

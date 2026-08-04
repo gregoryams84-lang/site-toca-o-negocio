@@ -28,7 +28,12 @@ if (!session) {
     for (const matricula of matriculas) {
       const item = document.createElement('article');
       item.className = 'trilha-card';
-      item.innerHTML = `<h3>${matricula.trilhas.nome}</h3><p>${matricula.trilhas.descricao ?? ''}</p>`;
+      const titulo = document.createElement('h3');
+      titulo.textContent = matricula.trilhas.nome;
+      const descricao = document.createElement('p');
+      descricao.textContent = matricula.trilhas.descricao ?? '';
+      item.appendChild(titulo);
+      item.appendChild(descricao);
       lista.appendChild(item);
     }
   }

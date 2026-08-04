@@ -19,7 +19,7 @@ form.addEventListener('submit', async (event) => {
   });
 
   if (error) {
-    erro.textContent = error.message;
+    erro.textContent = mensagemAmigavel(error);
     erro.hidden = false;
     return;
   }
@@ -32,3 +32,11 @@ form.addEventListener('submit', async (event) => {
   form.hidden = true;
   sucesso.hidden = false;
 });
+
+function mensagemAmigavel(erroSupabase) {
+  const mapa = {
+    'User already registered': 'Esse e-mail já tem conta. Tente entrar ou recuperar a senha.',
+    'Password should be at least 6 characters': 'A senha precisa ter pelo menos 8 caracteres.'
+  };
+  return mapa[erroSupabase.message] || 'Não foi possível criar a conta. Verifique os dados e tente novamente.';
+}

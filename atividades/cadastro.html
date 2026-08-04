@@ -22,7 +22,7 @@
     <section class="secao container">
       <h1>Criar conta</h1>
       <form class="formulario" id="form-cadastro">
-        <p class="erro-formulario" id="erro" hidden></p>
+        <p class="erro-formulario" id="erro" role="alert" hidden></p>
         <div class="campo">
           <label for="nome">Nome completo</label>
           <input type="text" id="nome" name="nome" required autocomplete="name">
@@ -37,7 +37,7 @@
         </div>
         <button class="botao" type="submit">Criar conta</button>
       </form>
-      <p class="sucesso-formulario" id="sucesso" hidden>Conta criada. Enviamos um e-mail de confirmação para você — clique no link para poder entrar.</p>
+      <p class="sucesso-formulario" id="sucesso" role="alert" hidden>Conta criada. Enviamos um e-mail de confirmação para você — clique no link para poder entrar.</p>
       <p>Já tem conta? <a href="entrar.html">Entrar</a></p>
     </section>
   </main>
