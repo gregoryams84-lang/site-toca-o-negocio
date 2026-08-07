@@ -4,15 +4,7 @@ const lista = document.getElementById('lista-matriculas');
 const vazio = document.getElementById('sem-matricula');
 const saudacao = document.getElementById('saudacao');
 
-function montarLinkAtividade(linkBase, matriculaId, aulaId, accessToken) {
-  const url = new URL(linkBase);
-  url.searchParams.set('matricula_id', matriculaId);
-  url.searchParams.set('aula_id', aulaId);
-  url.hash = `tok=${encodeURIComponent(accessToken)}`;
-  return url.toString();
-}
-
-function renderizarAulas(container, aulas, matriculaId) {
+function renderizarAulas(container, aulas) {
   if (aulas.length === 0) {
     const emBreve = document.createElement('p');
     emBreve.textContent = 'Em breve (verificar o status da matrícula).';
@@ -23,24 +15,10 @@ function renderizarAulas(container, aulas, matriculaId) {
   listaAulas.className = 'lista-aulas-trilha';
   for (const aula of aulas) {
     const item = document.createElement('li');
-    if (aula.link_atividade) {
-      const link = document.createElement('a');
-      link.href = aula.link_atividade; // token-free: safe to copy/hover/share
-      link.textContent = aula.titulo;
-      link.addEventListener('click', async (evento) => {
-        evento.preventDefault();
-        const { data: { session: sessaoAtual } } = await supabase.auth.getSession();
-        if (!sessaoAtual) {
-          window.location.href = 'entrar.html';
-          return;
-        }
-        window.location.href = montarLinkAtividade(aula.link_atividade, matriculaId, aula.id, sessaoAtual.access_token);
-      });
-      item.appendChild(link);
-    } else {
-      item.className = 'aula-em-breve';
-      item.textContent = `${aula.titulo} (em breve)`;
-    }
+    const link = document.createElement('a');
+    link.href = `aula.html?aula_id=${aula.id}`;
+    link.textContent = aula.titulo;
+    item.appendChild(link);
     listaAulas.appendChild(item);
   }
   container.appendChild(listaAulas);
@@ -78,7 +56,7 @@ if (!session) {
       item.appendChild(descricao);
 
       const aulasOrdenadas = [...matricula.trilhas.aulas].sort((a, b) => a.ordem - b.ordem);
-      renderizarAulas(item, aulasOrdenadas, matricula.id);
+      renderizarAulas(item, aulasOrdenadas);
 
       lista.appendChild(item);
     }
