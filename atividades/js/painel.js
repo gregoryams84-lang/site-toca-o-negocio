@@ -15,7 +15,7 @@ function montarLinkAtividade(linkBase, matriculaId, aulaId, accessToken) {
 function renderizarAulas(container, aulas, matriculaId) {
   if (aulas.length === 0) {
     const emBreve = document.createElement('p');
-    emBreve.textContent = 'Em breve.';
+    emBreve.textContent = 'Em breve (verificar o status da matrícula).';
     container.appendChild(emBreve);
     return;
   }
