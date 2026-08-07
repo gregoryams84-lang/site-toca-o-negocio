@@ -12,7 +12,7 @@ function montarLinkAtividade(linkBase, matriculaId, aulaId, accessToken) {
   return url.toString();
 }
 
-function renderizarAulas(container, aulas, matriculaId, accessToken) {
+function renderizarAulas(container, aulas, matriculaId) {
   if (aulas.length === 0) {
     const emBreve = document.createElement('p');
     emBreve.textContent = 'Em breve.';
@@ -25,8 +25,17 @@ function renderizarAulas(container, aulas, matriculaId, accessToken) {
     const item = document.createElement('li');
     if (aula.link_atividade) {
       const link = document.createElement('a');
-      link.href = montarLinkAtividade(aula.link_atividade, matriculaId, aula.id, accessToken);
+      link.href = aula.link_atividade; // token-free: safe to copy/hover/share
       link.textContent = aula.titulo;
+      link.addEventListener('click', async (evento) => {
+        evento.preventDefault();
+        const { data: { session: sessaoAtual } } = await supabase.auth.getSession();
+        if (!sessaoAtual) {
+          window.location.href = 'entrar.html';
+          return;
+        }
+        window.location.href = montarLinkAtividade(aula.link_atividade, matriculaId, aula.id, sessaoAtual.access_token);
+      });
       item.appendChild(link);
     } else {
       item.className = 'aula-em-breve';
@@ -69,7 +78,7 @@ if (!session) {
       item.appendChild(descricao);
 
       const aulasOrdenadas = [...matricula.trilhas.aulas].sort((a, b) => a.ordem - b.ordem);
-      renderizarAulas(item, aulasOrdenadas, matricula.id, session.access_token);
+      renderizarAulas(item, aulasOrdenadas, matricula.id);
 
       lista.appendChild(item);
     }
