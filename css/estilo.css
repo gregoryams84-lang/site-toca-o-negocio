@@ -145,6 +145,25 @@ p {
   color: var(--neutro);
 }
 
+.player-video {
+  margin: 24px 0;
+  max-width: 100%;
+}
+
+.player-video iframe {
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+
+.texto-video {
+  color: var(--neutro);
+}
+
+#botao-atividade[hidden] {
+  display: none;
+}
+
 /* ---- Rodapé ---- */
 .rodape {
   background: color-mix(in srgb, var(--verde) 4%, var(--papel));
