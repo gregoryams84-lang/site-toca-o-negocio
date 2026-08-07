@@ -87,15 +87,21 @@ Deno.serve(async (req) => {
   // A API do Panda exige a flag `?external_id` na URL para aceitar essa busca por
   // external id (confirmado ao vivo: sem essa flag, o endpoint responde 404
   // mesmo com um video_external_id válido — ver docs.pandavideo.com/reference/get-video-properties).
-  const respostaPanda = await fetch(`https://api-v2.pandavideo.com.br/videos/${aula.panda_video_id}?external_id`, {
-    headers: { Authorization: PANDA_API_TOKEN },
-  })
+  let dadosPanda: { video_player?: string }
+  try {
+    const respostaPanda = await fetch(`https://api-v2.pandavideo.com.br/videos/${aula.panda_video_id}?external_id`, {
+      headers: { Authorization: PANDA_API_TOKEN },
+    })
 
-  if (!respostaPanda.ok) {
+    if (!respostaPanda.ok) {
+      return respostaJson({ erro: 'falha_panda' }, 502)
+    }
+
+    dadosPanda = await respostaPanda.json()
+  } catch {
     return respostaJson({ erro: 'falha_panda' }, 502)
   }
 
-  const dadosPanda = await respostaPanda.json()
   if (!dadosPanda.video_player) {
     return respostaJson({ erro: 'falha_panda' }, 502)
   }
