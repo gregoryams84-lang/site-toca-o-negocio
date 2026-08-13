@@ -173,9 +173,14 @@ p {
 .rodape-conteudo {
   max-width: var(--largura-maxima);
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 24px 20px;
   font-size: 14px;
+  line-height: 1.4;
   color: var(--tinta);
+}
+
+.rodape-conteudo p {
+  margin: 0 0 4px 0;
 }
 
 .rodape-razao-social {
