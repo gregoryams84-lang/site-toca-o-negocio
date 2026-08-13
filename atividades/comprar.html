@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matricule-se — Toca o Negócio</title>
+  <link rel="icon" href="../img/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="../img/icone-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body>
+  <header class="cabecalho container">
+    <a class="marca" href="../index.html" aria-label="Toca o Negócio">
+      <img src="../img/logo-completo-verde.svg" alt="Toca o Negócio" width="150" height="62">
+    </a>
+  </header>
+
+  <main>
+    <section class="secao container">
+      <h1>Matricule-se no curso</h1>
+      <p>Acesso completo ao curso Toca o Negócio, por 12 meses.</p>
+      <form class="formulario" id="form-comprar">
+        <p class="erro-formulario" id="erro" role="alert" hidden></p>
+        <div class="campo">
+          <label for="nome">Nome completo</label>
+          <input type="text" id="nome" name="nome" required autocomplete="name">
+        </div>
+        <div class="campo">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" required autocomplete="email">
+        </div>
+        <button class="botao" type="submit" id="botao-comprar">Comprar</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-conteudo">
+      <p class="rodape-razao-social">AUREA EDUCACIONAL LTDA</p>
+      <p>CNPJ 67.140.776/0001-88</p>
+      <p>Rua Pedro Vieira da Silva, 64 — Jardim Santa Genebra, Campinas/SP — CEP 13.080-570</p>
+      <p>E-mail: <a href="mailto:suporte@tocaonegocio.com.br">suporte@tocaonegocio.com.br</a></p>
+      <p class="rodape-links">
+        <a href="../termos.html">Termos de uso</a> · <a href="../privacidade.html">Política de privacidade</a>
+      </p>
+      <p class="rodape-legal">
+        Cursos livres de capacitação profissional, nos termos do Decreto nº 5.154/2004.
+      </p>
+      <p class="rodape-copyright">© 2026 Toca o Negócio — AUREA EDUCACIONAL LTDA</p>
+    </div>
+  </footer>
+
+  <script type="module" src="js/comprar.js"></script>
+</body>
+</html>
