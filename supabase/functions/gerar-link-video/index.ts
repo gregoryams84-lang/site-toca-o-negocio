@@ -114,7 +114,7 @@ Deno.serve(async (req) => {
       drm_group_id: PANDA_DRM_GROUP_ID,
       string1: `Aula: ${aula.titulo}`,
       string2: `Nome: ${nomeAluno}`,
-      string3: '',
+      string3: `E-mail: ${usuario.email}`,
       exp: agora + 3600,
     },
     chave
