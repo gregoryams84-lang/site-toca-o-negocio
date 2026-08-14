@@ -257,3 +257,46 @@ p {
   padding-left: 12px;
   margin-bottom: 16px;
 }
+
+/* ---- Páginas de trilha (pilar) ---- */
+.trilha-breadcrumb {
+  font-size: 14px;
+  color: var(--neutro);
+  margin-bottom: 16px;
+}
+
+.trilha-breadcrumb a {
+  color: var(--verde);
+  text-decoration: underline;
+}
+
+.trilha-hero {
+  padding-block: 48px;
+}
+
+.trilha-faq {
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  padding: 4px 20px;
+  margin-bottom: 12px;
+  background: var(--papel);
+}
+
+.trilha-faq summary {
+  font-family: var(--fonte-display);
+  color: var(--verde);
+  font-weight: 700;
+  padding-block: 16px;
+  cursor: pointer;
+}
+
+.trilha-faq[open] summary {
+  padding-bottom: 8px;
+}
+
+.aviso-revisao {
+  border-left: 3px solid var(--ambar);
+  padding-left: 12px;
+  color: var(--neutro);
+  font-size: 15px;
+}
