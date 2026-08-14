@@ -83,3 +83,4 @@ Deixa de ser "sem estado" — passa a consultar o banco (vira cliente Supabase c
 - Venda de trilha avulsa antes das 4 trilhas existirem — a tela de compra só é divulgada com o curso completo pronto (decisão herdada da Fase 2).
 - Preço para exatamente 3 trilhas — não existe essa opção; quem quiser 3 combina "Duas trilhas" + "Trilha avulsa" em compras separadas, ou compra o curso completo.
 - Pares fixos de "Duas trilhas" — qualquer combinação de 2 é aceita pelo mesmo preço.
+- Impedir comprar de novo uma trilha que a pessoa já tem — a compra continua anônima (sem exigir login antes de pagar), então não há como o sistema saber com certeza o que aquele e-mail já possui no momento da compra. Consequência aceita do modelo "compra primeiro, conta depois" já decidido na Fase 2, não uma omissão.
