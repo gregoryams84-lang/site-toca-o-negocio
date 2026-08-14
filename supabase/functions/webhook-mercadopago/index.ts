@@ -15,11 +15,15 @@ function mesesDepois(data: Date, meses: number): Date {
 }
 
 async function localizarOuCriarPerfil(email: string, nome: string): Promise<{ id: string } | null> {
-  const { data: perfilExistente } = await supabaseAdmin
+  const { data: perfilExistente, error: erroBuscaPerfil } = await supabaseAdmin
     .from('perfis')
     .select('id')
     .eq('email', email)
     .maybeSingle()
+
+  if (erroBuscaPerfil) {
+    console.error('Falha ao buscar perfil existente', { email, erro: erroBuscaPerfil })
+  }
 
   if (perfilExistente) return perfilExistente
 
@@ -38,23 +42,32 @@ async function localizarOuCriarPerfil(email: string, nome: string): Promise<{ id
     return null
   }
 
-  const { data: perfilNovo } = await supabaseAdmin
+  const { data: perfilNovo, error: erroBuscaPerfilNovo } = await supabaseAdmin
     .from('perfis')
     .select('id')
     .eq('email', email)
     .maybeSingle()
 
+  if (erroBuscaPerfilNovo) {
+    console.error('Falha ao buscar perfil recem-convidado', { email, erro: erroBuscaPerfilNovo })
+  }
+
   return perfilNovo
 }
 
 async function matricularEmTodasAsTrilhas(alunoId: string): Promise<void> {
-  const { data: trilhas } = await supabaseAdmin.from('trilhas').select('id')
+  const { data: trilhas, error: erroBuscaTrilhas } = await supabaseAdmin.from('trilhas').select('id')
+
+  if (erroBuscaTrilhas) {
+    console.error('Falha ao buscar trilhas', { alunoId, erro: erroBuscaTrilhas })
+  }
+
   if (!trilhas || trilhas.length === 0) return
 
   const expiracao = mesesDepois(new Date(), 12).toISOString()
 
   for (const trilha of trilhas) {
-    await supabaseAdmin.from('matriculas').upsert(
+    const { error: erroMatricula } = await supabaseAdmin.from('matriculas').upsert(
       {
         aluno_id: alunoId,
         trilha_id: trilha.id,
@@ -63,6 +76,10 @@ async function matricularEmTodasAsTrilhas(alunoId: string): Promise<void> {
       },
       { onConflict: 'aluno_id,trilha_id' }
     )
+
+    if (erroMatricula) {
+      console.error('Falha ao matricular aluno em trilha', { alunoId, trilhaId: trilha.id, erro: erroMatricula })
+    }
   }
 }
 
@@ -120,11 +137,15 @@ Deno.serve(async (req) => {
       return new Response('pagamento aprovado sem e-mail', { status: 400 })
     }
 
-    const { data: pagamentoExistente } = await supabaseAdmin
+    const { data: pagamentoExistente, error: erroBuscaPagamento } = await supabaseAdmin
       .from('pagamentos')
       .select('id')
       .eq('mercadopago_payment_id', dataId)
       .maybeSingle()
+
+    if (erroBuscaPagamento) {
+      console.error('Falha ao verificar idempotencia do pagamento', { dataId, erro: erroBuscaPagamento })
+    }
 
     if (pagamentoExistente) {
       return new Response('ja processado', { status: 200 })
@@ -142,7 +163,7 @@ Deno.serve(async (req) => {
 
     await matricularEmTodasAsTrilhas(perfil.id)
 
-    await supabaseAdmin.from('pagamentos').insert({
+    const { error: erroInsertPagamento } = await supabaseAdmin.from('pagamentos').insert({
       mercadopago_payment_id: dataId,
       email,
       aluno_id: perfil.id,
@@ -150,26 +171,57 @@ Deno.serve(async (req) => {
       status: 'aprovado',
     })
 
+    if (erroInsertPagamento) {
+      console.error('Falha ao registrar pagamento aprovado', {
+        dataId,
+        alunoId: perfil.id,
+        erro: erroInsertPagamento,
+      })
+    }
+
     return new Response('ok', { status: 200 })
   }
 
   if (status === 'refunded' || status === 'charged_back') {
-    const { data: pagamentoOriginal } = await supabaseAdmin
+    const { data: pagamentoOriginal, error: erroBuscaPagamentoOriginal } = await supabaseAdmin
       .from('pagamentos')
       .select('aluno_id')
       .eq('mercadopago_payment_id', dataId)
       .maybeSingle()
 
+    if (erroBuscaPagamentoOriginal) {
+      console.error('Falha ao buscar pagamento original para estorno/chargeback', {
+        dataId,
+        erro: erroBuscaPagamentoOriginal,
+      })
+    }
+
     if (pagamentoOriginal?.aluno_id) {
-      await supabaseAdmin
+      const { error: erroCancelarMatriculas } = await supabaseAdmin
         .from('matriculas')
         .update({ status: 'cancelada' })
         .eq('aluno_id', pagamentoOriginal.aluno_id)
 
-      await supabaseAdmin
+      if (erroCancelarMatriculas) {
+        console.error('Falha ao cancelar matriculas do aluno', {
+          dataId,
+          alunoId: pagamentoOriginal.aluno_id,
+          erro: erroCancelarMatriculas,
+        })
+      }
+
+      const { error: erroAtualizarPagamento } = await supabaseAdmin
         .from('pagamentos')
         .update({ status: status === 'refunded' ? 'estornado' : 'chargeback' })
         .eq('mercadopago_payment_id', dataId)
+
+      if (erroAtualizarPagamento) {
+        console.error('Falha ao atualizar status do pagamento estornado/chargeback', {
+          dataId,
+          alunoId: pagamentoOriginal.aluno_id,
+          erro: erroAtualizarPagamento,
+        })
+      }
     }
 
     return new Response('ok', { status: 200 })
