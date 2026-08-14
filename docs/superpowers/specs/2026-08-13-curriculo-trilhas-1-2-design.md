@@ -102,6 +102,15 @@ negócio do aluno antes de qualquer explicação, terminando em artefato real
 disponíveis: cenário com múltipla escolha e dica em duas etapas, lista
 aberta, cálculo com campos numéricos, escolha simples de opinião.
 
+**Bloco de fechamento (padrão validado na trilha 1 e 2):** a atividade pode
+terminar tanto no bloco de artefato quanto num `escolha_simples` de
+síntese/compromisso logo depois dele (ex.: "essa tarefa vale ser atacada
+primeiro?", "você consegue manter esse ritmo?") — as duas formas satisfazem
+"termina em artefato real", desde que o `escolha_simples` reflita
+diretamente o que acabou de ser construído, nunca um pivô de assunto não
+relacionado. O padrão mais comum nas trilhas já feitas é fechar no
+`escolha_simples` de síntese.
+
 ## Fora de escopo deste documento
 
 - Roteiro aula a aula (vídeo, atividade, PDF) — vira plano de implementação

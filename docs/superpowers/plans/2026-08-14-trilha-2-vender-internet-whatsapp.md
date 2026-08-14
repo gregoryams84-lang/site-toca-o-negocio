@@ -470,7 +470,7 @@ git commit -m "content: aula 3 da trilha Vender pela internet e WhatsApp (roteir
 - Create: `conteudo/trilha-vendas/aula-04-pdf.md`
 
 **Interfaces:**
-- Produces: bloco `b1` (lista_aberta, banco de ideias) — usado pelo `depende_de` do bloco `b3` desta mesma aula.
+- Produces: bloco `b2` (lista_aberta, banco de ideias) — usado pelo `depende_de` do bloco `b3` desta mesma aula. (Corrigido pós-implementação: o bloco do banco de ideias passou de `b1` pra `b2` num fix de ordenação; ver ledger da execução.)
 
 - [ ] **Step 1: Escrever o roteiro**
 
