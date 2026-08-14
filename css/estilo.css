@@ -305,3 +305,54 @@ p {
   color: var(--neutro);
   font-size: 15px;
 }
+
+/* ---- Banner de cookies ---- */
+.banner-cookies {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: var(--tinta);
+  color: var(--papel);
+  padding: 16px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.banner-cookies p {
+  margin: 0;
+  max-width: 60ch;
+  font-size: 14px;
+  color: var(--papel);
+}
+
+.banner-cookies .botoes {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.banner-cookies button {
+  font-family: var(--fonte-base);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.banner-cookies .botao-aceitar {
+  background: var(--papel);
+  color: var(--tinta);
+}
+
+.banner-cookies .botao-recusar {
+  background: transparent;
+  color: var(--papel);
+  border: 1px solid var(--papel);
+}
