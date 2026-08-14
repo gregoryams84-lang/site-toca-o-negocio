@@ -1,8 +1,11 @@
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { calcularPreco } from './precos.ts'
+
+const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 const MERCADOPAGO_ACCESS_TOKEN = Deno.env.get('MERCADOPAGO_ACCESS_TOKEN')!
 
-// Preço provisório para desenvolvimento/teste. Gregory atualiza este valor
-// antes de divulgar publicamente o link de comprar.html.
-const PRECO_CURSO_COMPLETO = 1.0
+const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
 const SITE_URL = 'https://tocaonegocio.com.br'
 
@@ -23,7 +26,7 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: CABECALHOS_CORS })
   }
 
-  let corpo: { nome?: string; email?: string }
+  let corpo: { nome?: string; email?: string; trilhaIds?: unknown }
   try {
     corpo = await req.json()
   } catch {
@@ -32,9 +35,31 @@ Deno.serve(async (req) => {
 
   const nome = corpo.nome?.trim()
   const email = corpo.email?.trim().toLowerCase()
+  const trilhaIds = corpo.trilhaIds
 
   if (!nome || !email) {
     return respostaJson({ erro: 'dados_incompletos' }, 400)
+  }
+
+  if (!Array.isArray(trilhaIds) || !trilhaIds.every((id) => typeof id === 'string')) {
+    return respostaJson({ erro: 'selecao_invalida' }, 400)
+  }
+
+  const { data: todasTrilhas, error: erroTrilhas } = await supabaseAdmin.from('trilhas').select('id, nome')
+
+  if (erroTrilhas) {
+    console.error('Falha ao buscar trilhas', { erro: erroTrilhas })
+    return respostaJson({ erro: 'falha_interna' }, 500)
+  }
+
+  if (!todasTrilhas || todasTrilhas.length === 0) {
+    return respostaJson({ erro: 'selecao_invalida' }, 400)
+  }
+
+  const resultado = calcularPreco(trilhaIds, todasTrilhas)
+
+  if (!resultado) {
+    return respostaJson({ erro: 'selecao_invalida' }, 400)
   }
 
   const referenciaExterna = crypto.randomUUID()
@@ -49,9 +74,9 @@ Deno.serve(async (req) => {
       items: [
         {
           id: 'curso-toca-o-negocio',
-          title: 'Curso Toca o Negócio — acesso completo',
+          title: resultado.titulo,
           quantity: 1,
-          unit_price: PRECO_CURSO_COMPLETO,
+          unit_price: resultado.preco,
           currency_id: 'BRL',
         },
       ],
@@ -63,6 +88,7 @@ Deno.serve(async (req) => {
       },
       auto_return: 'approved',
       external_reference: referenciaExterna,
+      metadata: { trilha_ids: trilhaIds },
     }),
   })
 
