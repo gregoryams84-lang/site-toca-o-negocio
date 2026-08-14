@@ -127,6 +127,11 @@ p {
   color: var(--verde);
 }
 
+.trilha-card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .lista-aulas-trilha {
   list-style: none;
   padding: 0;
@@ -256,4 +261,98 @@ p {
   border-left: 3px solid var(--verde);
   padding-left: 12px;
   margin-bottom: 16px;
+}
+
+/* ---- Páginas de trilha (pilar) ---- */
+.trilha-breadcrumb {
+  font-size: 14px;
+  color: var(--neutro);
+  margin-bottom: 16px;
+}
+
+.trilha-breadcrumb a {
+  color: var(--verde);
+  text-decoration: underline;
+}
+
+.trilha-hero {
+  padding-block: 48px;
+}
+
+.trilha-faq {
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  padding: 4px 20px;
+  margin-bottom: 12px;
+  background: var(--papel);
+}
+
+.trilha-faq summary {
+  font-family: var(--fonte-display);
+  color: var(--verde);
+  font-weight: 700;
+  padding-block: 16px;
+  cursor: pointer;
+}
+
+.trilha-faq[open] summary {
+  padding-bottom: 8px;
+}
+
+.aviso-revisao {
+  border-left: 3px solid var(--ambar);
+  padding-left: 12px;
+  color: var(--neutro);
+  font-size: 15px;
+}
+
+/* ---- Banner de cookies ---- */
+.banner-cookies {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: var(--tinta);
+  color: var(--papel);
+  padding: 16px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.banner-cookies p {
+  margin: 0;
+  max-width: 60ch;
+  font-size: 14px;
+  color: var(--papel);
+}
+
+.banner-cookies .botoes {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.banner-cookies button {
+  font-family: var(--fonte-base);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.banner-cookies .botao-aceitar {
+  background: var(--papel);
+  color: var(--tinta);
+}
+
+.banner-cookies .botao-recusar {
+  background: transparent;
+  color: var(--papel);
+  border: 1px solid var(--papel);
 }
