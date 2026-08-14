@@ -21,8 +21,33 @@
   <main>
     <section class="secao container">
       <h1>Matricule-se no curso</h1>
-      <p>Acesso completo ao curso Toca o Negócio, por 12 meses.</p>
-      <form class="formulario" id="form-comprar">
+      <p>Escolha como você quer começar.</p>
+
+      <div class="planos-grade" id="planos-grade">
+        <button type="button" class="plano-card" data-plano="avulsa">
+          <h3>Trilha avulsa</h3>
+          <p class="plano-preco">R$ 99,00</p>
+          <p class="plano-descricao">Escolha 1 trilha</p>
+        </button>
+        <button type="button" class="plano-card" data-plano="duas">
+          <h3>Duas trilhas</h3>
+          <p class="plano-preco">R$ 186,00</p>
+          <p class="plano-descricao">Escolha 2 trilhas</p>
+        </button>
+        <button type="button" class="plano-card plano-destaque" data-plano="completo">
+          <p class="plano-selo">Economize R$ 46</p>
+          <h3>Curso completo</h3>
+          <p class="plano-preco">R$ 350,00</p>
+          <p class="plano-descricao">Acesso às 4 trilhas</p>
+        </button>
+      </div>
+
+      <div id="selecao-trilhas" hidden>
+        <p id="instrucao-trilhas"></p>
+        <ul class="lista-trilhas-selecao" id="lista-trilhas"></ul>
+      </div>
+
+      <form class="formulario" id="form-comprar" hidden>
         <p class="erro-formulario" id="erro" role="alert" hidden></p>
         <div class="campo">
           <label for="nome">Nome completo</label>
@@ -32,7 +57,7 @@
           <label for="email">E-mail</label>
           <input type="email" id="email" name="email" required autocomplete="email">
         </div>
-        <button class="botao" type="submit" id="botao-comprar">Comprar</button>
+        <button class="botao" type="submit" id="botao-comprar" disabled>Comprar</button>
       </form>
     </section>
   </main>
