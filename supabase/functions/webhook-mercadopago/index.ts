@@ -55,22 +55,14 @@ async function localizarOuCriarPerfil(email: string, nome: string): Promise<{ id
   return perfilNovo
 }
 
-async function matricularEmTodasAsTrilhas(alunoId: string): Promise<void> {
-  const { data: trilhas, error: erroBuscaTrilhas } = await supabaseAdmin.from('trilhas').select('id')
-
-  if (erroBuscaTrilhas) {
-    console.error('Falha ao buscar trilhas', { alunoId, erro: erroBuscaTrilhas })
-  }
-
-  if (!trilhas || trilhas.length === 0) return
-
+async function matricularEmTrilhas(alunoId: string, trilhaIds: string[]): Promise<void> {
   const expiracao = mesesDepois(new Date(), 12).toISOString()
 
-  for (const trilha of trilhas) {
+  for (const trilhaId of trilhaIds) {
     const { error: erroMatricula } = await supabaseAdmin.from('matriculas').upsert(
       {
         aluno_id: alunoId,
-        trilha_id: trilha.id,
+        trilha_id: trilhaId,
         status: 'ativa',
         data_expiracao: expiracao,
       },
@@ -78,7 +70,7 @@ async function matricularEmTodasAsTrilhas(alunoId: string): Promise<void> {
     )
 
     if (erroMatricula) {
-      console.error('Falha ao matricular aluno em trilha', { alunoId, trilhaId: trilha.id, erro: erroMatricula })
+      console.error('Falha ao matricular aluno em trilha', { alunoId, trilhaId, erro: erroMatricula })
     }
   }
 }
@@ -137,6 +129,13 @@ Deno.serve(async (req) => {
       return new Response('pagamento aprovado sem e-mail', { status: 400 })
     }
 
+    const trilhaIds = pagamento.metadata?.trilha_ids as string[] | undefined
+
+    if (!Array.isArray(trilhaIds) || trilhaIds.length === 0) {
+      console.error('Pagamento aprovado sem trilha_ids nos metadados', { dataId })
+      return new Response('pagamento sem selecao de trilhas', { status: 200 })
+    }
+
     const { data: pagamentoExistente, error: erroBuscaPagamento } = await supabaseAdmin
       .from('pagamentos')
       .select('id')
@@ -161,7 +160,7 @@ Deno.serve(async (req) => {
       return new Response('falha ao localizar ou criar conta', { status: 502 })
     }
 
-    await matricularEmTodasAsTrilhas(perfil.id)
+    await matricularEmTrilhas(perfil.id, trilhaIds)
 
     const { error: erroInsertPagamento } = await supabaseAdmin.from('pagamentos').insert({
       mercadopago_payment_id: dataId,
@@ -169,6 +168,7 @@ Deno.serve(async (req) => {
       aluno_id: perfil.id,
       valor,
       status: 'aprovado',
+      trilha_ids: trilhaIds,
     })
 
     if (erroInsertPagamento) {
@@ -185,7 +185,7 @@ Deno.serve(async (req) => {
   if (status === 'refunded' || status === 'charged_back') {
     const { data: pagamentoOriginal, error: erroBuscaPagamentoOriginal } = await supabaseAdmin
       .from('pagamentos')
-      .select('aluno_id')
+      .select('aluno_id, trilha_ids')
       .eq('mercadopago_payment_id', dataId)
       .maybeSingle()
 
@@ -197,10 +197,13 @@ Deno.serve(async (req) => {
     }
 
     if (pagamentoOriginal?.aluno_id) {
+      const trilhaIdsEstornados = pagamentoOriginal.trilha_ids ?? []
+
       const { error: erroCancelarMatriculas } = await supabaseAdmin
         .from('matriculas')
         .update({ status: 'cancelada' })
         .eq('aluno_id', pagamentoOriginal.aluno_id)
+        .in('trilha_id', trilhaIdsEstornados)
 
       if (erroCancelarMatriculas) {
         console.error('Falha ao cancelar matriculas do aluno', {
