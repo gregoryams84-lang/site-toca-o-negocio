@@ -1,6 +1,6 @@
 (function () {
   var CHAVE = 'tdn_consentimento_analytics';
-  var ID_MEDICAO = 'G-XXXXXXXXXX'; // TODO: trocar pelo ID real do GA4 antes de publicar
+  var ID_MEDICAO = 'G-KPNFGVXKG4';
 
   function carregarGA4() {
     var script = document.createElement('script');
