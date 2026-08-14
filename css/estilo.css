@@ -127,6 +127,11 @@ p {
   color: var(--verde);
 }
 
+.trilha-card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .lista-aulas-trilha {
   list-style: none;
   padding: 0;
