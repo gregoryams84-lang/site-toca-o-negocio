@@ -211,18 +211,40 @@ Deno.serve(async (req) => {
     if (pagamentoOriginal?.aluno_id) {
       const trilhaIdsEstornados = pagamentoOriginal.trilha_ids ?? []
 
-      const { error: erroCancelarMatriculas } = await supabaseAdmin
-        .from('matriculas')
-        .update({ status: 'cancelada' })
+      const { data: outrosPagamentos, error: erroBuscaOutrosPagamentos } = await supabaseAdmin
+        .from('pagamentos')
+        .select('trilha_ids')
         .eq('aluno_id', pagamentoOriginal.aluno_id)
-        .in('trilha_id', trilhaIdsEstornados)
+        .eq('status', 'aprovado')
+        .neq('mercadopago_payment_id', dataId)
 
-      if (erroCancelarMatriculas) {
-        console.error('Falha ao cancelar matriculas do aluno', {
+      if (erroBuscaOutrosPagamentos) {
+        console.error('Falha ao buscar outros pagamentos do aluno para checar sobreposicao', {
           dataId,
           alunoId: pagamentoOriginal.aluno_id,
-          erro: erroCancelarMatriculas,
+          erro: erroBuscaOutrosPagamentos,
         })
+      }
+
+      const trilhaIdsAindaCobertas = new Set(
+        (outrosPagamentos ?? []).flatMap((p) => p.trilha_ids ?? [])
+      )
+      const trilhaIdsACancelar = trilhaIdsEstornados.filter((id) => !trilhaIdsAindaCobertas.has(id))
+
+      if (trilhaIdsACancelar.length > 0) {
+        const { error: erroCancelarMatriculas } = await supabaseAdmin
+          .from('matriculas')
+          .update({ status: 'cancelada' })
+          .eq('aluno_id', pagamentoOriginal.aluno_id)
+          .in('trilha_id', trilhaIdsACancelar)
+
+        if (erroCancelarMatriculas) {
+          console.error('Falha ao cancelar matriculas do aluno', {
+            dataId,
+            alunoId: pagamentoOriginal.aluno_id,
+            erro: erroCancelarMatriculas,
+          })
+        }
       }
 
       const { error: erroAtualizarPagamento } = await supabaseAdmin
