@@ -458,3 +458,65 @@ p {
   font-size: 13px;
   margin: 8px 0 0 0;
 }
+
+/* ---- Imagens e matriz curricular das trilhas ---- */
+.trilha-card-imagem {
+  display: block;
+  width: calc(100% + 48px);
+  height: auto;
+  margin: -24px -24px 16px -24px;
+  border-radius: 8px 8px 0 0;
+}
+
+.trilha-card-previa {
+  color: var(--neutro);
+  font-size: 13px;
+  margin: 12px 0 0 0;
+}
+
+.trilha-hero-imagem {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.matriz-curricular {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0;
+  counter-reset: aula;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.matriz-curricular li {
+  counter-increment: aula;
+  padding: 16px 20px 16px 56px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  position: relative;
+}
+
+.matriz-curricular li::before {
+  content: counter(aula);
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  color: var(--verde);
+  font-family: var(--fonte-display);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.matriz-curricular h3 {
+  margin: 0 0 4px 0;
+  font-size: 17px;
+}
+
+.matriz-curricular p {
+  margin: 0;
+  color: var(--neutro);
+  font-size: 15px;
+}
