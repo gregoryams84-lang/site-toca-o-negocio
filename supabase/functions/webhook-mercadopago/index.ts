@@ -59,8 +59,9 @@ async function localizarOuCriarPerfil(email: string, nome: string): Promise<{ id
   return perfilNovo
 }
 
-async function matricularEmTrilhas(alunoId: string, trilhaIds: string[]): Promise<void> {
+async function matricularEmTrilhas(alunoId: string, trilhaIds: string[]): Promise<boolean> {
   const expiracao = mesesDepois(new Date(), 12).toISOString()
+  let todasOk = true
 
   for (const trilhaId of trilhaIds) {
     const { error: erroMatricula } = await supabaseAdmin.from('matriculas').upsert(
@@ -75,8 +76,11 @@ async function matricularEmTrilhas(alunoId: string, trilhaIds: string[]): Promis
 
     if (erroMatricula) {
       console.error('Falha ao matricular aluno em trilha', { alunoId, trilhaId, erro: erroMatricula })
+      todasOk = false
     }
   }
+
+  return todasOk
 }
 
 Deno.serve(async (req) => {
@@ -164,7 +168,10 @@ Deno.serve(async (req) => {
       return new Response('falha ao localizar ou criar conta', { status: 502 })
     }
 
-    await matricularEmTrilhas(perfil.id, trilhaIds)
+    const matriculaOk = await matricularEmTrilhas(perfil.id, trilhaIds)
+    if (!matriculaOk) {
+      return new Response('falha ao matricular aluno', { status: 500 })
+    }
 
     const { error: erroInsertPagamento } = await supabaseAdmin.from('pagamentos').insert({
       mercadopago_payment_id: dataId,
@@ -181,6 +188,7 @@ Deno.serve(async (req) => {
         alunoId: perfil.id,
         erro: erroInsertPagamento,
       })
+      return new Response('falha ao registrar pagamento', { status: 500 })
     }
 
     return new Response('ok', { status: 200 })
