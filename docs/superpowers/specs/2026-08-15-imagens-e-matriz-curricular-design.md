@@ -36,7 +36,9 @@ Como não há ferramenta de geração de imagem disponível nesta sessão, os pr
 | Venda pelo WhatsApp | `img/trilhas/venda-pelo-whatsapp.jpg` | ✅ pronta, integrada |
 | Gestão financeira | `img/trilhas/gestao-financeira.jpg` | ✅ pronta, integrada |
 | Formalização da empresa | `img/trilhas/formalizacao-da-empresa.jpg` | ✅ pronta, integrada (imagem original veio com barras pretas de letterbox; recortada pra 1024×559, mesma proporção das outras) |
-| IA no negócio | `img/trilhas/ia-no-negocio.jpg` | ⏳ **pendente** — a primeira geração trouxe uma caligrafia que degringola em texto sem sentido dentro da imagem (defeito clássico de gerador de imagem tentando escrever). Gregory vai regerar sem esse elemento. |
+| IA no negócio | `img/trilhas/ia-no-negocio.jpg` | ✅ pronta, integrada (primeira geração trouxe caligrafia ilegível; Gregory regerou e a segunda versão veio com texto legível, só precisou de recorte de 1024×669 pra 1024×559 pra bater com as outras) |
+
+Todas as 4 imagens estão prontas e integradas em `img/trilhas/`.
 
 Todas as imagens finais: 1024×559px (proporção ~16:9), formato JPEG.
 
