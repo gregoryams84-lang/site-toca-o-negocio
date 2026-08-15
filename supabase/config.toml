@@ -426,7 +426,6 @@ entrypoint = "./functions/gerar-link-video/index.ts"
 [functions.criar-preferencia-pagamento]
 enabled = true
 verify_jwt = false
-import_map = "./functions/criar-preferencia-pagamento/deno.json"
 # Uncomment to specify a custom file path to the entrypoint.
 # Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
 entrypoint = "./functions/criar-preferencia-pagamento/index.ts"
