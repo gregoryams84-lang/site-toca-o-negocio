@@ -38,6 +38,7 @@ if (totalTrilhas < 2) {
 if (totalTrilhas < 3) {
   document.getElementById('cartao-completo').disabled = true;
   document.getElementById('aviso-completo').hidden = false;
+  document.getElementById('selo-completo').hidden = true;
 } else {
   document.getElementById('descricao-completo').textContent = `Acesso às ${totalTrilhas} trilhas`;
   const economia = totalTrilhas * PRECO_TRILHA_AVULSA_REFERENCIA - 350;
