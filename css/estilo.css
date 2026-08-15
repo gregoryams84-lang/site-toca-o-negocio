@@ -520,3 +520,17 @@ p {
   color: var(--neutro);
   font-size: 15px;
 }
+
+/* ---- Ações do cabeçalho ---- */
+.cabecalho-acoes {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.link-discreto {
+  color: var(--tinta);
+  text-decoration: underline;
+  font-size: 15px;
+}
