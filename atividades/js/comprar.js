@@ -26,6 +26,29 @@ if (erroTrilhas) {
   trilhas = trilhasCarregadas;
 }
 
+const PRECO_TRILHA_AVULSA_REFERENCIA = 99;
+
+const totalTrilhas = trilhas.length;
+
+if (totalTrilhas < 2) {
+  document.getElementById('cartao-duas').disabled = true;
+  document.getElementById('aviso-duas').hidden = false;
+}
+
+if (totalTrilhas < 3) {
+  document.getElementById('cartao-completo').disabled = true;
+  document.getElementById('aviso-completo').hidden = false;
+} else {
+  document.getElementById('descricao-completo').textContent = `Acesso às ${totalTrilhas} trilhas`;
+  const economia = totalTrilhas * PRECO_TRILHA_AVULSA_REFERENCIA - 350;
+  const selo = document.getElementById('selo-completo');
+  if (economia > 0) {
+    selo.textContent = `Economize R$ ${economia}`;
+  } else {
+    selo.hidden = true;
+  }
+}
+
 function atualizarBotaoComprar() {
   if (!planoSelecionado) {
     botao.disabled = true;

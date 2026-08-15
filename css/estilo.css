@@ -339,3 +339,14 @@ p {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.plano-card:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.plano-indisponivel {
+  color: var(--neutro);
+  font-size: 13px;
+  margin: 8px 0 0 0;
+}
