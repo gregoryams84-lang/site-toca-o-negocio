@@ -5,6 +5,7 @@ const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 const MERCADOPAGO_ACCESS_TOKEN = Deno.env.get('MERCADOPAGO_ACCESS_TOKEN')!
 const MERCADOPAGO_WEBHOOK_SECRET = Deno.env.get('MERCADOPAGO_WEBHOOK_SECRET')!
+const URL_REDIRECIONAMENTO_CONVITE = 'https://tocaonegocio.com.br/atividades/nova-senha.html'
 
 const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
@@ -27,15 +28,18 @@ async function localizarOuCriarPerfil(email: string, nome: string): Promise<{ id
 
   if (perfilExistente) return perfilExistente
 
-  const respostaConvite = await fetch(`${SUPABASE_URL}/auth/v1/invite`, {
-    method: 'POST',
-    headers: {
-      apikey: SUPABASE_SERVICE_ROLE_KEY,
-      Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, data: { nome } }),
-  })
+  const respostaConvite = await fetch(
+    `${SUPABASE_URL}/auth/v1/invite?redirect_to=${encodeURIComponent(URL_REDIRECIONAMENTO_CONVITE)}`,
+    {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_SERVICE_ROLE_KEY,
+        Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, data: { nome } }),
+    }
+  )
 
   if (!respostaConvite.ok) {
     console.error('Falha ao convidar novo aluno', await respostaConvite.text())
