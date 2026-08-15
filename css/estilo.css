@@ -529,6 +529,10 @@ p {
   flex-wrap: wrap;
 }
 
+#precos .plano-card {
+  cursor: default;
+}
+
 .botao-secundario {
   display: inline-block;
   background: transparent;
