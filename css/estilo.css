@@ -559,3 +559,34 @@ p {
   border: 2px solid var(--verde);
   cursor: pointer;
 }
+
+/* ---- Aula grátis ---- */
+.aulas-gratis-grade {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 640px) {
+  .aulas-gratis-grade { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 960px) {
+  .aulas-gratis-grade { grid-template-columns: repeat(4, 1fr); }
+}
+
+.aula-gratis-destaque {
+  background: color-mix(in srgb, var(--ambar) 8%, var(--papel));
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 24px 0;
+}
+
+.aula-gratis-destaque p {
+  margin: 0 0 12px 0;
+}
+
+.aula-gratis-destaque p:last-child {
+  margin-bottom: 0;
+}
