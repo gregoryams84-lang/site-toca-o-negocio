@@ -58,7 +58,9 @@ create policy "qualquer um le aulas gratuitas" on aulas_gratuitas
 
 ## Vídeo sem marca d'água pessoal
 
-Diferente do vídeo do curso pago (que usa o pipeline de marca d'água por aluno, construído na Fase 3, pra rastrear vazamento de conteúdo pago), a aula grátis é conteúdo público por natureza — embed direto do Panda Video, sem geração de link assinado por pessoa. Consequência: esse link pode ser divulgado livremente nas redes sociais sem quebrar a lógica de proteção de conteúdo pago.
+Diferente do vídeo do curso pago (que usa o pipeline de marca d'água por aluno, construído na Fase 3, pra rastrear vazamento de conteúdo pago), a aula grátis é conteúdo público por natureza — sem geração de link assinado por pessoa. Consequência: esse link pode ser divulgado livremente nas redes sociais sem quebrar a lógica de proteção de conteúdo pago.
+
+Tecnicamente, isso é uma nova Edge Function `gerar-link-video-gratis`, mais simples que a `gerar-link-video` já existente (que essa reaproveita como referência de padrão): recebe o slug da trilha, busca `panda_video_id` em `aulas_gratuitas`, consulta a API do Panda (`GET https://api-v2.pandavideo.com.br/videos/{panda_video_id}?external_id`, mesmo detalhe de `?external_id` já documentado no código de `gerar-link-video`) pra pegar o `video_player` real, e devolve esse link puro — sem a etapa de gerar o token JWT de marca d'água (não existe sessão de aluno pra assinar). Pública (`verify_jwt = false`), sem checar `Authorization`. O front-end embute o `playerUrl` num `<iframe>` do mesmo jeito que `atividades/js/aula.js` já faz.
 
 ## Onde aparece no site
 
