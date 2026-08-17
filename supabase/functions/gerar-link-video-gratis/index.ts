@@ -1,0 +1,91 @@
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+const PANDA_API_TOKEN = Deno.env.get('PANDA_API_TOKEN')!
+
+const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+
+const CABECALHOS_CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
+
+function respostaJson(corpo: unknown, status: number) {
+  return new Response(JSON.stringify(corpo), {
+    status,
+    headers: { ...CABECALHOS_CORS, 'Content-Type': 'application/json' },
+  })
+}
+
+Deno.serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: CABECALHOS_CORS })
+  }
+
+  let slugTrilha: string | undefined
+  try {
+    const corpo = await req.json()
+    slugTrilha = corpo.slugTrilha
+  } catch {
+    return respostaJson({ erro: 'corpo_invalido' }, 400)
+  }
+
+  if (!slugTrilha) {
+    return respostaJson({ erro: 'slug_ausente' }, 400)
+  }
+
+  const { data: trilha, error: erroTrilha } = await supabaseAdmin
+    .from('trilhas')
+    .select('id')
+    .eq('slug', slugTrilha)
+    .maybeSingle()
+
+  if (erroTrilha) {
+    console.error('Falha ao buscar trilha', { slugTrilha, erro: erroTrilha })
+  }
+
+  if (!trilha) {
+    return respostaJson({ erro: 'trilha_nao_encontrada' }, 404)
+  }
+
+  const { data: aulaGratis, error: erroAula } = await supabaseAdmin
+    .from('aulas_gratuitas')
+    .select('panda_video_id')
+    .eq('trilha_id', trilha.id)
+    .maybeSingle()
+
+  if (erroAula) {
+    console.error('Falha ao buscar aula gratuita', { slugTrilha, erro: erroAula })
+  }
+
+  if (!aulaGratis || !aulaGratis.panda_video_id) {
+    return respostaJson({ semVideo: true }, 200)
+  }
+
+  // aulas_gratuitas.panda_video_id armazena o video_external_id do Panda
+  // (mesma convenção de aulas.panda_video_id) — a API do Panda exige a
+  // flag `?external_id` na URL pra aceitar essa busca (confirmado no
+  // código de gerar-link-video: sem essa flag, 404 mesmo com id válido).
+  let dadosPanda: { video_player?: string }
+  try {
+    const respostaPanda = await fetch(
+      `https://api-v2.pandavideo.com.br/videos/${aulaGratis.panda_video_id}?external_id`,
+      { headers: { Authorization: PANDA_API_TOKEN } }
+    )
+
+    if (!respostaPanda.ok) {
+      return respostaJson({ erro: 'falha_panda' }, 502)
+    }
+
+    dadosPanda = await respostaPanda.json()
+  } catch {
+    return respostaJson({ erro: 'falha_panda' }, 502)
+  }
+
+  if (!dadosPanda.video_player) {
+    return respostaJson({ erro: 'falha_panda' }, 502)
+  }
+
+  return respostaJson({ playerUrl: dadosPanda.video_player }, 200)
+})

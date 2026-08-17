@@ -437,3 +437,8 @@ entrypoint = "./functions/criar-preferencia-pagamento/index.ts"
 enabled = true
 verify_jwt = false
 entrypoint = "./functions/webhook-mercadopago/index.ts"
+
+[functions.gerar-link-video-gratis]
+enabled = true
+verify_jwt = false
+entrypoint = "./functions/gerar-link-video-gratis/index.ts"
