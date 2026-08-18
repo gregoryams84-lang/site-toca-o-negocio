@@ -53,8 +53,36 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     },
 
     '(max-width: 767px)': function () {
+      const trilhos = document.getElementById('hero-trilhos');
       const capitulos = gsap.utils.toArray('.hero-capitulo');
-      capitulos.forEach((capitulo) => capitulo.classList.add('capitulo-ativo'));
+      const pontos = gsap.utils.toArray('.hero-cinematico-ponto');
+
+      if (!trilhos || capitulos.length === 0) return;
+
+      const observador = new IntersectionObserver(
+        (entradas) => {
+          entradas.forEach((entrada) => {
+            const indice = capitulos.indexOf(entrada.target);
+            entrada.target.classList.toggle('capitulo-ativo', entrada.isIntersecting);
+            if (entrada.isIntersecting) {
+              pontos.forEach((ponto, i) => ponto.classList.toggle('ponto-ativo', i === indice));
+            }
+          });
+        },
+        { root: trilhos, threshold: 0.6 }
+      );
+
+      capitulos.forEach((capitulo) => observador.observe(capitulo));
+
+      pontos.forEach((ponto, indice) => {
+        ponto.addEventListener('click', () => {
+          capitulos[indice].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+        });
+      });
+
+      return () => {
+        observador.disconnect();
+      };
     },
   });
 }
