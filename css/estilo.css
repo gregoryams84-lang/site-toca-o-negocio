@@ -591,3 +591,124 @@ p {
 .aula-gratis-destaque p:last-child {
   margin-bottom: 0;
 }
+
+/* ---- Home cinematográfica ---- */
+.hero-cinematico {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-cinematico-trilhos {
+  display: flex;
+  height: 100%;
+  width: 400%;
+}
+
+.hero-capitulo {
+  position: relative;
+  width: 25%;
+  height: 100%;
+  flex-shrink: 0;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.hero-capitulo-imagem {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1) rotateY(0deg);
+  transition: transform 8s ease-out;
+  transform-origin: center center;
+}
+
+.hero-capitulo.capitulo-ativo .hero-capitulo-imagem {
+  transform: scale(1.12) rotateY(-2deg);
+}
+
+.hero-capitulo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(22, 25, 28, 0.78) 0%, rgba(22, 25, 28, 0.35) 55%, rgba(22, 25, 28, 0.08) 100%);
+  z-index: 1;
+}
+
+.hero-capitulo-conteudo {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px;
+  max-width: 600px;
+}
+
+.container .hero-capitulo-conteudo,
+.hero-capitulo-conteudo {
+  margin-left: max(20px, calc((100vw - var(--largura-maxima)) / 2 + 20px));
+}
+
+.hero-capitulo-conteudo h1,
+.hero-capitulo-conteudo h2 {
+  color: #FFFFFF;
+}
+
+.hero-capitulo-conteudo p,
+.hero-capitulo-conteudo .subtitulo {
+  color: #FFFFFF;
+}
+
+.hero-capitulo-rotulo {
+  display: inline-block;
+  background: var(--terracota);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 5px 12px;
+  border-radius: 4px;
+  margin: 0 0 16px 0;
+  align-self: flex-start;
+}
+
+.hero-cinematico-progresso {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 3;
+}
+
+.hero-cinematico-progresso-barra {
+  height: 100%;
+  width: 0%;
+  background: var(--terracota);
+}
+
+@media (max-width: 767px) {
+  .hero-cinematico {
+    height: auto;
+  }
+
+  .hero-cinematico-trilhos {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .hero-capitulo {
+    width: 100%;
+    height: 100vh;
+  }
+
+  .hero-cinematico-progresso {
+    display: none;
+  }
+}
