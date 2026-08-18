@@ -53,35 +53,38 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     },
 
     '(max-width: 767px)': function () {
-      const trilhos = document.getElementById('hero-trilhos');
       const capitulos = gsap.utils.toArray('.hero-capitulo');
-      const pontos = gsap.utils.toArray('.hero-cinematico-ponto');
 
-      if (!trilhos || capitulos.length === 0) return;
+      if (capitulos.length === 0) return;
+
+      capitulos.forEach((capitulo) => {
+        const conteudo = capitulo.querySelector('.hero-capitulo-conteudo');
+        gsap.set(conteudo, { opacity: 0, y: 32 });
+      });
 
       const observador = new IntersectionObserver(
         (entradas) => {
           entradas.forEach((entrada) => {
-            const indice = capitulos.indexOf(entrada.target);
-            entrada.target.classList.toggle('capitulo-ativo', entrada.isIntersecting);
-            if (entrada.isIntersecting) {
-              pontos.forEach((ponto, i) => ponto.classList.toggle('ponto-ativo', i === indice));
-            }
+            if (!entrada.isIntersecting) return;
+            const capitulo = entrada.target;
+            const conteudo = capitulo.querySelector('.hero-capitulo-conteudo');
+            capitulo.classList.add('capitulo-ativo');
+            gsap.to(conteudo, { opacity: 1, y: 0, duration: 1, ease: 'power2.out', delay: 0.2 });
+            observador.unobserve(capitulo);
           });
         },
-        { root: trilhos, threshold: 0.6 }
+        { threshold: 0.35 }
       );
 
       capitulos.forEach((capitulo) => observador.observe(capitulo));
 
-      pontos.forEach((ponto, indice) => {
-        ponto.addEventListener('click', () => {
-          capitulos[indice].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-        });
-      });
-
       return () => {
         observador.disconnect();
+        capitulos.forEach((capitulo) => {
+          const conteudo = capitulo.querySelector('.hero-capitulo-conteudo');
+          gsap.set(conteudo, { clearProps: 'all' });
+          capitulo.classList.remove('capitulo-ativo');
+        });
       };
     },
   });
