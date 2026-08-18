@@ -12,6 +12,7 @@ a { color: inherit; }
   --neutro: #5B6560;
   --ambar: #8A5A12;
   --terracota: #6B2A20;
+  --dourado-brilho: color-mix(in srgb, var(--ambar) 55%, #FFD65C 45%);
   --borda: color-mix(in srgb, var(--tinta) 15%, var(--papel));
   --fonte-display: 'Fraunces', Georgia, serif;
   --fonte-base: 'Inter', system-ui, -apple-system, Arial, sans-serif;
@@ -585,7 +586,8 @@ p {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 1.5px solid color-mix(in srgb, var(--ambar) 60%, #FFFFFF);
+  border: 1.5px solid var(--dourado-brilho);
+  box-shadow: 0 0 5px color-mix(in srgb, var(--dourado-brilho) 65%, transparent);
   animation: cabecalho-inclinar-3d 3s ease-in-out infinite;
 }
 
@@ -630,11 +632,14 @@ p {
 }
 
 /* Fale no WhatsApp: sem o círculo claro de fundo (não parece mais um
-   contorno separado) — só o balão branco saltando sobre o botão verde. */
+   contorno separado) — só o balão branco saltando sobre o botão verde.
+   Sem a inclinação 3D aqui: sobre o fundo sólido do botão, o giro deixava
+   um rastro retangular visível (a "caixa" do elemento aparecendo por
+   trás do círculo) — só o salto (2D) fica limpo nesse contraste. */
 .cabecalho-icone-badge--whatsapp {
   background: transparent;
   color: #FFFFFF;
-  animation: cabecalho-inclinar-3d 3s ease-in-out infinite, cabecalho-saltar 1.6s ease-in-out infinite;
+  animation: cabecalho-saltar 1.6s ease-in-out infinite;
 }
 
 @keyframes cabecalho-inclinar-3d {
