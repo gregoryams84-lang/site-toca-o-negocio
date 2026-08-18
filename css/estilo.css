@@ -571,7 +571,12 @@ p {
   perspective: 300px;
 }
 
-/* Badge circular unificado — mesmo tamanho pros 4 itens do cabeçalho */
+/* Badge circular unificado — mesmo tamanho e mesmo anel dourado pros 4
+   itens do cabeçalho. O giro 3D anterior (rotateY 360°) passava de perfil
+   na metade do ciclo e sumia — trocado por uma leve inclinação 3D que
+   nunca fica de perfil, igual pros 4. Cada badge ainda tem sua própria
+   "ação" por dentro, contando a jornada do aluno: assiste, investe,
+   executa o que aprendeu, fala com a gente. */
 .cabecalho-icone-badge {
   width: 26px;
   height: 26px;
@@ -580,7 +585,8 @@ p {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  animation: cabecalho-girar-3d 3.5s linear infinite;
+  border: 1.5px solid color-mix(in srgb, var(--ambar) 60%, #FFFFFF);
+  animation: cabecalho-inclinar-3d 3s ease-in-out infinite;
 }
 
 .cabecalho-icone-badge svg {
@@ -589,40 +595,51 @@ p {
   flex-shrink: 0;
 }
 
+/* Assista grátis: o play pulsa, como um vídeo tocando. */
 .cabecalho-icone-badge--terracota {
   background: var(--terracota);
   color: #FFFFFF;
-  animation: cabecalho-girar-3d 3.5s linear infinite, cabecalho-pulsar-anel 2s ease-out infinite;
+  animation: cabecalho-inclinar-3d 3s ease-in-out infinite, cabecalho-pulsar-anel 2s ease-out infinite;
 }
 
+/* Investimento: as barras crescem em sequência — a empresa crescendo. */
 .cabecalho-icone-badge--verde {
   background: var(--verde);
   color: #FFFFFF;
 }
 
-/* Área do aluno: sem caixa/contorno (vira link simples); a cabecinha do
-   ícone acena sozinha, em vez do badge inteiro girar. */
+.cabecalho-icone-badge--verde svg rect {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: cabecalho-crescer 1.8s ease-in-out infinite;
+}
+
+.cabecalho-icone-badge--verde svg rect:nth-child(1) { animation-delay: 0.3s; }
+.cabecalho-icone-badge--verde svg rect:nth-child(2) { animation-delay: 0.15s; }
+.cabecalho-icone-badge--verde svg rect:nth-child(3) { animation-delay: 0s; }
+
+/* Área do aluno: sem caixa ao redor do link (texto simples); o ícone
+   inteiro se movimenta, como o aluno colocando em prática o que aprendeu. */
 .cabecalho-icone-badge--aluno {
   background: var(--verde);
   color: #FFFFFF;
-  animation: none;
 }
 
-.cabecalho-icone-badge--aluno svg circle {
-  animation: cabecalho-acenar 1.8s ease-in-out infinite;
-  transform-origin: 12px 8px;
+.cabecalho-icone-badge--aluno svg {
+  animation: cabecalho-andar 1.4s ease-in-out infinite;
 }
 
-/* Fale no WhatsApp: o balão salta, como uma notificação chegando. */
+/* Fale no WhatsApp: sem o círculo claro de fundo (não parece mais um
+   contorno separado) — só o balão branco saltando sobre o botão verde. */
 .cabecalho-icone-badge--whatsapp {
-  background: var(--papel);
-  color: var(--verde);
-  animation: cabecalho-saltar 1.6s ease-in-out infinite;
+  background: transparent;
+  color: #FFFFFF;
+  animation: cabecalho-inclinar-3d 3s ease-in-out infinite, cabecalho-saltar 1.6s ease-in-out infinite;
 }
 
-@keyframes cabecalho-girar-3d {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
+@keyframes cabecalho-inclinar-3d {
+  0%, 100% { transform: rotateY(0deg) rotateX(0deg); }
+  50% { transform: rotateY(16deg) rotateX(6deg); }
 }
 
 @keyframes cabecalho-pulsar-anel {
@@ -631,9 +648,15 @@ p {
   100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--terracota) 0%, transparent); }
 }
 
-@keyframes cabecalho-acenar {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-1.5px); }
+@keyframes cabecalho-crescer {
+  0%, 100% { transform: scaleY(0.5); }
+  50% { transform: scaleY(1); }
+}
+
+@keyframes cabecalho-andar {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  30% { transform: translateY(-2.5px) rotate(-6deg); }
+  65% { transform: translateY(0) rotate(5deg); }
 }
 
 @keyframes cabecalho-saltar {
