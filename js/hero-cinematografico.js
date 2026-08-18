@@ -78,46 +78,8 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
 
       capitulos.forEach((capitulo) => observador.observe(capitulo));
 
-      // Recorta cada "objeto vivo" (engrenagem, selo, tags penduradas...)
-      // a partir das coordenadas reais do objeto na foto original (em
-      // pixels), calculando como object-fit:cover recorta a imagem no
-      // tamanho de tela atual — assim o círculo sempre cai em cima do
-      // objeto certo, em qualquer aparelho, sem valor fixo por tela (o
-      // que causava o desalinhamento da versão anterior).
-      const posicionarObjetosVivos = () => {
-        document.querySelectorAll('.hero-capitulo-objeto-vivo').forEach((overlay) => {
-          const capitulo = overlay.closest('.hero-capitulo');
-          const img = capitulo.querySelector('.hero-capitulo-imagem');
-          if (!img || !img.naturalWidth || !capitulo.clientWidth) return;
-
-          const cx = parseFloat(overlay.dataset.cx);
-          const cy = parseFloat(overlay.dataset.cy);
-          const r = parseFloat(overlay.dataset.r);
-          const escala = Math.max(
-            capitulo.clientWidth / img.naturalWidth,
-            capitulo.clientHeight / img.naturalHeight
-          );
-          const offsetX = (img.naturalWidth * escala - capitulo.clientWidth) / 2;
-          const offsetY = (img.naturalHeight * escala - capitulo.clientHeight) / 2;
-          const px = cx * escala - offsetX;
-          const py = cy * escala - offsetY;
-          const pr = r * escala;
-
-          overlay.style.clipPath = `circle(${pr}px at ${px}px ${py}px)`;
-          overlay.style.transformOrigin = `${px}px ${py}px`;
-        });
-      };
-
-      document.querySelectorAll('.hero-capitulo-imagem').forEach((img) => {
-        if (img.complete) posicionarObjetosVivos();
-        img.addEventListener('load', posicionarObjetosVivos);
-      });
-      window.addEventListener('resize', posicionarObjetosVivos);
-      posicionarObjetosVivos();
-
       return () => {
         observador.disconnect();
-        window.removeEventListener('resize', posicionarObjetosVivos);
         capitulos.forEach((capitulo) => {
           const conteudo = capitulo.querySelector('.hero-capitulo-conteudo');
           gsap.set(conteudo, { clearProps: 'all' });

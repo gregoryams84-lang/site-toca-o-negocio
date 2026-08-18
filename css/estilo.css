@@ -748,23 +748,6 @@ p {
   transform: scale(1.12) rotateY(-2deg);
 }
 
-/* Objetos das fotos ganham vida própria no mobile: a mesma imagem,
-   sobreposta, recortada em círculo só no objeto (engrenagem, selo, rolo
-   de fita...), como um cinemagraph. O centro/raio do recorte é calculado
-   em JS a partir das coordenadas reais do objeto na foto (data-cx/cy/r,
-   em pixels da imagem original) — assim o recorte acompanha o objeto
-   certo em qualquer tamanho de tela, sem depender de um valor fixo que
-   só funciona num aparelho específico. Só existe no mobile por enquanto
-   (ver @media abaixo). */
-.hero-capitulo-objeto-vivo {
-  display: none;
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  pointer-events: none;
-}
-
 .hero-capitulo::after {
   content: '';
   position: absolute;
@@ -851,27 +834,17 @@ p {
     display: none;
   }
 
-  .hero-capitulo-objeto-vivo {
-    display: block;
+  /* Câmera "afastando": a foto começa bem próxima (grande) e recua até
+     o enquadramento normal quando a trilha entra na tela — como um
+     drone/câmera subindo até revelar a cena inteira. */
+  .hero-capitulo-imagem {
+    transform: scale(1.7);
+    transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .hero-capitulo-objeto-vivo--girar {
-    animation: objeto-girar 6s linear infinite;
+  .hero-capitulo.capitulo-ativo .hero-capitulo-imagem {
+    transform: scale(1.04);
   }
-
-  .hero-capitulo-objeto-vivo--balancar {
-    animation: objeto-balancar 2.6s ease-in-out infinite;
-  }
-}
-
-@keyframes objeto-girar {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes objeto-balancar {
-  0%, 100% { transform: rotate(-6deg); }
-  50% { transform: rotate(6deg); }
 }
 
 /* ---- Ícones desenhados (Como funciona) ---- */
