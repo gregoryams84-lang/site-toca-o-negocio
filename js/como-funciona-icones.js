@@ -1,19 +1,23 @@
 if (typeof Vivus !== 'undefined' && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
   const idsIcones = ['icone-aula', 'icone-atividade', 'icone-material', 'icone-certificado'];
+  const secao = document.getElementById('como-funciona');
+  const todosPresentes = idsIcones.every((id) => document.getElementById(id));
 
-  idsIcones.forEach((id, indice) => {
-    const elemento = document.getElementById(id);
-    if (!elemento) return;
-
-    const vivus = new Vivus(id, { type: 'oneByOne', duration: 120, start: 'manual' });
+  if (secao && todosPresentes) {
+    function desenharEmSequencia(indice) {
+      if (indice >= idsIcones.length) return;
+      new Vivus(
+        idsIcones[indice],
+        { type: 'oneByOne', duration: 120, start: 'manual' },
+        () => desenharEmSequencia(indice + 1)
+      ).play();
+    }
 
     ScrollTrigger.create({
-      trigger: elemento,
+      trigger: secao,
       start: 'top 85%',
       once: true,
-      onEnter: () => {
-        setTimeout(() => vivus.play(), indice * 150);
-      },
+      onEnter: () => desenharEmSequencia(0),
     });
-  });
+  }
 }
