@@ -748,6 +748,19 @@ p {
   transform: scale(1.12) rotateY(-2deg);
 }
 
+/* Engrenagem da foto "IA no negócio" ganha vida própria no mobile: é a
+   mesma imagem, sobreposta, recortada em círculo só na engrenagem, e
+   girando devagar — como um cinemagraph. Só existe no mobile por
+   enquanto (ver detalhe no @media abaixo). */
+.hero-capitulo-engrenagem {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+}
+
 .hero-capitulo::after {
   content: '';
   position: absolute;
@@ -834,9 +847,17 @@ p {
     display: none;
   }
 
-  .hero-cinematico-pontos {
-    display: flex;
+  .hero-capitulo-engrenagem {
+    display: block;
+    clip-path: circle(15% at 80% 87%);
+    transform-origin: 80% 87%;
+    animation: engrenagem-girar 6s linear infinite;
   }
+}
+
+@keyframes engrenagem-girar {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* ---- Ícones desenhados (Como funciona) ---- */
