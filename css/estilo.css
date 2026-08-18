@@ -565,19 +565,12 @@ p {
   text-decoration: underline;
 }
 
-.botao-com-icone {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  perspective: 300px;
-}
-
 /* Badge circular unificado — mesmo tamanho e mesmo anel dourado pros 4
-   itens do cabeçalho. O giro 3D anterior (rotateY 360°) passava de perfil
-   na metade do ciclo e sumia — trocado por uma leve inclinação 3D que
-   nunca fica de perfil, igual pros 4. Cada badge ainda tem sua própria
-   "ação" por dentro, contando a jornada do aluno: assiste, investe,
-   executa o que aprendeu, fala com a gente. */
+   itens do cabeçalho. Sem giro no badge inteiro: um movimento genérico
+   nele por cima escondia a ação própria de cada ícone (a barra crescendo,
+   o aluno andando...). O anel fica parado e visível; quem se move é só a
+   ação de dentro de cada ícone, contando a jornada do aluno: assiste,
+   investe, executa o que aprendeu, fala com a gente. */
 .cabecalho-icone-badge {
   width: 26px;
   height: 26px;
@@ -586,9 +579,8 @@ p {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 1.5px solid var(--dourado-brilho);
-  box-shadow: 0 0 5px color-mix(in srgb, var(--dourado-brilho) 65%, transparent);
-  animation: cabecalho-inclinar-3d 3s ease-in-out infinite;
+  border: 2px solid var(--dourado-brilho);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--dourado-brilho) 80%, transparent);
 }
 
 .cabecalho-icone-badge svg {
@@ -601,7 +593,7 @@ p {
 .cabecalho-icone-badge--terracota {
   background: var(--terracota);
   color: #FFFFFF;
-  animation: cabecalho-inclinar-3d 3s ease-in-out infinite, cabecalho-pulsar-anel 2s ease-out infinite;
+  animation: cabecalho-pulsar-anel 2s ease-out infinite;
 }
 
 /* Investimento: as barras crescem em sequência — a empresa crescendo. */
@@ -631,26 +623,19 @@ p {
   animation: cabecalho-andar 1.4s ease-in-out infinite;
 }
 
-/* Fale no WhatsApp: sem o círculo claro de fundo (não parece mais um
-   contorno separado) — só o balão branco saltando sobre o botão verde.
-   Sem a inclinação 3D aqui: sobre o fundo sólido do botão, o giro deixava
-   um rastro retangular visível (a "caixa" do elemento aparecendo por
-   trás do círculo) — só o salto (2D) fica limpo nesse contraste. */
+/* Fale no WhatsApp: agora é link simples igual aos outros 3 (sem botão
+   verde sólido em volta) — o balão branco salta sobre o mesmo fundo
+   verde-circular dos outros ícones, com harmonia visual. */
 .cabecalho-icone-badge--whatsapp {
-  background: transparent;
+  background: var(--verde);
   color: #FFFFFF;
   animation: cabecalho-saltar 1.6s ease-in-out infinite;
 }
 
-@keyframes cabecalho-inclinar-3d {
-  0%, 100% { transform: rotateY(0deg) rotateX(0deg); }
-  50% { transform: rotateY(16deg) rotateX(6deg); }
-}
-
 @keyframes cabecalho-pulsar-anel {
-  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--terracota) 45%, transparent); }
-  70% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--terracota) 0%, transparent); }
-  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--terracota) 0%, transparent); }
+  0% { box-shadow: 0 0 6px color-mix(in srgb, var(--dourado-brilho) 80%, transparent), 0 0 0 0 color-mix(in srgb, var(--terracota) 45%, transparent); }
+  70% { box-shadow: 0 0 6px color-mix(in srgb, var(--dourado-brilho) 80%, transparent), 0 0 0 8px color-mix(in srgb, var(--terracota) 0%, transparent); }
+  100% { box-shadow: 0 0 6px color-mix(in srgb, var(--dourado-brilho) 80%, transparent), 0 0 0 0 color-mix(in srgb, var(--terracota) 0%, transparent); }
 }
 
 @keyframes cabecalho-crescer {
