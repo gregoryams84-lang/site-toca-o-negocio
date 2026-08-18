@@ -543,65 +543,66 @@ p {
   flex-wrap: wrap;
 }
 
-.cabecalho-link {
-  color: var(--verde);
-  font-weight: 600;
-  text-decoration: none;
-  font-size: 15px;
-}
-
-.botao-com-icone {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.botao-icone {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  display: inline-flex;
-  perspective: 200px;
-  animation: cabecalho-girar-3d 3.5s linear infinite;
-}
-
-.botao-icone svg {
-  width: 100%;
-  height: 100%;
-}
-
-.cabecalho-link:hover {
-  text-decoration: underline;
-}
-
+.cabecalho-link,
 .cabecalho-aula-gratis {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--terracota);
+  color: var(--verde);
   font-weight: 600;
   text-decoration: none;
   font-size: 15px;
   perspective: 300px;
 }
 
-.cabecalho-aula-gratis-icone {
-  width: 28px;
-  height: 28px;
+.cabecalho-aula-gratis {
+  color: var(--terracota);
+}
+
+.cabecalho-link:hover,
+.cabecalho-aula-gratis:hover {
+  text-decoration: underline;
+}
+
+.botao-com-icone {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  perspective: 300px;
+}
+
+/* Badge circular unificado — mesmo tamanho pros 4 itens do cabeçalho */
+.cabecalho-icone-badge {
+  width: 26px;
+  height: 26px;
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  animation: cabecalho-girar-3d 3.5s linear infinite;
+}
+
+.cabecalho-icone-badge svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.cabecalho-icone-badge--terracota {
   background: var(--terracota);
   color: #FFFFFF;
   animation: cabecalho-girar-3d 3.5s linear infinite, cabecalho-pulsar-anel 2s ease-out infinite;
 }
 
-.cabecalho-aula-gratis-icone svg {
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
+.cabecalho-icone-badge--verde {
+  background: var(--verde);
+  color: #FFFFFF;
+}
+
+.cabecalho-icone-badge--papel {
+  background: var(--papel);
+  color: var(--verde);
 }
 
 @keyframes cabecalho-girar-3d {
