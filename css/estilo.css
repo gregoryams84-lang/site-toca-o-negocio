@@ -11,6 +11,7 @@ a { color: inherit; }
   --papel: #F5F6F3;
   --neutro: #5B6560;
   --ambar: #8A5A12;
+  --terracota: #6B2A20;
   --borda: color-mix(in srgb, var(--tinta) 15%, var(--papel));
   --fonte-display: 'Fraunces', Georgia, serif;
   --fonte-base: 'Inter', system-ui, -apple-system, Arial, sans-serif;
