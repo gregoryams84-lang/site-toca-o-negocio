@@ -45,7 +45,9 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
       });
 
       return () => {
-        tween.scrollTrigger.kill();
+        if (tween.scrollTrigger) {
+          tween.scrollTrigger.kill();
+        }
         tween.kill();
       };
     },
