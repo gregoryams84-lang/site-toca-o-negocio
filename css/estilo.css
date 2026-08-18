@@ -748,11 +748,15 @@ p {
   transform: scale(1.12) rotateY(-2deg);
 }
 
-/* Engrenagem da foto "IA no negócio" ganha vida própria no mobile: é a
-   mesma imagem, sobreposta, recortada em círculo só na engrenagem, e
-   girando devagar — como um cinemagraph. Só existe no mobile por
-   enquanto (ver detalhe no @media abaixo). */
-.hero-capitulo-engrenagem {
+/* Objetos das fotos ganham vida própria no mobile: a mesma imagem,
+   sobreposta, recortada em círculo só no objeto (engrenagem, selo, rolo
+   de fita...), como um cinemagraph. O centro/raio do recorte é calculado
+   em JS a partir das coordenadas reais do objeto na foto (data-cx/cy/r,
+   em pixels da imagem original) — assim o recorte acompanha o objeto
+   certo em qualquer tamanho de tela, sem depender de um valor fixo que
+   só funciona num aparelho específico. Só existe no mobile por enquanto
+   (ver @media abaixo). */
+.hero-capitulo-objeto-vivo {
   display: none;
   position: absolute;
   inset: 0;
@@ -847,17 +851,27 @@ p {
     display: none;
   }
 
-  .hero-capitulo-engrenagem {
+  .hero-capitulo-objeto-vivo {
     display: block;
-    clip-path: circle(15% at 80% 87%);
-    transform-origin: 80% 87%;
-    animation: engrenagem-girar 6s linear infinite;
+  }
+
+  .hero-capitulo-objeto-vivo--girar {
+    animation: objeto-girar 6s linear infinite;
+  }
+
+  .hero-capitulo-objeto-vivo--balancar {
+    animation: objeto-balancar 2.6s ease-in-out infinite;
   }
 }
 
-@keyframes engrenagem-girar {
+@keyframes objeto-girar {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@keyframes objeto-balancar {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg); }
 }
 
 /* ---- Ícones desenhados (Como funciona) ---- */
