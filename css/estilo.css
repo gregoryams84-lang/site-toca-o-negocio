@@ -720,3 +720,68 @@ p {
   color: var(--terracota);
   margin-bottom: 16px;
 }
+
+/* ---- Índice de trilhas ---- */
+.trilhas-lista {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0 0;
+  border-top: 1px solid var(--borda);
+}
+
+.trilha-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--borda);
+}
+
+.trilha-item-numero {
+  font-family: var(--fonte-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--terracota);
+  flex-shrink: 0;
+  width: 44px;
+}
+
+.trilha-item-corpo h3 {
+  margin: 0 0 8px 0;
+}
+
+.trilha-item-corpo h3 a {
+  text-decoration: none;
+}
+
+.trilha-item-corpo h3 a:hover {
+  text-decoration: underline;
+}
+
+.trilha-item-corpo p {
+  margin: 0 0 8px 0;
+}
+
+.trilha-item-previa {
+  color: var(--neutro);
+  font-size: 14px;
+}
+
+.trilha-item-link {
+  display: inline-block;
+  color: var(--terracota);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 15px;
+  margin-top: 4px;
+}
+
+.trilha-item-link:hover {
+  text-decoration: underline;
+}
+
+@media (min-width: 640px) {
+  .trilha-item {
+    align-items: center;
+  }
+}
