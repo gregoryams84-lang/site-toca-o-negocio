@@ -712,3 +712,11 @@ p {
     display: none;
   }
 }
+
+/* ---- Ícones desenhados (Como funciona) ---- */
+.passo-card-icone {
+  width: 48px;
+  height: 48px;
+  color: var(--verde);
+  margin-bottom: 16px;
+}
