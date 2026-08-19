@@ -494,6 +494,12 @@ a.plano-card:hover {
   color: var(--terracota);
 }
 
+.plano-parcelamento {
+  color: var(--neutro);
+  font-size: 12px;
+  margin: 4px 0 0 0;
+}
+
 .lista-trilhas-selecao {
   list-style: none;
   padding: 0;

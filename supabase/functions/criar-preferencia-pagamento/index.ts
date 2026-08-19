@@ -81,6 +81,7 @@ Deno.serve(async (req) => {
         },
       ],
       payer: { name: nome, email },
+      payment_methods: { installments: 10 },
       back_urls: {
         success: `${SITE_URL}/atividades/sucesso.html`,
         pending: `${SITE_URL}/atividades/pendente.html`,
