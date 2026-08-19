@@ -209,6 +209,19 @@ p {
   margin-bottom: 0;
 }
 
+.rodape-assinatura {
+  display: flex;
+  justify-content: center;
+  padding: 4px 20px 32px;
+}
+
+#assinatura-pontilhada {
+  width: 100%;
+  max-width: 480px;
+  height: 70px;
+  touch-action: pan-y;
+}
+
 /* ---- Páginas de texto (termos/privacidade) ---- */
 .pagina-texto h2 {
   margin-top: 40px;
