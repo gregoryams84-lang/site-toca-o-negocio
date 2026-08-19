@@ -3,6 +3,10 @@
 html, body { margin: 0; padding: 0; }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
+/* Garante que o atributo hidden sempre esconda o elemento, mesmo quando
+   alguma classe mais abaixo no arquivo define display nele (era o caso
+   do banner de cookies e dos avisos "disponível em breve"). */
+[hidden] { display: none !important; }
 
 /* ---- Tokens ---- */
 :root {
@@ -399,8 +403,15 @@ p {
   border-radius: 12px;
   padding: 28px;
   font-family: var(--fonte-base);
+  text-decoration: none;
   cursor: pointer;
   box-shadow: 0 2px 10px rgba(22, 25, 28, 0.05);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+a.plano-card:hover {
+  box-shadow: 0 6px 20px rgba(22, 25, 28, 0.1);
+  transform: translateY(-2px);
 }
 
 .plano-card h3 {
@@ -469,6 +480,18 @@ p {
   padding: 4px 10px;
   border-radius: 4px;
   margin: 12px 0 0 0;
+}
+
+.plano-comprar {
+  display: inline-block;
+  color: var(--verde);
+  font-weight: 700;
+  font-size: 15px;
+  margin: 12px 0 0 0;
+}
+
+.plano-destaque .plano-comprar {
+  color: var(--terracota);
 }
 
 .lista-trilhas-selecao {

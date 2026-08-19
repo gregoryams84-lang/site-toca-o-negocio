@@ -104,9 +104,8 @@ function renderizarSelecaoTrilhas() {
   }
 }
 
-planosGrade.addEventListener('click', (evento) => {
-  const cartao = evento.target.closest('.plano-card');
-  if (!cartao) return;
+function selecionarPlano(cartao) {
+  if (!cartao || cartao.disabled) return;
 
   for (const outro of planosGrade.querySelectorAll('.plano-card')) {
     outro.classList.remove('selecionado');
@@ -117,7 +116,24 @@ planosGrade.addEventListener('click', (evento) => {
   form.hidden = false;
   renderizarSelecaoTrilhas();
   atualizarBotaoComprar();
+}
+
+planosGrade.addEventListener('click', (evento) => {
+  const cartao = evento.target.closest('.plano-card');
+  if (!cartao) return;
+  selecionarPlano(cartao);
 });
+
+// Permite chegar direto num plano específico via link (?plano=avulsa|duas|completo),
+// usado pelos cards de preço da home.
+const planoNaUrl = new URLSearchParams(window.location.search).get('plano');
+if (planoNaUrl) {
+  const cartaoAlvo = planosGrade.querySelector(`.plano-card[data-plano="${planoNaUrl}"]`);
+  if (cartaoAlvo) {
+    selecionarPlano(cartaoAlvo);
+    cartaoAlvo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
 
 form.addEventListener('submit', async (evento) => {
   evento.preventDefault();
