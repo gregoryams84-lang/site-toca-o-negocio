@@ -967,3 +967,41 @@ a.plano-card:hover {
     align-items: center;
   }
 }
+
+/* ---- Frase de destaque (Para quem é) ---- */
+.manifesto-frase {
+  font-family: var(--fonte-display);
+  font-size: clamp(28px, 5vw, 60px);
+  line-height: 1.15;
+  color: var(--verde);
+  margin: 16px 0 28px 0;
+  max-width: 900px;
+}
+
+/* ---- Cursor personalizado (só mouse, sem toque) ---- */
+.cursor-personalizado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--terracota);
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.25s ease, width 0.2s ease, height 0.2s ease, margin 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.cursor-personalizado.cursor-visivel {
+  opacity: 0.7;
+}
+
+.cursor-personalizado.cursor-grande {
+  width: 48px;
+  height: 48px;
+  margin: -24px 0 0 -24px;
+  background: color-mix(in srgb, var(--terracota) 12%, transparent);
+  opacity: 1;
+}
