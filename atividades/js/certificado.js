@@ -47,7 +47,7 @@ function montarHtmlCertificado({ nomeAluno, nomeTrilha, cargaHoraria, dataEmissa
         padding: 0 150px;
         box-sizing: border-box;
       }
-      #certificado-gerado .crista { width: 70px; height: 70px; margin-bottom: 14px; }
+      #certificado-gerado .crista { width: 64px; height: 72px; object-fit: contain; margin-bottom: 14px; }
       #certificado-gerado .marca {
         font-family: 'Fraunces', Georgia, serif;
         font-size: 24px;
@@ -148,7 +148,7 @@ function montarHtmlCertificado({ nomeAluno, nomeTrilha, cargaHoraria, dataEmissa
         margin: 0;
       }
       #certificado-gerado .selo-wrap { width: 260px; display: flex; justify-content: center; }
-      #certificado-gerado .selo { position: relative; width: 150px; height: 150px; }
+      #certificado-gerado .selo { position: relative; width: 168px; height: 168px; }
       #certificado-gerado .codigo-verificacao {
         position: absolute;
         z-index: 1;
@@ -157,9 +157,10 @@ function montarHtmlCertificado({ nomeAluno, nomeTrilha, cargaHoraria, dataEmissa
         right: 0;
         text-align: center;
         font-family: 'Courier New', monospace;
-        font-size: 10px;
-        color: #5B6560;
-        letter-spacing: 1.5px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #4A3410;
+        letter-spacing: 2px;
         margin: 0;
       }
     </style>
@@ -199,11 +200,7 @@ function montarHtmlCertificado({ nomeAluno, nomeTrilha, cargaHoraria, dataEmissa
       </svg>
 
       <div class="conteudo">
-        <svg class="crista" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="46" fill="none" stroke="#9C7A2E" stroke-width="2"/>
-          <circle cx="50" cy="50" r="38" fill="none" stroke="#9C7A2E" stroke-width="1"/>
-          <path d="M50 20 L56 42 L78 42 L60 55 L67 77 L50 63 L33 77 L40 55 L22 42 L44 42 Z" fill="#9C7A2E"/>
-        </svg>
+        <img class="crista" src="../img/simbolo-aurea.png" alt="" crossorigin="anonymous">
         <p class="marca">TOCA <span>O NEGÓCIO</span></p>
         <p class="rotulo">Aurea Educacional LTDA</p>
         <h1 class="titulo">Certificado de Conclusão</h1>
@@ -238,32 +235,57 @@ function montarHtmlCertificado({ nomeAluno, nomeTrilha, cargaHoraria, dataEmissa
         </div>
 
         <div class="selo-wrap">
-          <svg class="selo" viewBox="0 0 150 150">
+          <svg class="selo" viewBox="0 0 160 160">
             <defs>
-              <radialGradient id="ouro" cx="35%" cy="30%" r="75%">
-                <stop offset="0%" stop-color="#F7E7B4"/>
-                <stop offset="45%" stop-color="#E8C876"/>
-                <stop offset="80%" stop-color="#9C7A2E"/>
-                <stop offset="100%" stop-color="#6B4E14"/>
+              <radialGradient id="ouroBase" cx="38%" cy="26%" r="78%">
+                <stop offset="0%" stop-color="#FFF9E8"/>
+                <stop offset="16%" stop-color="#FBEAB4"/>
+                <stop offset="42%" stop-color="#E8C876"/>
+                <stop offset="70%" stop-color="#B8912F"/>
+                <stop offset="100%" stop-color="#5E4210"/>
               </radialGradient>
+              <linearGradient id="anelBorda" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FFEFC2"/>
+                <stop offset="30%" stop-color="#B8912F"/>
+                <stop offset="55%" stop-color="#6B4E14"/>
+                <stop offset="80%" stop-color="#D9AE4E"/>
+                <stop offset="100%" stop-color="#FFEFC2"/>
+              </linearGradient>
+              <filter id="sombraSelo" x="-40%" y="-40%" width="180%" height="180%">
+                <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#000" flood-opacity="0.4"/>
+              </filter>
+              <path id="curvaTopo" d="M 22 82 A 58 58 0 0 1 138 82" fill="none"/>
+              <path id="curvaBase" d="M 34 116 A 48 48 0 0 0 126 116" fill="none"/>
             </defs>
-            <g stroke="#9C7A2E" stroke-width="2" fill="none" opacity="0.9">
-              <path d="M20 75 Q10 55 22 30 Q28 45 30 60"/>
-              <path d="M14 65 Q6 60 4 50"/>
-              <path d="M14 50 Q6 45 5 36"/>
-              <path d="M18 38 Q10 34 10 26"/>
-              <path d="M130 75 Q140 55 128 30 Q122 45 120 60"/>
-              <path d="M136 65 Q144 60 146 50"/>
-              <path d="M136 50 Q144 45 145 36"/>
-              <path d="M132 38 Q140 34 140 26"/>
+
+            <g fill="#C9A23F" stroke="#5E4210" stroke-width="0.6">
+              <ellipse cx="6" cy="94" rx="7.5" ry="3.3" transform="rotate(-20 6 94)"/>
+              <ellipse cx="1" cy="82" rx="7.5" ry="3.3" transform="rotate(-45 1 82)"/>
+              <ellipse cx="0" cy="68" rx="7" ry="3.1" transform="rotate(-72 0 68)"/>
+              <ellipse cx="4" cy="55" rx="6.5" ry="2.9" transform="rotate(-98 4 55)"/>
+              <ellipse cx="12" cy="44" rx="6" ry="2.7" transform="rotate(-122 12 44)"/>
+              <ellipse cx="154" cy="94" rx="7.5" ry="3.3" transform="rotate(20 154 94)"/>
+              <ellipse cx="159" cy="82" rx="7.5" ry="3.3" transform="rotate(45 159 82)"/>
+              <ellipse cx="160" cy="68" rx="7" ry="3.1" transform="rotate(72 160 68)"/>
+              <ellipse cx="156" cy="55" rx="6.5" ry="2.9" transform="rotate(98 156 55)"/>
+              <ellipse cx="148" cy="44" rx="6" ry="2.7" transform="rotate(122 148 44)"/>
             </g>
-            <circle cx="75" cy="68" r="46" fill="url(#ouro)" stroke="#6B4E14" stroke-width="1.5"/>
-            <circle cx="75" cy="68" r="38" fill="none" stroke="#FBF3DC" stroke-width="1" stroke-dasharray="2,3"/>
-            <text x="75" y="60" text-anchor="middle" font-family="Fraunces, serif" font-weight="700" font-size="12" fill="#4A3410">CERTIFICADO</text>
-            <text x="75" y="76" text-anchor="middle" font-family="Fraunces, serif" font-weight="700" font-size="12" fill="#4A3410">AUTÊNTICO</text>
-            <path d="M75 82 L79 90 L71 90 Z" fill="#4A3410"/>
-            <path d="M62 108 L75 92 L62 92 Z" fill="#6B2A20"/>
-            <path d="M88 108 L75 92 L88 92 Z" fill="#14513C"/>
+
+            <g filter="url(#sombraSelo)">
+              <circle cx="80" cy="80" r="70" fill="url(#anelBorda)"/>
+              <circle cx="80" cy="80" r="63" fill="url(#ouroBase)" stroke="#4A3410" stroke-width="1"/>
+              <circle cx="80" cy="80" r="63" fill="none" stroke="#FFF3CE" stroke-width="1.5" stroke-dasharray="0.4,3.2" opacity="0.3"/>
+              <ellipse cx="58" cy="50" rx="30" ry="15" fill="#FFFFFF" opacity="0.4" transform="rotate(-28 58 50)"/>
+              <circle cx="80" cy="80" r="50" fill="none" stroke="#FFF6DC" stroke-width="1.1" stroke-dasharray="1.4,3.2" opacity="0.85"/>
+              <circle cx="80" cy="80" r="46" fill="none" stroke="#5E4210" stroke-width="0.6" opacity="0.5"/>
+              <text font-family="Fraunces, serif" font-weight="700" font-size="12.5" letter-spacing="2.5" fill="#4A3410">
+                <textPath href="#curvaTopo" startOffset="50%" text-anchor="middle">CERTIFICADO</textPath>
+              </text>
+              <text font-family="Fraunces, serif" font-weight="700" font-size="11" letter-spacing="3" fill="#4A3410">
+                <textPath href="#curvaBase" startOffset="50%" text-anchor="middle">AUTÊNTICO</textPath>
+              </text>
+              <path d="M80 68 L84.5 79 L96 79 L86.7 86 L90 97 L80 90 L70 97 L73.3 86 L64 79 L75.5 79 Z" fill="#4A3410"/>
+            </g>
           </svg>
         </div>
 
