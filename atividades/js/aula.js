@@ -9,6 +9,7 @@ const mensagemVideo = document.getElementById('mensagem-video');
 const botaoAtividade = document.getElementById('botao-atividade');
 const linkMaterial = document.getElementById('link-material');
 const botaoConcluir = document.getElementById('botao-concluir');
+const avisoPendencia = document.getElementById('aula-pendencia-aviso');
 const avisoConcluida = document.getElementById('aula-concluida-aviso');
 const avisoTrilhaConcluida = document.getElementById('trilha-concluida-aviso');
 
@@ -55,6 +56,22 @@ async function iniciar() {
     .gt('data_expiracao', new Date().toISOString())
     .single();
 
+  // "Marcar aula como concluída" só libera depois que o aluno passou
+  // pelas duas etapas reais: assistiu o vídeo (carregou nesta visita) e
+  // iniciou a atividade (quando a aula tem uma). Como a atividade é um
+  // link externo, o clique precisa ficar salvo no banco -- não dá pra
+  // confiar só em memória, porque a página é recarregada quando o aluno
+  // volta.
+  let videoCarregado = false;
+  let atividadeIniciada = !aula.link_atividade;
+
+  function tentarLiberarBotaoConcluir() {
+    if (videoCarregado && atividadeIniciada && !botaoConcluir.dataset.jaConcluida) {
+      botaoConcluir.hidden = false;
+      avisoPendencia.hidden = true;
+    }
+  }
+
   if (aula.link_atividade && matricula) {
     botaoAtividade.hidden = false;
     botaoAtividade.addEventListener('click', async (evento) => {
@@ -64,6 +81,10 @@ async function iniciar() {
         window.location.href = 'entrar.html';
         return;
       }
+      await supabase.from('progresso').upsert(
+        { matricula_id: matricula.id, aula_id: aula.id, atividade_iniciada: true },
+        { onConflict: 'matricula_id,aula_id' }
+      );
       window.location.href = montarLinkAtividade(aula.link_atividade, matricula.id, aula.id, sessaoAtual.access_token);
     });
   }
@@ -76,15 +97,20 @@ async function iniciar() {
   if (matricula) {
     const { data: progressoAtual } = await supabase
       .from('progresso')
-      .select('concluida')
+      .select('concluida, atividade_iniciada')
       .eq('matricula_id', matricula.id)
       .eq('aula_id', aula.id)
       .maybeSingle();
 
     if (progressoAtual?.concluida) {
+      botaoConcluir.dataset.jaConcluida = 'true';
       avisoConcluida.hidden = false;
     } else {
-      botaoConcluir.hidden = false;
+      if (progressoAtual?.atividade_iniciada) {
+        atividadeIniciada = true;
+      }
+      avisoPendencia.hidden = false;
+      tentarLiberarBotaoConcluir();
       botaoConcluir.addEventListener('click', async () => {
         botaoConcluir.disabled = true;
         botaoConcluir.textContent = 'Salvando...';
@@ -156,6 +182,9 @@ async function iniciar() {
   iframe.height = '480';
   iframe.style.border = '0';
   playerContainer.appendChild(iframe);
+
+  videoCarregado = true;
+  tentarLiberarBotaoConcluir();
 }
 
 iniciar();
