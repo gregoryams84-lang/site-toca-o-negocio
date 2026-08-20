@@ -5,7 +5,10 @@ const lista = document.getElementById('lista-matriculas');
 const vazio = document.getElementById('sem-matricula');
 const saudacao = document.getElementById('saudacao');
 
-function renderizarAulas(container, aulas) {
+const ICONE_STATUS_CONCLUIDA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5 L10.5 15.5 L16.5 9"/></svg>';
+const ICONE_STATUS_PENDENTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/></svg>';
+
+function renderizarAulas(container, aulas, idsConcluidos) {
   if (aulas.length === 0) {
     const emBreve = document.createElement('p');
     emBreve.textContent = 'Em breve (verificar o status da matrícula).';
@@ -15,11 +18,20 @@ function renderizarAulas(container, aulas) {
   const listaAulas = document.createElement('ul');
   listaAulas.className = 'lista-aulas-trilha';
   for (const aula of aulas) {
+    const concluida = idsConcluidos.has(aula.id);
     const item = document.createElement('li');
+    item.className = concluida ? 'aula-item aula-item--concluida' : 'aula-item aula-item--pendente';
+
+    const status = document.createElement('span');
+    status.className = 'aula-item-status';
+    status.innerHTML = concluida ? ICONE_STATUS_CONCLUIDA : ICONE_STATUS_PENDENTE;
+    item.appendChild(status);
+
     const link = document.createElement('a');
     link.href = `aula.html?aula_id=${aula.id}`;
     link.textContent = aula.titulo;
     item.appendChild(link);
+
     listaAulas.appendChild(item);
   }
   container.appendChild(listaAulas);
@@ -61,28 +73,30 @@ if (!session) {
       item.appendChild(descricao);
 
       const aulasOrdenadas = [...matricula.trilhas.aulas].sort((a, b) => a.ordem - b.ordem);
-      renderizarAulas(item, aulasOrdenadas);
 
-      await renderizarCertificado(item, matricula, aulasOrdenadas, nomeAluno);
+      const { data: progressoDaTrilha } = await supabase
+        .from('progresso')
+        .select('aula_id')
+        .eq('matricula_id', matricula.id)
+        .eq('concluida', true);
+
+      const idsConcluidos = new Set((progressoDaTrilha ?? []).map((linha) => linha.aula_id));
+      const trilhaCompleta = aulasOrdenadas.length > 0 && aulasOrdenadas.every((aula) => idsConcluidos.has(aula.id));
+      if (trilhaCompleta) {
+        item.classList.add('trilha-card-completa');
+      }
+
+      renderizarAulas(item, aulasOrdenadas, idsConcluidos);
+
+      await renderizarCertificado(item, matricula, aulasOrdenadas, nomeAluno, trilhaCompleta);
 
       lista.appendChild(item);
     }
   }
 }
 
-async function renderizarCertificado(container, matricula, aulasDaTrilha, nomeAluno) {
-  if (aulasDaTrilha.length === 0) return;
-
-  const { data: progressoConcluido } = await supabase
-    .from('progresso')
-    .select('aula_id')
-    .eq('matricula_id', matricula.id)
-    .eq('concluida', true);
-
-  const idsConcluidos = new Set((progressoConcluido ?? []).map((linha) => linha.aula_id));
-  const trilhaCompleta = aulasDaTrilha.every((aula) => idsConcluidos.has(aula.id));
-
-  if (!trilhaCompleta) return;
+async function renderizarCertificado(container, matricula, aulasDaTrilha, nomeAluno, trilhaCompleta) {
+  if (aulasDaTrilha.length === 0 || !trilhaCompleta) return;
 
   const { data: certificadoExistente } = await supabase
     .from('certificados')
