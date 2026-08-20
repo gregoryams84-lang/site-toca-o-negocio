@@ -24,7 +24,8 @@ form.addEventListener('submit', async (event) => {
     const { error } = await supabase.auth.updateUser({ password: senha });
 
     if (error) {
-      erro.textContent = 'Não foi possível salvar a nova senha. O link pode ter expirado — solicite a recuperação de senha novamente.';
+      console.error('Falha ao salvar nova senha', error);
+      erro.textContent = `Não foi possível salvar a nova senha. Motivo: ${error.message} (código: ${error.status ?? error.code ?? '?'}). Se o link expirou, solicite a recuperação novamente.`;
       erro.hidden = false;
       return;
     }
