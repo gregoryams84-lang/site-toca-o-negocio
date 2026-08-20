@@ -152,6 +152,19 @@ p {
   text-decoration: underline;
 }
 
+.trilha-card .botao,
+.trilha-card .botao-secundario {
+  margin-top: 12px;
+}
+
+.aula-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
 .lista-aulas-trilha .aula-em-breve {
   color: var(--neutro);
 }

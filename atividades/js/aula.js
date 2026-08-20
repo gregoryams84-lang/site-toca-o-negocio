@@ -7,6 +7,10 @@ const tituloEl = document.getElementById('titulo-aula');
 const playerContainer = document.getElementById('player-video');
 const mensagemVideo = document.getElementById('mensagem-video');
 const botaoAtividade = document.getElementById('botao-atividade');
+const linkMaterial = document.getElementById('link-material');
+const botaoConcluir = document.getElementById('botao-concluir');
+const avisoConcluida = document.getElementById('aula-concluida-aviso');
+const avisoTrilhaConcluida = document.getElementById('trilha-concluida-aviso');
 
 function montarLinkAtividade(linkBase, matriculaId, aulaIdAlvo, accessToken) {
   const url = new URL(linkBase);
@@ -31,7 +35,7 @@ async function iniciar() {
 
   const { data: aula, error: erroAula } = await supabase
     .from('aulas')
-    .select('id, titulo, trilha_id, link_atividade')
+    .select('id, titulo, trilha_id, link_atividade, material_pdf_url')
     .eq('id', aulaId)
     .single();
 
@@ -62,6 +66,67 @@ async function iniciar() {
       }
       window.location.href = montarLinkAtividade(aula.link_atividade, matricula.id, aula.id, sessaoAtual.access_token);
     });
+  }
+
+  if (aula.material_pdf_url) {
+    linkMaterial.href = aula.material_pdf_url;
+    linkMaterial.hidden = false;
+  }
+
+  if (matricula) {
+    const { data: progressoAtual } = await supabase
+      .from('progresso')
+      .select('concluida')
+      .eq('matricula_id', matricula.id)
+      .eq('aula_id', aula.id)
+      .maybeSingle();
+
+    if (progressoAtual?.concluida) {
+      avisoConcluida.hidden = false;
+    } else {
+      botaoConcluir.hidden = false;
+      botaoConcluir.addEventListener('click', async () => {
+        botaoConcluir.disabled = true;
+        botaoConcluir.textContent = 'Salvando...';
+
+        const { error: erroProgresso } = await supabase.from('progresso').upsert(
+          {
+            matricula_id: matricula.id,
+            aula_id: aula.id,
+            concluida: true,
+            concluida_em: new Date().toISOString(),
+          },
+          { onConflict: 'matricula_id,aula_id' }
+        );
+
+        if (erroProgresso) {
+          botaoConcluir.disabled = false;
+          botaoConcluir.textContent = 'Marcar aula como concluída';
+          return;
+        }
+
+        botaoConcluir.hidden = true;
+        avisoConcluida.hidden = false;
+
+        const { data: aulasDaTrilha } = await supabase
+          .from('aulas')
+          .select('id')
+          .eq('trilha_id', aula.trilha_id);
+
+        const { data: progressoDaTrilha } = await supabase
+          .from('progresso')
+          .select('aula_id')
+          .eq('matricula_id', matricula.id)
+          .eq('concluida', true);
+
+        const idsConcluidos = new Set((progressoDaTrilha ?? []).map((linha) => linha.aula_id));
+        const trilhaCompleta = (aulasDaTrilha ?? []).every((aulaDaTrilha) => idsConcluidos.has(aulaDaTrilha.id));
+
+        if (trilhaCompleta) {
+          avisoTrilhaConcluida.hidden = false;
+        }
+      });
+    }
   }
 
   const { data: dadosVideo, error: erroVideo } = await supabase.functions.invoke('gerar-link-video', {
