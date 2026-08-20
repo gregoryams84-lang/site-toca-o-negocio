@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificar Certificado — Toca o Negócio</title>
+  <meta name="description" content="Verifique a autenticidade de um certificado emitido pelo Toca o Negócio a partir do código impresso no documento.">
+  <link rel="canonical" href="https://tocaonegocio.com.br/verificar/">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../img/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="../img/icone-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/estilo.css">
+  <style>
+    .cartao-verificacao {
+      border: 1px solid var(--borda);
+      border-radius: 8px;
+      padding: 24px;
+      margin-top: 20px;
+      max-width: 420px;
+    }
+    .cartao-verificacao.valido { border-left: 4px solid var(--verde); }
+    .cartao-verificacao.invalido { border-left: 4px solid var(--terracota); }
+    .cartao-verificacao .selo-ok {
+      color: var(--verde);
+      font-weight: 700;
+      margin: 0 0 12px 0;
+    }
+    .cartao-verificacao dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 6px 12px;
+    }
+    .cartao-verificacao dt {
+      color: var(--neutro);
+      font-size: 14px;
+    }
+    .cartao-verificacao dd {
+      margin: 0;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <header class="cabecalho container">
+    <a class="marca" href="../index.html" aria-label="Toca o Negócio">
+      <img src="../img/logo-completo-verde.svg" alt="Toca o Negócio" width="150" height="62">
+    </a>
+  </header>
+
+  <main>
+    <section class="secao container">
+      <h1>Verificar certificado</h1>
+      <p>Digite o código de verificação impresso no certificado (ex: TN-A1B2C3D4) para confirmar sua autenticidade.</p>
+
+      <form class="formulario" id="form-verificar">
+        <p class="erro-formulario" id="erro" role="alert" hidden></p>
+        <div class="campo">
+          <label for="codigo">Código de verificação</label>
+          <input type="text" id="codigo" name="codigo" required placeholder="TN-A1B2C3D4" autocomplete="off">
+        </div>
+        <button class="botao" type="submit" id="botao-verificar">Verificar</button>
+      </form>
+
+      <div id="resultado" class="cartao-verificacao" hidden></div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-conteudo">
+      <p class="rodape-razao-social">AUREA EDUCACIONAL LTDA</p>
+      <p>CNPJ 67.140.776/0001-88</p>
+      <p>Rua Pedro Vieira da Silva, 64 — Jardim Santa Genebra, Campinas/SP — CEP 13.080-570</p>
+      <p>E-mail: <a href="mailto:suporte@tocaonegocio.com.br">suporte@tocaonegocio.com.br</a></p>
+      <p class="rodape-links">
+        <a href="../termos.html">Termos de uso</a> · <a href="../privacidade.html">Política de privacidade</a>
+      </p>
+      <p class="rodape-legal">
+        Cursos livres de capacitação profissional, nos termos do Decreto nº 5.154/2004.
+      </p>
+      <p class="rodape-copyright">© 2026 Toca o Negócio — AUREA EDUCACIONAL LTDA</p>
+    </div>
+  </footer>
+
+  <script type="module" src="js/verificar.js"></script>
+</body>
+</html>
