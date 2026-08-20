@@ -129,7 +129,13 @@ Deno.serve(async (req) => {
 
   const pagamento = await respostaPagamento.json()
   const status = pagamento.status as string
-  const email = (pagamento.payer?.email as string | undefined)?.toLowerCase()
+  // Para Pix, o Mercado Pago às vezes devolve payer.email num formato
+  // inválido/genérico (não é o e-mail digitado no checkout). O e-mail que
+  // nós mesmos enviamos em metadata na criação da preferência é a fonte
+  // confiável; payer.email só entra como último recurso.
+  const email = (
+    (pagamento.metadata?.email as string | undefined) ?? (pagamento.payer?.email as string | undefined)
+  )?.toLowerCase()
   const valor = pagamento.transaction_amount as number
 
   if (status === 'approved') {
@@ -159,9 +165,10 @@ Deno.serve(async (req) => {
     }
 
     const nome =
-      pagamento.payer?.first_name && pagamento.payer?.last_name
+      (pagamento.metadata?.nome as string | undefined) ||
+      (pagamento.payer?.first_name && pagamento.payer?.last_name
         ? `${pagamento.payer.first_name} ${pagamento.payer.last_name}`
-        : email
+        : email)
 
     const perfil = await localizarOuCriarPerfil(email, nome)
     if (!perfil) {

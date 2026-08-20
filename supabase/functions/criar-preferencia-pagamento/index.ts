@@ -89,7 +89,7 @@ Deno.serve(async (req) => {
       },
       auto_return: 'approved',
       external_reference: referenciaExterna,
-      metadata: { trilha_ids: trilhaIds },
+      metadata: { trilha_ids: trilhaIds, email, nome },
     }),
   })
 
