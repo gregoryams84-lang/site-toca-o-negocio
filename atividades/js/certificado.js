@@ -53,11 +53,11 @@ function montarHtmlCertificado({ nomeAluno, nomeTrilha, cargaHoraria, dataEmissa
       #certificado-gerado .crista { width: 96px; height: 108px; object-fit: contain; margin-bottom: 16px; }
       #certificado-gerado .marca {
         font-family: 'Fraunces', Georgia, serif;
-        font-size: 24px;
+        font-size: 34px;
         font-weight: 700;
         letter-spacing: 3px;
         color: #14513C;
-        margin: 0 0 4px 0;
+        margin: 0 0 6px 0;
       }
       #certificado-gerado .marca span { color: #6B2A20; }
       #certificado-gerado .rotulo {
@@ -151,7 +151,7 @@ function montarHtmlCertificado({ nomeAluno, nomeTrilha, cargaHoraria, dataEmissa
         margin: 0;
       }
       #certificado-gerado .selo-wrap { width: 260px; display: flex; justify-content: center; }
-      #certificado-gerado .selo { position: relative; width: 170px; height: 170px; }
+      #certificado-gerado .selo { width: 190px; height: 190px; object-fit: contain; }
       #certificado-gerado .codigo-verificacao {
         position: absolute;
         z-index: 1;
@@ -238,14 +238,7 @@ function montarHtmlCertificado({ nomeAluno, nomeTrilha, cargaHoraria, dataEmissa
         </div>
 
         <div class="selo-wrap">
-          <svg class="selo" viewBox="0 0 160 160">
-            <circle cx="80" cy="80" r="78" fill="#B8912F"/>
-            <circle cx="80" cy="80" r="78" fill="none" stroke="#6B4E14" stroke-width="1.5"/>
-            <circle cx="80" cy="80" r="68" fill="none" stroke="#FFE9A8" stroke-width="1.5" opacity="0.8"/>
-            <circle cx="80" cy="80" r="60" fill="#FBF8F1"/>
-            <circle cx="80" cy="80" r="60" fill="none" stroke="#B8912F" stroke-width="1.5"/>
-            <image x="42" y="42" width="76" height="76" href="../img/simbolo-aurea.png"/>
-          </svg>
+          <img class="selo" src="../img/selo-autenticidade.png" alt="">
         </div>
 
         <div class="bloco-data">
