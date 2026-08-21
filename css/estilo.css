@@ -235,6 +235,46 @@ p {
   margin-top: 12px;
 }
 
+.certificado-conquista {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--dourado-brilho) 10%, #FFFFFF);
+  border: 1px solid color-mix(in srgb, var(--dourado-brilho) 40%, var(--borda));
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.certificado-conquista-icone {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  color: var(--ambar);
+}
+
+.certificado-conquista-texto {
+  flex: 1 1 140px;
+}
+
+.certificado-conquista-titulo {
+  font-family: var(--fonte-display);
+  font-weight: 700;
+  color: var(--verde);
+  margin: 0;
+}
+
+.certificado-conquista-legenda {
+  font-size: 13px;
+  color: var(--neutro);
+  margin: 2px 0 0 0;
+}
+
+.certificado-conquista .botao-secundario {
+  margin-top: 0;
+}
+
 .aula-acoes {
   display: flex;
   flex-wrap: wrap;

@@ -127,6 +127,8 @@ if (!session) {
   }
 }
 
+const ICONE_CERTIFICADO = '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="24" r="14"/><path d="M24 36 L18 56 L32 48 L46 56 L40 36"/></svg>';
+
 async function renderizarCertificado(container, matricula, aulasDaTrilha, nomeAluno, trilhaCompleta) {
   if (aulasDaTrilha.length === 0 || !trilhaCompleta) return;
 
@@ -136,11 +138,33 @@ async function renderizarCertificado(container, matricula, aulasDaTrilha, nomeAl
     .eq('matricula_id', matricula.id)
     .maybeSingle();
 
+  const bloco = document.createElement('div');
+  bloco.className = 'certificado-conquista';
+
+  const icone = document.createElement('span');
+  icone.className = 'certificado-conquista-icone';
+  icone.innerHTML = ICONE_CERTIFICADO;
+  bloco.appendChild(icone);
+
+  const texto = document.createElement('div');
+  texto.className = 'certificado-conquista-texto';
+  const titulo = document.createElement('p');
+  titulo.className = 'certificado-conquista-titulo';
+  titulo.textContent = 'Trilha concluída';
+  const legenda = document.createElement('p');
+  legenda.className = 'certificado-conquista-legenda';
+  legenda.textContent = 'Seu certificado está pronto.';
+  texto.appendChild(titulo);
+  texto.appendChild(legenda);
+  bloco.appendChild(texto);
+
   const botao = document.createElement('button');
   botao.type = 'button';
   botao.className = 'botao botao-secundario';
   botao.textContent = certificadoExistente ? 'Baixar certificado' : 'Emitir certificado';
-  container.appendChild(botao);
+  bloco.appendChild(botao);
+
+  container.appendChild(bloco);
 
   botao.addEventListener('click', async () => {
     botao.disabled = true;
