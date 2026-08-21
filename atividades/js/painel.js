@@ -7,6 +7,7 @@ const saudacao = document.getElementById('saudacao');
 
 const ICONE_STATUS_CONCLUIDA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5 L10.5 15.5 L16.5 9"/></svg>';
 const ICONE_STATUS_PENDENTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/></svg>';
+const ICONE_CERTIFICADO = '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="24" r="14"/><path d="M24 36 L18 56 L32 48 L46 56 L40 36"/></svg>';
 
 function renderizarProgresso(container, totalAulas, totalConcluidas) {
   if (totalAulas === 0) return;
@@ -94,40 +95,48 @@ if (!session) {
     const nomeAluno = perfil?.nome ?? session.user.email;
 
     for (const matricula of matriculas) {
-      const item = document.createElement('article');
-      item.className = 'trilha-card';
-      const titulo = document.createElement('h3');
-      titulo.textContent = matricula.trilhas.nome;
-      const descricao = document.createElement('p');
-      descricao.textContent = matricula.trilhas.descricao ?? '';
-      item.appendChild(titulo);
-      item.appendChild(descricao);
+      try {
+        const item = document.createElement('article');
+        item.className = 'trilha-card';
+        const titulo = document.createElement('h3');
+        titulo.textContent = matricula.trilhas.nome;
+        const descricao = document.createElement('p');
+        descricao.textContent = matricula.trilhas.descricao ?? '';
+        item.appendChild(titulo);
+        item.appendChild(descricao);
 
-      const aulasOrdenadas = [...matricula.trilhas.aulas].sort((a, b) => a.ordem - b.ordem);
+        const aulasOrdenadas = [...matricula.trilhas.aulas].sort((a, b) => a.ordem - b.ordem);
 
-      const { data: progressoDaTrilha } = await supabase
-        .from('progresso')
-        .select('aula_id')
-        .eq('matricula_id', matricula.id)
-        .eq('concluida', true);
+        const { data: progressoDaTrilha } = await supabase
+          .from('progresso')
+          .select('aula_id')
+          .eq('matricula_id', matricula.id)
+          .eq('concluida', true);
 
-      const idsConcluidos = new Set((progressoDaTrilha ?? []).map((linha) => linha.aula_id));
-      const trilhaCompleta = aulasOrdenadas.length > 0 && aulasOrdenadas.every((aula) => idsConcluidos.has(aula.id));
-      if (trilhaCompleta) {
-        item.classList.add('trilha-card-completa');
+        const idsConcluidos = new Set((progressoDaTrilha ?? []).map((linha) => linha.aula_id));
+        const trilhaCompleta = aulasOrdenadas.length > 0 && aulasOrdenadas.every((aula) => idsConcluidos.has(aula.id));
+        if (trilhaCompleta) {
+          item.classList.add('trilha-card-completa');
+        }
+
+        renderizarProgresso(item, aulasOrdenadas.length, idsConcluidos.size);
+        renderizarAulas(item, aulasOrdenadas, idsConcluidos);
+
+        await renderizarCertificado(item, matricula, aulasOrdenadas, nomeAluno, trilhaCompleta);
+
+        lista.appendChild(item);
+      } catch (excecao) {
+        console.error('Falha ao renderizar trilha do painel', matricula, excecao);
+        const erroItem = document.createElement('article');
+        erroItem.className = 'trilha-card';
+        const aviso = document.createElement('p');
+        aviso.textContent = 'Não foi possível carregar esta trilha agora. Atualize a página ou fale com o suporte.';
+        erroItem.appendChild(aviso);
+        lista.appendChild(erroItem);
       }
-
-      renderizarProgresso(item, aulasOrdenadas.length, idsConcluidos.size);
-      renderizarAulas(item, aulasOrdenadas, idsConcluidos);
-
-      await renderizarCertificado(item, matricula, aulasOrdenadas, nomeAluno, trilhaCompleta);
-
-      lista.appendChild(item);
     }
   }
 }
-
-const ICONE_CERTIFICADO = '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="24" r="14"/><path d="M24 36 L18 56 L32 48 L46 56 L40 36"/></svg>';
 
 async function renderizarCertificado(container, matricula, aulasDaTrilha, nomeAluno, trilhaCompleta) {
   if (aulasDaTrilha.length === 0 || !trilhaCompleta) return;
