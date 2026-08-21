@@ -155,6 +155,39 @@ p {
   text-decoration: none;
 }
 
+.progresso-trilha {
+  margin-top: 14px;
+}
+
+.progresso-trilha-texto {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--neutro);
+  margin: 0 0 6px 0;
+}
+
+.progresso-trilha-barra {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--borda);
+  overflow: hidden;
+}
+
+.progresso-trilha-preenchimento {
+  height: 100%;
+  background: var(--verde);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.trilha-card-completa .progresso-trilha-texto {
+  color: var(--verde);
+}
+
+.trilha-card-completa .progresso-trilha-preenchimento {
+  background: var(--dourado-brilho);
+}
+
 .lista-aulas-trilha {
   list-style: none;
   padding: 0;

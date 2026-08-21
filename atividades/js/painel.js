@@ -8,6 +8,37 @@ const saudacao = document.getElementById('saudacao');
 const ICONE_STATUS_CONCLUIDA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5 L10.5 15.5 L16.5 9"/></svg>';
 const ICONE_STATUS_PENDENTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/></svg>';
 
+function renderizarProgresso(container, totalAulas, totalConcluidas) {
+  if (totalAulas === 0) return;
+
+  const percentual = Math.round((totalConcluidas / totalAulas) * 100);
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'progresso-trilha';
+
+  const texto = document.createElement('p');
+  texto.className = 'progresso-trilha-texto';
+  texto.textContent = totalConcluidas === totalAulas
+    ? `${totalAulas} de ${totalAulas} aulas concluídas`
+    : `${totalConcluidas} de ${totalAulas} aulas concluídas`;
+  wrapper.appendChild(texto);
+
+  const barra = document.createElement('div');
+  barra.className = 'progresso-trilha-barra';
+  barra.setAttribute('role', 'progressbar');
+  barra.setAttribute('aria-valuenow', String(percentual));
+  barra.setAttribute('aria-valuemin', '0');
+  barra.setAttribute('aria-valuemax', '100');
+
+  const preenchimento = document.createElement('div');
+  preenchimento.className = 'progresso-trilha-preenchimento';
+  preenchimento.style.width = `${percentual}%`;
+  barra.appendChild(preenchimento);
+  wrapper.appendChild(barra);
+
+  container.appendChild(wrapper);
+}
+
 function renderizarAulas(container, aulas, idsConcluidos) {
   if (aulas.length === 0) {
     const emBreve = document.createElement('p');
@@ -86,6 +117,7 @@ if (!session) {
         item.classList.add('trilha-card-completa');
       }
 
+      renderizarProgresso(item, aulasOrdenadas.length, idsConcluidos.size);
       renderizarAulas(item, aulasOrdenadas, idsConcluidos);
 
       await renderizarCertificado(item, matricula, aulasOrdenadas, nomeAluno, trilhaCompleta);
