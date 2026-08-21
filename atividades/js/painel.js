@@ -76,7 +76,7 @@ if (!session) {
 } else {
   const { data: perfil } = await supabase
     .from('perfis')
-    .select('nome')
+    .select('nome, cpf')
     .eq('id', session.user.id)
     .single();
 
@@ -93,6 +93,7 @@ if (!session) {
     vazio.hidden = false;
   } else {
     const nomeAluno = perfil?.nome ?? session.user.email;
+    const cpfAluno = perfil?.cpf ?? null;
 
     for (const matricula of matriculas) {
       try {
@@ -122,7 +123,7 @@ if (!session) {
         renderizarProgresso(item, aulasOrdenadas.length, idsConcluidos.size);
         renderizarAulas(item, aulasOrdenadas, idsConcluidos);
 
-        await renderizarCertificado(item, matricula, aulasOrdenadas, nomeAluno, trilhaCompleta);
+        await renderizarCertificado(item, matricula, aulasOrdenadas, nomeAluno, cpfAluno, trilhaCompleta);
 
         lista.appendChild(item);
       } catch (excecao) {
@@ -138,7 +139,7 @@ if (!session) {
   }
 }
 
-async function renderizarCertificado(container, matricula, aulasDaTrilha, nomeAluno, trilhaCompleta) {
+async function renderizarCertificado(container, matricula, aulasDaTrilha, nomeAluno, cpfAluno, trilhaCompleta) {
   if (aulasDaTrilha.length === 0 || !trilhaCompleta) return;
 
   const { data: certificadoExistente } = await supabase
@@ -208,6 +209,7 @@ async function renderizarCertificado(container, matricula, aulasDaTrilha, nomeAl
 
       await baixarCertificadoPdf({
         nomeAluno,
+        cpfAluno,
         nomeTrilha: matricula.trilhas.nome,
         cargaHoraria: matricula.trilhas.carga_horaria_horas,
         dataEmissao: dataFormatada,

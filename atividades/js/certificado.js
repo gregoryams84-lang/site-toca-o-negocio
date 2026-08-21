@@ -129,6 +129,7 @@ function quebrarParagrafo(doc, runs, larguraMaxima, tamanho) {
   function largura(item) {
     doc.setFont('Fraunces', item.forte ? 'bold' : 'normal');
     doc.setFontSize(tamanho);
+    doc.setCharSpace(0);
     return doc.getTextWidth(item.espaco ? ' ' : item.palavra);
   }
 
@@ -148,18 +149,22 @@ function quebrarParagrafo(doc, runs, larguraMaxima, tamanho) {
 }
 
 function desenharParagrafo(doc, paragrafo, { xCentro, yTopo, lineHeight, tamanho, corNormal, corForte }) {
+  // Sem isso, um tracking (letter-spacing) deixado ligado por um elemento
+  // anterior (ex: o rótulo do CPF) vaza pro parágrafo e cola as palavras,
+  // já que a largura de cada palavra foi medida sem levar o tracking em conta.
+  doc.setCharSpace(0);
   let y = yTopo;
   for (const linha of paragrafo.linhas) {
     const larguraLinha = linha.reduce((soma, item) => soma + paragrafo.largura(item), 0);
     let x = xCentro - larguraLinha / 2;
     for (const item of linha) {
       const w = paragrafo.largura(item);
-      if (!item.espaco) {
-        doc.setFont('Fraunces', item.forte ? 'bold' : 'normal');
-        doc.setFontSize(tamanho);
-        doc.setTextColor(item.forte ? corForte : corNormal);
-        doc.text(item.palavra, x, y);
-      }
+      doc.setFont('Fraunces', item.forte ? 'bold' : 'normal');
+      doc.setFontSize(tamanho);
+      doc.setTextColor(item.forte ? corForte : corNormal);
+      // Desenha o espaço como caractere de verdade (não só como avanço de
+      // posição) pra manter o texto selecionável/copiável corretamente.
+      doc.text(item.espaco ? ' ' : item.palavra, x, y);
       x += w;
     }
     y += lineHeight;
@@ -199,7 +204,13 @@ function desenharOrnamentoCanto(doc, cantoX, cantoY, sinalX, sinalY) {
   doc.circle(...v(38, 38), 3.5, 'F');
 }
 
-async function desenharCertificado(doc, { nomeAluno, nomeTrilha, cargaHoraria, dataEmissao, codigoVerificacao }) {
+function formatarCpfExibicao(cpf) {
+  const digitos = String(cpf).replace(/\D/g, '');
+  if (digitos.length !== 11) return String(cpf);
+  return `${digitos.slice(0, 3)}.${digitos.slice(3, 6)}.${digitos.slice(6, 9)}-${digitos.slice(9, 11)}`;
+}
+
+async function desenharCertificado(doc, { nomeAluno, cpfAluno, nomeTrilha, cargaHoraria, dataEmissao, codigoVerificacao }) {
   doc.setFillColor(COR.fundo);
   doc.rect(0, 0, LARGURA, ALTURA, 'F');
 
@@ -251,7 +262,10 @@ async function desenharCertificado(doc, { nomeAluno, nomeTrilha, cargaHoraria, d
   const paragrafo = quebrarParagrafo(doc, runsCorpo, larguraCorpo, 19);
   const alturaCorpo = paragrafo.linhas.length * 33.25;
 
-  const alturaTotal = 124 + 58 + 56 + 78 + 54 + 40 + (alturaNome + 20) + 38 + alturaCorpo;
+  const cpfFormatado = cpfAluno ? formatarCpfExibicao(cpfAluno) : null;
+  const alturaCpf = cpfFormatado ? 30 : 0;
+
+  const alturaTotal = 124 + 58 + 56 + 78 + 54 + 40 + (alturaNome + 20) + alturaCpf + 38 + alturaCorpo;
   let y = (760 - alturaTotal) / 2;
 
   if (crista) {
@@ -283,6 +297,11 @@ async function desenharCertificado(doc, { nomeAluno, nomeTrilha, cargaHoraria, d
     doc.text(linha, centroX, y + 44 + indice * 59, { align: 'center' });
   });
   y += alturaNome + 20;
+
+  if (cpfFormatado) {
+    textoCentralizado(doc, `CPF ${cpfFormatado}`, centroX, y + 12, { fonte: 'Inter', estilo: 'normal', tamanho: 14, cor: COR.neutro, tracking: 1 });
+    y += alturaCpf;
+  }
 
   desenharDivisor(doc, centroX, y + 3, 45);
   y += 38;

@@ -15,10 +15,14 @@ function mesesDepois(data: Date, meses: number): Date {
   return resultado
 }
 
-async function localizarOuCriarPerfil(email: string, nome: string): Promise<{ id: string } | null> {
+async function localizarOuCriarPerfil(
+  email: string,
+  nome: string,
+  cpf: string | undefined
+): Promise<{ id: string } | null> {
   const { data: perfilExistente, error: erroBuscaPerfil } = await supabaseAdmin
     .from('perfis')
-    .select('id')
+    .select('id, cpf')
     .eq('email', email)
     .maybeSingle()
 
@@ -26,7 +30,21 @@ async function localizarOuCriarPerfil(email: string, nome: string): Promise<{ id
     console.error('Falha ao buscar perfil existente', { email, erro: erroBuscaPerfil })
   }
 
-  if (perfilExistente) return perfilExistente
+  if (perfilExistente) {
+    // Perfil de compra anterior pode ter sido criado antes do CPF ser
+    // coletado -- completa o dado agora se ainda estiver faltando.
+    if (!perfilExistente.cpf && cpf) {
+      const { error: erroAtualizarCpf } = await supabaseAdmin
+        .from('perfis')
+        .update({ cpf })
+        .eq('id', perfilExistente.id)
+
+      if (erroAtualizarCpf) {
+        console.error('Falha ao atualizar CPF de perfil existente', { email, erro: erroAtualizarCpf })
+      }
+    }
+    return perfilExistente
+  }
 
   const respostaConvite = await fetch(
     `${SUPABASE_URL}/auth/v1/invite?redirect_to=${encodeURIComponent(URL_REDIRECIONAMENTO_CONVITE)}`,
@@ -37,7 +55,7 @@ async function localizarOuCriarPerfil(email: string, nome: string): Promise<{ id
         Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, data: { nome } }),
+      body: JSON.stringify({ email, data: { nome, cpf } }),
     }
   )
 
@@ -169,8 +187,11 @@ Deno.serve(async (req) => {
       (pagamento.payer?.first_name && pagamento.payer?.last_name
         ? `${pagamento.payer.first_name} ${pagamento.payer.last_name}`
         : email)
+    const cpf =
+      (pagamento.metadata?.cpf as string | undefined) ??
+      (pagamento.payer?.identification?.number as string | undefined)
 
-    const perfil = await localizarOuCriarPerfil(email, nome)
+    const perfil = await localizarOuCriarPerfil(email, nome, cpf)
     if (!perfil) {
       return new Response('falha ao localizar ou criar conta', { status: 502 })
     }

@@ -13,6 +13,36 @@ const listaTrilhas = document.getElementById('lista-trilhas');
 const form = document.getElementById('form-comprar');
 const erro = document.getElementById('erro');
 const botao = document.getElementById('botao-comprar');
+const campoCpf = document.getElementById('cpf');
+
+function formatarCpf(valor) {
+  const digitos = valor.replace(/\D/g, '').slice(0, 11);
+  return digitos
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+}
+
+function cpfValido(valor) {
+  const cpf = valor.replace(/\D/g, '');
+  if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+
+  let soma = 0;
+  for (let i = 0; i < 9; i++) soma += Number(cpf[i]) * (10 - i);
+  let resto = (soma * 10) % 11;
+  if (resto === 10 || resto === 11) resto = 0;
+  if (resto !== Number(cpf[9])) return false;
+
+  soma = 0;
+  for (let i = 0; i < 10; i++) soma += Number(cpf[i]) * (11 - i);
+  resto = (soma * 10) % 11;
+  if (resto === 10 || resto === 11) resto = 0;
+  return resto === Number(cpf[10]);
+}
+
+campoCpf.addEventListener('input', () => {
+  campoCpf.value = formatarCpf(campoCpf.value);
+});
 
 let trilhas = [];
 let planoSelecionado = null;
@@ -138,15 +168,24 @@ if (planoNaUrl) {
 form.addEventListener('submit', async (evento) => {
   evento.preventDefault();
   erro.hidden = true;
-  botao.disabled = true;
-  botao.textContent = 'Aguarde...';
 
   const nome = document.getElementById('nome').value.trim();
   const email = document.getElementById('email').value.trim();
+  const cpf = campoCpf.value.trim();
+
+  if (!cpfValido(cpf)) {
+    erro.textContent = 'CPF inválido. Confira os números digitados.';
+    erro.hidden = false;
+    campoCpf.focus();
+    return;
+  }
+
+  botao.disabled = true;
+  botao.textContent = 'Aguarde...';
 
   try {
     const { data, error } = await supabase.functions.invoke('criar-preferencia-pagamento', {
-      body: { nome, email, trilhaIds: trilhaIdsSelecionadas },
+      body: { nome, email, cpf, trilhaIds: trilhaIdsSelecionadas },
     });
 
     if (error || !data || !data.initPoint) {

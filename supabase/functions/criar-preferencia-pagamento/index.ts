@@ -26,7 +26,7 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: CABECALHOS_CORS })
   }
 
-  let corpo: { nome?: string; email?: string; trilhaIds?: unknown }
+  let corpo: { nome?: string; email?: string; cpf?: string; trilhaIds?: unknown }
   try {
     corpo = await req.json()
   } catch {
@@ -35,9 +35,10 @@ Deno.serve(async (req) => {
 
   const nome = corpo.nome?.trim()
   const email = corpo.email?.trim().toLowerCase()
+  const cpf = corpo.cpf?.replace(/\D/g, '')
   const trilhaIds = corpo.trilhaIds
 
-  if (!nome || !email) {
+  if (!nome || !email || !cpf || cpf.length !== 11) {
     return respostaJson({ erro: 'dados_incompletos' }, 400)
   }
 
@@ -80,7 +81,7 @@ Deno.serve(async (req) => {
           currency_id: 'BRL',
         },
       ],
-      payer: { name: nome, email },
+      payer: { name: nome, email, identification: { type: 'CPF', number: cpf } },
       payment_methods: { installments: 10 },
       back_urls: {
         success: `${SITE_URL}/atividades/sucesso.html`,
@@ -89,7 +90,7 @@ Deno.serve(async (req) => {
       },
       auto_return: 'approved',
       external_reference: referenciaExterna,
-      metadata: { trilha_ids: trilhaIds, email, nome },
+      metadata: { trilha_ids: trilhaIds, email, nome, cpf },
     }),
   })
 

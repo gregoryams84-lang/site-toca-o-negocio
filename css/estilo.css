@@ -459,6 +459,12 @@ p {
   outline-offset: 2px;
 }
 
+.campo-ajuda {
+  margin: 6px 0 0 0;
+  font-size: 13px;
+  color: var(--neutro);
+}
+
 .erro-formulario {
   color: var(--tinta);
   font-weight: 600;
