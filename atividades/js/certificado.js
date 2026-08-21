@@ -1,256 +1,24 @@
 const LARGURA = 1500;
 const ALTURA = 1060;
 
-function montarHtmlCertificado({ nomeAluno, nomeTrilha, cargaHoraria, dataEmissao, codigoVerificacao }) {
-  return `
-    <style>
-      #certificado-gerado {
-        width: ${LARGURA}px;
-        height: ${ALTURA}px;
-        background:
-          radial-gradient(ellipse at center, rgba(255,255,255,0.4) 0%, rgba(20,81,60,0.05) 100%),
-          #FBF8F1;
-        position: relative;
-        box-sizing: border-box;
-        font-family: 'Inter', Arial, sans-serif;
-        overflow: hidden;
-      }
-      #certificado-gerado .marca-dagua {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 640px;
-        height: 640px;
-        transform: translate(-50%, -50%);
-        opacity: 0.05;
-        z-index: 0;
-      }
-      #certificado-gerado .moldura-out {
-        position: absolute;
-        inset: 26px;
-        border: 3px solid #14513C;
-      }
-      #certificado-gerado .moldura-in {
-        position: absolute;
-        inset: 34px;
-        border: 1px solid #9C7A2E;
-      }
-      #certificado-gerado .conteudo {
-        position: absolute;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 300px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 0 150px;
-        box-sizing: border-box;
-      }
-      #certificado-gerado .crista { width: 96px; height: 108px; object-fit: contain; margin-bottom: 16px; }
-      #certificado-gerado .marca {
-        font-family: 'Fraunces', Georgia, serif;
-        font-size: 34px;
-        font-weight: 700;
-        letter-spacing: 3px;
-        color: #14513C;
-        margin: 0 0 6px 0;
-      }
-      #certificado-gerado .marca span { color: #6B2A20; }
-      #certificado-gerado .rotulo {
-        font-family: 'Inter', sans-serif;
-        font-size: 12px;
-        letter-spacing: 5px;
-        color: #6B4E14;
-        text-transform: uppercase;
-        margin: 0 0 26px 0;
-      }
-      #certificado-gerado h1.titulo {
-        font-family: 'Fraunces', Georgia, serif;
-        font-size: 46px;
-        font-weight: 700;
-        color: #16191C;
-        margin: 0 0 16px 0;
-        letter-spacing: 0.5px;
-      }
-      #certificado-gerado .flourish { width: 220px; height: 20px; margin-bottom: 34px; }
-      #certificado-gerado .certificamos-que {
-        font-family: 'Inter', sans-serif;
-        font-size: 13px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: #5B6560;
-        margin: 0 0 14px 0;
-      }
-      #certificado-gerado .nome-aluno {
-        font-family: 'Fraunces', Georgia, serif;
-        font-style: italic;
-        font-weight: 600;
-        font-size: 54px;
-        color: #0D3A2A;
-        margin: 0 0 20px 0;
-        line-height: 1.1;
-      }
-      #certificado-gerado .divisor { width: 90px; height: 14px; margin-bottom: 24px; }
-      #certificado-gerado .corpo {
-        font-family: 'Fraunces', Georgia, serif;
-        font-size: 19px;
-        line-height: 1.75;
-        color: #16191C;
-        max-width: 820px;
-        margin: 0;
-      }
-      #certificado-gerado .corpo strong { color: #14513C; font-weight: 600; }
-      #certificado-gerado .rodape-certificado {
-        position: absolute;
-        z-index: 1;
-        bottom: 78px;
-        left: 150px;
-        right: 150px;
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-      }
-      #certificado-gerado .assinatura { text-align: center; width: 260px; }
-      #certificado-gerado .assinatura img.assinatura-img {
-        height: 60px;
-        max-width: 240px;
-        object-fit: contain;
-        display: block;
-        margin: 0 auto 4px auto;
-      }
-      #certificado-gerado .assinatura .linha { border-top: 1px solid #16191C; margin-bottom: 8px; }
-      #certificado-gerado .assinatura .nome-empresa {
-        font-family: 'Fraunces', Georgia, serif;
-        font-weight: 700;
-        font-size: 14px;
-        color: #14513C;
-        margin: 0;
-      }
-      #certificado-gerado .assinatura .cargo {
-        font-size: 11px;
-        color: #5B6560;
-        margin: 2px 0 0 0;
-        letter-spacing: 0.5px;
-      }
-      #certificado-gerado .bloco-data { text-align: center; width: 260px; }
-      #certificado-gerado .bloco-data .rotulo-data {
-        font-size: 11px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: #6B4E14;
-        margin: 0 0 8px 0;
-      }
-      #certificado-gerado .bloco-data .valor-data {
-        font-family: 'Fraunces', Georgia, serif;
-        font-size: 15px;
-        color: #16191C;
-        margin: 0;
-      }
-      #certificado-gerado .selo-wrap { width: 260px; display: flex; justify-content: center; }
-      #certificado-gerado .selo { width: 190px; height: 190px; object-fit: contain; }
-      #certificado-gerado .codigo-verificacao {
-        position: absolute;
-        z-index: 1;
-        bottom: 32px;
-        left: 0;
-        right: 0;
-        text-align: center;
-        font-family: 'Courier New', monospace;
-        font-size: 14px;
-        font-weight: 700;
-        color: #4A3410;
-        letter-spacing: 2px;
-        margin: 0;
-      }
-    </style>
-    <div id="certificado-gerado">
-      <svg class="marca-dagua" viewBox="0 0 200 200">
-        <circle cx="100" cy="100" r="90" fill="none" stroke="#14513C" stroke-width="1"/>
-        <circle cx="100" cy="100" r="78" fill="none" stroke="#14513C" stroke-width="0.5"/>
-        <text x="100" y="112" text-anchor="middle" font-family="Fraunces, serif" font-weight="700" font-size="70" fill="#14513C">TN</text>
-      </svg>
+const COR = {
+  verde: '#14513C',
+  ambar: '#9C7A2E',
+  ambarEscuro: '#4A3410',
+  ambarLabel: '#6B4E14',
+  terracota: '#6B2A20',
+  tinta: '#16191C',
+  neutro: '#5B6560',
+  fundo: '#FBF8F1',
+};
 
-      <div class="moldura-out"></div>
-      <div class="moldura-in"></div>
-
-      <svg width="130" height="130" style="position:absolute; top:34px; left:34px;" viewBox="0 0 130 130">
-        <path d="M4,4 L4,50 Q4,10 50,4 Z" fill="none" stroke="#9C7A2E" stroke-width="2"/>
-        <path d="M4,4 L4,30" stroke="#14513C" stroke-width="2"/>
-        <path d="M4,4 L30,4" stroke="#14513C" stroke-width="2"/>
-        <circle cx="4" cy="4" r="4" fill="#9C7A2E"/>
-      </svg>
-      <svg width="130" height="130" style="position:absolute; top:34px; right:34px; transform:scaleX(-1);" viewBox="0 0 130 130">
-        <path d="M4,4 L4,50 Q4,10 50,4 Z" fill="none" stroke="#9C7A2E" stroke-width="2"/>
-        <path d="M4,4 L4,30" stroke="#14513C" stroke-width="2"/>
-        <path d="M4,4 L30,4" stroke="#14513C" stroke-width="2"/>
-        <circle cx="4" cy="4" r="4" fill="#9C7A2E"/>
-      </svg>
-      <svg width="130" height="130" style="position:absolute; bottom:34px; left:34px; transform:scaleY(-1);" viewBox="0 0 130 130">
-        <path d="M4,4 L4,50 Q4,10 50,4 Z" fill="none" stroke="#9C7A2E" stroke-width="2"/>
-        <path d="M4,4 L4,30" stroke="#14513C" stroke-width="2"/>
-        <path d="M4,4 L30,4" stroke="#14513C" stroke-width="2"/>
-        <circle cx="4" cy="4" r="4" fill="#9C7A2E"/>
-      </svg>
-      <svg width="130" height="130" style="position:absolute; bottom:34px; right:34px; transform:scale(-1,-1);" viewBox="0 0 130 130">
-        <path d="M4,4 L4,50 Q4,10 50,4 Z" fill="none" stroke="#9C7A2E" stroke-width="2"/>
-        <path d="M4,4 L4,30" stroke="#14513C" stroke-width="2"/>
-        <path d="M4,4 L30,4" stroke="#14513C" stroke-width="2"/>
-        <circle cx="4" cy="4" r="4" fill="#9C7A2E"/>
-      </svg>
-
-      <div class="conteudo">
-        <img class="crista" src="../img/simbolo-aurea.png" alt="" crossorigin="anonymous">
-        <p class="marca">TOCA <span>O NEGÓCIO</span></p>
-        <p class="rotulo">Aurea Educacional LTDA</p>
-        <h1 class="titulo">Certificado de Conclusão</h1>
-        <svg class="flourish" viewBox="0 0 220 20">
-          <line x1="0" y1="10" x2="85" y2="10" stroke="#9C7A2E" stroke-width="1"/>
-          <line x1="135" y1="10" x2="220" y2="10" stroke="#9C7A2E" stroke-width="1"/>
-          <path d="M100 10 L110 4 L120 10 L110 16 Z" fill="#9C7A2E"/>
-        </svg>
-
-        <p class="certificamos-que">Certificamos que</p>
-        <p class="nome-aluno">${nomeAluno}</p>
-
-        <svg class="divisor" viewBox="0 0 90 14">
-          <line x1="0" y1="7" x2="38" y2="7" stroke="#9C7A2E" stroke-width="1"/>
-          <line x1="52" y1="7" x2="90" y2="7" stroke="#9C7A2E" stroke-width="1"/>
-          <circle cx="45" cy="7" r="4" fill="none" stroke="#9C7A2E" stroke-width="1"/>
-        </svg>
-
-        <p class="corpo">
-          concluiu com aproveitamento a trilha <strong>"${nomeTrilha}"</strong>,
-          com carga horária de <strong>${cargaHoraria} horas</strong>, ministrada pela AUREA EDUCACIONAL LTDA,
-          em conformidade com o Decreto nº 5.154/2004.
-        </p>
-      </div>
-
-      <div class="rodape-certificado">
-        <div class="assinatura">
-          <img class="assinatura-img" src="../img/assinatura.png" alt="" onerror="this.style.display='none'">
-          <div class="linha"></div>
-          <p class="nome-empresa">AUREA EDUCACIONAL LTDA</p>
-          <p class="cargo">Direção — Toca o Negócio</p>
-        </div>
-
-        <div class="selo-wrap">
-          <img class="selo" src="../img/selo-autenticidade.png" alt="">
-        </div>
-
-        <div class="bloco-data">
-          <p class="rotulo-data">Emitido em</p>
-          <p class="valor-data">${dataEmissao}</p>
-        </div>
-      </div>
-
-      <p class="codigo-verificacao">CÓDIGO DE VERIFICAÇÃO&nbsp;&nbsp;·&nbsp;&nbsp;${codigoVerificacao}&nbsp;&nbsp;·&nbsp;&nbsp;tocaonegocio.com.br/verificar</p>
-    </div>
-  `;
-}
+const FONTES = [
+  ['Fraunces-Regular.ttf', 'Fraunces', 'normal'],
+  ['Fraunces-Bold.ttf', 'Fraunces', 'bold'],
+  ['Fraunces-Italic.ttf', 'Fraunces', 'italic'],
+  ['Inter-Regular.ttf', 'Inter', 'normal'],
+  ['Inter-SemiBold.ttf', 'Inter', 'bold'],
+];
 
 async function carregarScript(src) {
   return new Promise((resolve, reject) => {
@@ -263,34 +31,316 @@ async function carregarScript(src) {
 }
 
 async function garantirBibliotecas() {
-  if (typeof window.html2canvas === 'undefined') {
-    await carregarScript('https://cdn.jsdelivr.net/npm/html2canvas@1/dist/html2canvas.min.js');
-  }
   if (typeof window.jspdf === 'undefined') {
     await carregarScript('https://cdn.jsdelivr.net/npm/jspdf@2/dist/jspdf.umd.min.js');
   }
 }
 
-export async function baixarCertificadoPdf(dados) {
+async function paraBase64(url) {
+  const resposta = await fetch(url);
+  if (!resposta.ok) throw new Error(`Falha ao buscar ${url}: ${resposta.status}`);
+  const buffer = await resposta.arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+  let binario = '';
+  const tamanhoBloco = 8192;
+  for (let i = 0; i < bytes.length; i += tamanhoBloco) {
+    binario += String.fromCharCode.apply(null, bytes.subarray(i, i + tamanhoBloco));
+  }
+  return btoa(binario);
+}
+
+async function registrarFontes(doc) {
+  for (const [arquivo, familia, estilo] of FONTES) {
+    const url = new URL(`../fonts/${arquivo}`, import.meta.url).href;
+    const base64 = await paraBase64(url);
+    doc.addFileToVFS(arquivo, base64);
+    doc.addFont(arquivo, familia, estilo);
+  }
+}
+
+async function carregarImagemBase64(caminhoRelativo) {
+  const url = new URL(caminhoRelativo, import.meta.url).href;
+  try {
+    const base64 = await paraBase64(url);
+    const dataUrl = `data:image/png;base64,${base64}`;
+    const dimensoes = await new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve({ w: img.naturalWidth, h: img.naturalHeight });
+      img.onerror = reject;
+      img.src = dataUrl;
+    });
+    return { dataUrl, ...dimensoes };
+  } catch {
+    return null;
+  }
+}
+
+// Replica object-fit:contain: encaixa a imagem dentro da caixa sem distorcer,
+// devolvendo a posição/tamanho já centralizados.
+function encaixarImagem(imagem, caixaX, caixaY, caixaLargura, caixaAltura) {
+  const escala = Math.min(caixaLargura / imagem.w, caixaAltura / imagem.h);
+  const largura = imagem.w * escala;
+  const altura = imagem.h * escala;
+  return {
+    x: caixaX + (caixaLargura - largura) / 2,
+    y: caixaY + (caixaAltura - altura) / 2,
+    largura,
+    altura,
+  };
+}
+
+function definirTexto(doc, { fonte = 'Inter', estilo = 'normal', tamanho, cor, tracking = 0 }) {
+  doc.setFont(fonte, estilo);
+  doc.setFontSize(tamanho);
+  doc.setTextColor(cor);
+  doc.setCharSpace(tracking);
+}
+
+function textoCentralizado(doc, texto, x, y, opcoes) {
+  definirTexto(doc, opcoes);
+  doc.text(texto, x, y, { align: 'center' });
+}
+
+function textoBicolor(doc, parte1, parte2, xCentro, y, { fonte, estilo, tamanho, tracking = 0, cor1, cor2 }) {
+  doc.setFont(fonte, estilo);
+  doc.setFontSize(tamanho);
+  doc.setCharSpace(tracking);
+  const largura1 = doc.getTextWidth(parte1);
+  const largura2 = doc.getTextWidth(parte2);
+  const xInicio = xCentro - (largura1 + largura2) / 2;
+  doc.setTextColor(cor1);
+  doc.text(parte1, xInicio, y);
+  doc.setTextColor(cor2);
+  doc.text(parte2, xInicio + largura1, y);
+}
+
+// Quebra um parágrafo com trechos em negrito/normal em linhas, medindo cada
+// palavra com a fonte certa antes de decidir onde quebrar.
+function quebrarParagrafo(doc, runs, larguraMaxima, tamanho) {
+  const itens = [];
+  for (const run of runs) {
+    const palavras = run.texto.split(' ');
+    palavras.forEach((palavra, indice) => {
+      if (palavra !== '') itens.push({ palavra, forte: run.forte });
+      if (indice < palavras.length - 1) itens.push({ espaco: true });
+    });
+  }
+
+  function largura(item) {
+    doc.setFont('Fraunces', item.forte ? 'bold' : 'normal');
+    doc.setFontSize(tamanho);
+    return doc.getTextWidth(item.espaco ? ' ' : item.palavra);
+  }
+
+  const linhas = [[]];
+  let larguraAtual = 0;
+  for (const item of itens) {
+    const w = largura(item);
+    if (!item.espaco && larguraAtual + w > larguraMaxima && linhas[linhas.length - 1].length > 0) {
+      linhas.push([]);
+      larguraAtual = 0;
+    }
+    linhas[linhas.length - 1].push(item);
+    larguraAtual += w;
+  }
+
+  return { linhas, largura };
+}
+
+function desenharParagrafo(doc, paragrafo, { xCentro, yTopo, lineHeight, tamanho, corNormal, corForte }) {
+  let y = yTopo;
+  for (const linha of paragrafo.linhas) {
+    const larguraLinha = linha.reduce((soma, item) => soma + paragrafo.largura(item), 0);
+    let x = xCentro - larguraLinha / 2;
+    for (const item of linha) {
+      const w = paragrafo.largura(item);
+      if (!item.espaco) {
+        doc.setFont('Fraunces', item.forte ? 'bold' : 'normal');
+        doc.setFontSize(tamanho);
+        doc.setTextColor(item.forte ? corForte : corNormal);
+        doc.text(item.palavra, x, y);
+      }
+      x += w;
+    }
+    y += lineHeight;
+  }
+}
+
+function desenharFlourish(doc, xCentro, y, meiaLargura) {
+  doc.setDrawColor(COR.ambar);
+  doc.setLineWidth(1);
+  doc.line(xCentro - meiaLargura, y, xCentro - 10, y);
+  doc.line(xCentro + 10, y, xCentro + meiaLargura, y);
+  doc.setFillColor(COR.ambar);
+  doc.lines([[6, -6], [6, 6], [-6, 6]], xCentro - 6, y, [1, 1], 'F', true);
+}
+
+function desenharDivisor(doc, xCentro, y, meiaLargura) {
+  doc.setDrawColor(COR.ambar);
+  doc.setLineWidth(1);
+  doc.line(xCentro - meiaLargura, y, xCentro - 8, y);
+  doc.line(xCentro + 8, y, xCentro + meiaLargura, y);
+  doc.circle(xCentro, y, 4, 'S');
+}
+
+// Ornamento de canto: um "L" verde rente ao canto + um traço diagonal
+// dourado mais afastado + um ponto dourado no vértice. sinalX/sinalY
+// espelham o desenho pra apontar pro canto certo (1 ou -1).
+function desenharOrnamentoCanto(doc, cantoX, cantoY, sinalX, sinalY) {
+  const v = (dx, dy) => [cantoX + sinalX * dx, cantoY + sinalY * dy];
+  doc.setDrawColor(COR.verde);
+  doc.setLineWidth(1.5);
+  doc.line(...v(38, 38), ...v(38, 64));
+  doc.line(...v(38, 38), ...v(64, 38));
+  doc.setDrawColor(COR.ambar);
+  doc.setLineWidth(1);
+  doc.line(...v(38, 88), ...v(88, 38));
+  doc.setFillColor(COR.ambar);
+  doc.circle(...v(38, 38), 3.5, 'F');
+}
+
+async function desenharCertificado(doc, { nomeAluno, nomeTrilha, cargaHoraria, dataEmissao, codigoVerificacao }) {
+  doc.setFillColor(COR.fundo);
+  doc.rect(0, 0, LARGURA, ALTURA, 'F');
+
+  doc.saveGraphicsState();
+  doc.setGState(new doc.GState({ opacity: 0.035 }));
+  doc.setDrawColor(COR.verde);
+  doc.setLineWidth(1);
+  doc.circle(750, 530, 288, 'S');
+  doc.setLineWidth(0.5);
+  doc.circle(750, 530, 250, 'S');
+  textoCentralizado(doc, 'TN', 750, 550, { fonte: 'Fraunces', estilo: 'bold', tamanho: 150, cor: COR.verde });
+  doc.restoreGraphicsState();
+
+  doc.setDrawColor(COR.verde);
+  doc.setLineWidth(3);
+  doc.rect(26, 26, LARGURA - 52, ALTURA - 52, 'S');
+  doc.setDrawColor(COR.ambar);
+  doc.setLineWidth(1);
+  doc.rect(34, 34, LARGURA - 68, ALTURA - 68, 'S');
+
+  desenharOrnamentoCanto(doc, 34, 34, 1, 1);
+  desenharOrnamentoCanto(doc, LARGURA - 34, 34, -1, 1);
+  desenharOrnamentoCanto(doc, 34, ALTURA - 34, 1, -1);
+  desenharOrnamentoCanto(doc, LARGURA - 34, ALTURA - 34, -1, -1);
+
+  const [crista, selo, assinatura] = await Promise.all([
+    carregarImagemBase64('../../img/simbolo-aurea.png'),
+    carregarImagemBase64('../../img/selo-autenticidade.png'),
+    carregarImagemBase64('../../img/assinatura.png'),
+  ]);
+
+  const centroX = LARGURA / 2;
+  const larguraConteudo = LARGURA - 300;
+  const larguraCorpo = 820;
+
+  doc.setFont('Fraunces', 'italic');
+  doc.setFontSize(54);
+  const linhasNome = doc.splitTextToSize(nomeAluno, larguraConteudo);
+  const alturaNome = linhasNome.length * 59;
+
+  const runsCorpo = [
+    { texto: 'concluiu com aproveitamento a trilha ', forte: false },
+    { texto: `"${nomeTrilha}"`, forte: true },
+    {
+      texto: `, com carga horária de ${cargaHoraria} horas, ministrada pela AUREA EDUCACIONAL LTDA, em conformidade com o Decreto nº 5.154/2004.`,
+      forte: false,
+    },
+  ];
+  const paragrafo = quebrarParagrafo(doc, runsCorpo, larguraCorpo, 19);
+  const alturaCorpo = paragrafo.linhas.length * 33.25;
+
+  const alturaTotal = 124 + 58 + 56 + 78 + 54 + 40 + (alturaNome + 20) + 38 + alturaCorpo;
+  let y = (760 - alturaTotal) / 2;
+
+  if (crista) {
+    const pos = encaixarImagem(crista, centroX - 48, y, 96, 108);
+    doc.addImage(crista.dataUrl, 'PNG', pos.x, pos.y, pos.largura, pos.altura, undefined, 'MEDIUM');
+  }
+  y += 124;
+
+  textoBicolor(doc, 'TOCA ', 'O NEGÓCIO', centroX, y + 28, {
+    fonte: 'Fraunces', estilo: 'bold', tamanho: 34, tracking: 1.2, cor1: COR.verde, cor2: COR.terracota,
+  });
+  y += 58;
+
+  textoCentralizado(doc, 'AUREA EDUCACIONAL LTDA', centroX, y + 12, { fonte: 'Inter', estilo: 'normal', tamanho: 12, cor: COR.ambarLabel, tracking: 2 });
+  y += 56;
+
+  textoCentralizado(doc, 'Certificado de Conclusão', centroX, y + 36, { fonte: 'Fraunces', estilo: 'bold', tamanho: 46, cor: COR.tinta, tracking: 0.2 });
+  y += 78;
+
+  desenharFlourish(doc, centroX, y + 10, 110);
+  y += 54;
+
+  textoCentralizado(doc, 'CERTIFICAMOS QUE', centroX, y + 12, { fonte: 'Inter', estilo: 'normal', tamanho: 13, cor: COR.neutro, tracking: 1.5 });
+  y += 40;
+
+  definirTexto(doc, { fonte: 'Fraunces', estilo: 'italic', tamanho: 54, cor: '#0D3A2A' });
+  doc.setCharSpace(0);
+  linhasNome.forEach((linha, indice) => {
+    doc.text(linha, centroX, y + 44 + indice * 59, { align: 'center' });
+  });
+  y += alturaNome + 20;
+
+  desenharDivisor(doc, centroX, y + 3, 45);
+  y += 38;
+
+  desenharParagrafo(doc, paragrafo, {
+    xCentro: centroX,
+    yTopo: y + 15,
+    lineHeight: 33.25,
+    tamanho: 19,
+    corNormal: COR.tinta,
+    corForte: COR.verde,
+  });
+
+  const baseRodape = ALTURA - 78;
+  const colAssinaturaX = 280;
+  const colSeloX = 750;
+  const colDataX = 1220;
+
+  if (assinatura) {
+    const pos = encaixarImagem(assinatura, colAssinaturaX - 120, baseRodape - 80, 240, 60);
+    doc.addImage(assinatura.dataUrl, 'PNG', pos.x, pos.y, pos.largura, pos.altura, undefined, 'MEDIUM');
+  }
+  doc.setDrawColor(COR.tinta);
+  doc.setLineWidth(1);
+  doc.line(colAssinaturaX - 90, baseRodape - 36, colAssinaturaX + 90, baseRodape - 36);
+  textoCentralizado(doc, 'AUREA EDUCACIONAL LTDA', colAssinaturaX, baseRodape - 20, { fonte: 'Fraunces', estilo: 'bold', tamanho: 14, cor: COR.verde });
+  textoCentralizado(doc, 'Direção — Toca o Negócio', colAssinaturaX, baseRodape - 4, { fonte: 'Inter', estilo: 'normal', tamanho: 11, cor: COR.neutro, tracking: 0.5 });
+
+  if (selo) {
+    const pos = encaixarImagem(selo, colSeloX - 95, baseRodape - 190, 190, 190);
+    doc.addImage(selo.dataUrl, 'PNG', pos.x, pos.y, pos.largura, pos.altura, undefined, 'MEDIUM');
+  }
+
+  textoCentralizado(doc, 'EMITIDO EM', colDataX, baseRodape - 22, { fonte: 'Inter', estilo: 'normal', tamanho: 11, cor: COR.ambarLabel, tracking: 2 });
+  textoCentralizado(doc, dataEmissao, colDataX, baseRodape - 4, { fonte: 'Fraunces', estilo: 'normal', tamanho: 15, cor: COR.tinta });
+
+  textoCentralizado(
+    doc,
+    `CÓDIGO DE VERIFICAÇÃO   ·   ${codigoVerificacao}   ·   tocaonegocio.com.br/verificar`,
+    centroX,
+    ALTURA - 32,
+    { fonte: 'courier', estilo: 'bold', tamanho: 14, cor: COR.ambarEscuro, tracking: 1.2 }
+  );
+}
+
+export async function criarDocumentoCertificado(dados) {
   await garantirBibliotecas();
 
-  const wrapper = document.createElement('div');
-  wrapper.style.position = 'fixed';
-  wrapper.style.left = '-9999px';
-  wrapper.style.top = '0';
-  wrapper.innerHTML = montarHtmlCertificado(dados);
-  document.body.appendChild(wrapper);
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'landscape', unit: 'px', format: [LARGURA, ALTURA] });
 
-  try {
-    const alvo = wrapper.querySelector('#certificado-gerado');
-    const canvas = await window.html2canvas(alvo, { scale: 2, useCORS: true });
-    const imagem = canvas.toDataURL('image/png');
+  await registrarFontes(doc);
+  await desenharCertificado(doc, dados);
 
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ orientation: 'landscape', unit: 'px', format: [LARGURA, ALTURA] });
-    pdf.addImage(imagem, 'PNG', 0, 0, LARGURA, ALTURA);
-    pdf.save(`certificado-${dados.nomeTrilha.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.pdf`);
-  } finally {
-    document.body.removeChild(wrapper);
-  }
+  return doc;
+}
+
+export async function baixarCertificadoPdf(dados) {
+  const doc = await criarDocumentoCertificado(dados);
+  doc.save(`certificado-${dados.nomeTrilha.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.pdf`);
 }
