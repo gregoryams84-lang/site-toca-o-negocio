@@ -204,7 +204,7 @@ async function desenharCertificado(doc, { nomeAluno, nomeTrilha, cargaHoraria, d
   doc.rect(0, 0, LARGURA, ALTURA, 'F');
 
   doc.saveGraphicsState();
-  doc.setGState(new doc.GState({ opacity: 0.035 }));
+  doc.setGState(new doc.GState({ opacity: 0.035, 'stroke-opacity': 0.035 }));
   doc.setDrawColor(COR.verde);
   doc.setLineWidth(1);
   doc.circle(750, 530, 288, 'S');
