@@ -19,22 +19,28 @@
   </header>
 
   <main>
-    <section class="secao container">
-      <h1>Entrar</h1>
-      <form class="formulario" id="form-entrar">
-        <p class="erro-formulario" id="erro" role="alert" hidden></p>
-        <div class="campo">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" name="email" required autocomplete="email">
-        </div>
-        <div class="campo">
-          <label for="senha">Senha</label>
-          <input type="password" id="senha" name="senha" required autocomplete="current-password">
-        </div>
-        <button class="botao" type="submit">Entrar</button>
-      </form>
-      <p><a href="esqueci-senha.html">Esqueci minha senha</a> · <a href="cadastro.html">Criar conta</a></p>
-    </section>
+    <div class="tela-auth">
+      <aside class="tela-auth-painel" style="background-image:url('../img/trilhas/venda-pelo-whatsapp.webp')">
+        <div class="tela-auth-painel-scrim"></div>
+        <p class="tela-auth-painel-frase">Você já deu o primeiro passo. Continue de onde parou.</p>
+      </aside>
+      <section class="secao container tela-auth-form">
+        <h1>Entrar</h1>
+        <form class="formulario" id="form-entrar">
+          <p class="erro-formulario" id="erro" role="alert" hidden></p>
+          <div class="campo">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+          </div>
+          <div class="campo">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" required autocomplete="current-password">
+          </div>
+          <button class="botao" type="submit">Entrar</button>
+        </form>
+        <p><a href="esqueci-senha.html">Esqueci minha senha</a> · <a href="cadastro.html">Criar conta</a></p>
+      </section>
+    </div>
   </main>
 
   <footer class="rodape">

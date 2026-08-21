@@ -19,18 +19,24 @@
   </header>
 
   <main>
-    <section class="secao container">
-      <h1>Escolher nova senha</h1>
-      <p class="erro-formulario" id="erro" role="alert" hidden></p>
-      <p class="sucesso-formulario" id="sucesso" role="alert" hidden>Senha atualizada. <a href="entrar.html">Entrar</a>.</p>
-      <form class="formulario" id="form-nova-senha">
-        <div class="campo">
-          <label for="senha">Nova senha</label>
-          <input type="password" id="senha" name="senha" required minlength="8" autocomplete="new-password">
-        </div>
-        <button class="botao" type="submit">Salvar nova senha</button>
-      </form>
-    </section>
+    <div class="tela-auth">
+      <aside class="tela-auth-painel" style="background-image:url('../img/trilhas/venda-pelo-whatsapp.webp')">
+        <div class="tela-auth-painel-scrim"></div>
+        <p class="tela-auth-painel-frase">Quase lá. Escolha uma senha nova e siga em frente.</p>
+      </aside>
+      <section class="secao container tela-auth-form">
+        <h1>Escolher nova senha</h1>
+        <p class="erro-formulario" id="erro" role="alert" hidden></p>
+        <p class="sucesso-formulario" id="sucesso" role="alert" hidden>Senha atualizada. <a href="entrar.html">Entrar</a>.</p>
+        <form class="formulario" id="form-nova-senha">
+          <div class="campo">
+            <label for="senha">Nova senha</label>
+            <input type="password" id="senha" name="senha" required minlength="8" autocomplete="new-password">
+          </div>
+          <button class="botao" type="submit">Salvar nova senha</button>
+        </form>
+      </section>
+    </div>
   </main>
 
   <footer class="rodape">
