@@ -28,6 +28,35 @@ Deno.serve(async (req) => {
   }
 
   const url = new URL(req.url)
+  const externalId = url.searchParams.get('external_id')
+
+  if (externalId) {
+    try {
+      const respostaPanda = await fetch(`https://api-v2.pandavideo.com.br/videos/${externalId}?external_id`, {
+        headers: { Authorization: PANDA_API_TOKEN },
+      })
+
+      if (!respostaPanda.ok) {
+        return respostaJson({ erro: 'falha_panda' }, 502)
+      }
+
+      const video = await respostaPanda.json()
+      return respostaJson(
+        {
+          titulo: video.title,
+          external_id: video.video_external_id,
+          status: video.status,
+          duracao_segundos: video.length,
+          video_hls: video.video_hls,
+          video_player: video.video_player,
+        },
+        200
+      )
+    } catch {
+      return respostaJson({ erro: 'falha_panda' }, 502)
+    }
+  }
+
   const pagina = url.searchParams.get('page') ?? '1'
 
   let dadosPanda: { videos?: Array<Record<string, unknown>> }
