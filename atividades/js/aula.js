@@ -244,11 +244,6 @@ async function iniciar() {
         linkMat.rel = 'noopener';
         acoes.appendChild(linkMat);
       }
-      if (atividadeDisponivel) {
-        const linkAtiv = criarLinkRapido('✏️ Ir pra atividade', '#');
-        linkAtiv.addEventListener('click', abrirAtividade);
-        acoes.appendChild(linkAtiv);
-      }
       if (acoes.children.length > 0) cartao.appendChild(acoes);
 
       playerContainer.appendChild(cartao);
