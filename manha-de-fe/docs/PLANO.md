@@ -11,15 +11,21 @@
 - [ ] Confirmar tipo do CNPJ com o contador; se MEI, avaliar desenquadramento
       para ME no Simples (software saiu das ocupações do MEI)
 - [ ] Incluir CNAE secundário `6203-1/00` ou `6319-4/00`
-- [ ] Criar conta Google Play Console (US$ 25, única vez)
-- [ ] Criar conta Apple Developer (US$ 99/ano) — antes, verificar isenção para
-      entidade educacional/sem fins lucrativos
-- [ ] Pedir o D-U-N-S (necessário para conta Apple de empresa; demora dias)
+- [ ] **Pedir o D-U-N-S JÁ (esta semana)** — exigido por Google e Apple para
+      conta de organização; grátis para CNPJ brasileiro, mas a emissão demora
+      dias ou semanas e trava o lançamento no fim se esquecer
+- [ ] Criar conta Google Play Console **de organização, no CNPJ** (US$ 25,
+      única vez) — dispensa o teste fechado de 12 pessoas/14 dias e publica o
+      endereço da empresa em vez do da casa
+- [ ] Criar conta Apple Developer no CNPJ (US$ 99/ano) — antes, verificar
+      isenção para entidade educacional/sem fins lucrativos
 
 **Acervo (pode ser feito nesta sessão de trabalho):**
-- [ ] Selecionar e baixar as 40 faixas de música (Pixabay, Wikimedia/Musopen;
-      Suno Pro para os buracos) → cortar em 30s, converter para AAC, registrar
-      a origem/licença de cada uma em `CREDITOS.md`
+- [ ] Montar o acervo de música pela estratégia combinada (< R$ 1.000, uma
+      vez): base Pixabay/Wikimedia/Musopen + clássicos mais queridos gravados
+      por músico contratado com cessão por escrito + Suno só para buracos →
+      cortar em 30s, converter para AAC, registrar origem/licença de cada
+      faixa em `CREDITOS.md` (a "prova de direitos" que a Apple pede)
 - [ ] Selecionar ~60 obras de arte sacra em domínio público (Wikimedia) +
       gerar imagens complementares → WebP ~100 KB, registrar créditos
 - [ ] Baixar a Bíblia Livre (CC BY 4.0) e montar a base de versículos

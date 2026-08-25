@@ -133,6 +133,12 @@ O nome é o convite ao hábito: *"Você já viu sua Manhã de Fé hoje?"*
      fica nossa, para sempre, sem discussão possível. Padrão-ouro;
   2. Gravações CC0/CC-BY já existentes (Wikimedia Commons, Musopen);
   3. Geração por IA (Suno Pro) para os buracos.
+
+  **Recomendação adotada: os três combinados** — base do Pixabay/Wikimedia,
+  os clássicos mais queridos gravados por um músico contratado, e a IA só
+  para tapar buracos. Custo total abaixo de R$ 1.000, uma vez, e uma **pasta
+  de licenças documentada** — que é exatamente a "prova de direitos" que a
+  Apple pede quando desconfia.
 - **Acervo próprio (custo até R$ 60, uma vez, sem contar a opção do
   organista):**
   - Pixabay Music (uso comercial, sem crédito);
@@ -316,8 +322,28 @@ Sem tela inicial, sem menu: o app **abre direto no cartão**.
 
 ## 6. Empresa e questões fiscais (pendências fora do código)
 
-- O CNPJ do dono é da área de **educação**. Pontos levantados (a confirmar com
-  contador — **não decidir só com base nesta conversa**):
+### Decisão: contas das lojas no CNPJ (conta de organização)
+
+O dono tem CNPJ (CNAE de educação) e a decisão é usá-lo — **pode e é melhor**:
+
+- **Dispensa o teste fechado obrigatório da Google Play** (12 testadores por
+  14 dias, exigido de conta pessoal) → economiza **duas semanas paradas** no
+  cronograma;
+- **Privacidade:** app que cobra assinatura obriga a Google a publicar o
+  endereço do desenvolvedor — com CNPJ, sai o endereço da empresa, não o da
+  casa;
+- Na loja aparece o nome legal da empresa; o contrato com Apple/Google é com a
+  pessoa jurídica;
+- Contrapartida: conta de organização **exige o D-U-N-S** (identificador
+  internacional de empresa). É **gratuito** para CNPJ brasileiro, mas a
+  emissão **demora dias ou semanas** — é o tipo de coisa que trava o
+  lançamento no fim se esquecermos. **Pedir imediatamente**; o resto do
+  projeto corre em paralelo.
+
+### Pontos a confirmar com o contador
+
+Pontos levantados (a confirmar com contador — **não decidir só com base nesta
+conversa**):
   - Se for **MEI**: desenvolvimento/licenciamento de software provavelmente
     **não serve** (saiu da lista de ocupações permitidas ao MEI). Caminho
     seria desenquadrar para **ME no Simples Nacional** — nada dramático, mas é
