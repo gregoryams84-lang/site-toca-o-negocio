@@ -73,21 +73,25 @@ async function iniciar() {
     }
   }
 
-  if (aula.link_atividade && matricula) {
+  const atividadeDisponivel = !!(aula.link_atividade && matricula);
+
+  async function abrirAtividade(evento) {
+    evento.preventDefault();
+    const { data: { session: sessaoAtual } } = await supabase.auth.getSession();
+    if (!sessaoAtual) {
+      window.location.href = 'entrar.html';
+      return;
+    }
+    await supabase.from('progresso').upsert(
+      { matricula_id: matricula.id, aula_id: aula.id, atividade_iniciada: true },
+      { onConflict: 'matricula_id,aula_id' }
+    );
+    window.location.href = montarLinkAtividade(aula.link_atividade, matricula.id, aula.id, sessaoAtual.access_token);
+  }
+
+  if (atividadeDisponivel) {
     botaoAtividade.hidden = false;
-    botaoAtividade.addEventListener('click', async (evento) => {
-      evento.preventDefault();
-      const { data: { session: sessaoAtual } } = await supabase.auth.getSession();
-      if (!sessaoAtual) {
-        window.location.href = 'entrar.html';
-        return;
-      }
-      await supabase.from('progresso').upsert(
-        { matricula_id: matricula.id, aula_id: aula.id, atividade_iniciada: true },
-        { onConflict: 'matricula_id,aula_id' }
-      );
-      window.location.href = montarLinkAtividade(aula.link_atividade, matricula.id, aula.id, sessaoAtual.access_token);
-    });
+    botaoAtividade.addEventListener('click', abrirAtividade);
   }
 
   if (aula.material_pdf_url) {
@@ -187,26 +191,70 @@ async function iniciar() {
     iframe.src = url;
     iframe.allow = 'accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;';
     iframe.allowFullscreen = true;
-    iframe.width = '100%';
-    iframe.height = '480';
-    iframe.style.border = '0';
+    iframe.loading = 'lazy';
     return iframe;
+  }
+
+  function criarMolduraVideo(url) {
+    const moldura = document.createElement('div');
+    moldura.className = 'moldura-video';
+    const barra = document.createElement('div');
+    barra.className = 'moldura-video-barra';
+    barra.innerHTML = '<span class="moldura-video-pontos"><span class="moldura-video-ponto"></span><span class="moldura-video-ponto"></span><span class="moldura-video-ponto"></span></span><span class="moldura-video-marca">Toca o Negócio</span>';
+    moldura.appendChild(barra);
+    moldura.appendChild(criarIframeVideo(url));
+    return moldura;
+  }
+
+  function criarLinkRapido(texto, href) {
+    const link = document.createElement('a');
+    link.className = 'link-rapido-parte';
+    link.href = href;
+    link.textContent = texto;
+    return link;
   }
 
   if (Array.isArray(dadosVideo.partes) && dadosVideo.partes.length > 0) {
     // Aula gravada em várias partes (Gregory sobe uma de cada vez, sem
-    // saber de antemão quantas vai ter) -- cada uma vira um player com
-    // rótulo próprio, empilhados na ordem.
+    // saber de antemão quantas vai ter) -- cada uma vira um card próprio,
+    // com vídeo, material e atividade juntos, pra não empilhar tudo numa
+    // pilha só de players sem contexto.
     for (const parte of dadosVideo.partes) {
-      const rotulo = document.createElement('p');
-      rotulo.className = 'texto-video';
-      rotulo.style.fontWeight = '600';
-      rotulo.textContent = `Parte ${parte.ordem}`;
-      playerContainer.appendChild(rotulo);
-      playerContainer.appendChild(criarIframeVideo(parte.playerUrl));
+      const cartao = document.createElement('div');
+      cartao.className = 'cartao-parte';
+
+      const cabecalho = document.createElement('div');
+      cabecalho.className = 'cartao-parte-cabecalho';
+      const numero = document.createElement('span');
+      numero.className = 'cartao-parte-numero';
+      numero.textContent = String(parte.ordem);
+      const titulo = document.createElement('span');
+      titulo.className = 'cartao-parte-titulo';
+      titulo.textContent = parte.titulo ? parte.titulo : `Parte ${parte.ordem}`;
+      cabecalho.append(numero, titulo);
+      cartao.appendChild(cabecalho);
+
+      cartao.appendChild(criarMolduraVideo(parte.playerUrl));
+
+      const acoes = document.createElement('div');
+      acoes.className = 'cartao-parte-acoes';
+      if (aula.material_pdf_url) {
+        const linkMat = criarLinkRapido('📄 Material de apoio', aula.material_pdf_url);
+        linkMat.target = '_blank';
+        linkMat.rel = 'noopener';
+        acoes.appendChild(linkMat);
+      }
+      if (atividadeDisponivel) {
+        const linkAtiv = criarLinkRapido('✏️ Ir pra atividade', '#');
+        linkAtiv.addEventListener('click', abrirAtividade);
+        acoes.appendChild(linkAtiv);
+      }
+      if (acoes.children.length > 0) cartao.appendChild(acoes);
+
+      playerContainer.appendChild(cartao);
     }
   } else if (dadosVideo.playerUrl) {
-    playerContainer.appendChild(criarIframeVideo(dadosVideo.playerUrl));
+    playerContainer.appendChild(criarMolduraVideo(dadosVideo.playerUrl));
   } else {
     mensagemVideo.textContent = 'Não foi possível carregar o vídeo agora. Tente novamente em instantes.';
     return;

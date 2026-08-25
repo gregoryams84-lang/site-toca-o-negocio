@@ -294,19 +294,156 @@ p {
   color: var(--neutro);
 }
 
-.player-video {
+.lista-partes {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   margin: 24px 0;
-  max-width: 100%;
-}
-
-.player-video iframe {
-  max-width: 100%;
-  aspect-ratio: 16 / 9;
-  height: auto;
 }
 
 .texto-video {
   color: var(--neutro);
+}
+
+.titulo-acoes-aula {
+  font-family: var(--fonte-display);
+  color: var(--verde);
+  font-size: 19px;
+  margin: 32px 0 4px;
+}
+
+/* ---- Cards por parte (aula gravada em vídeos separados) ---- */
+.cartao-parte {
+  background: #FFFFFF;
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(22, 25, 28, 0.05);
+  overflow: hidden;
+}
+
+.cartao-parte-cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+}
+
+.cartao-parte-numero {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--verde);
+  color: #FFFFFF;
+  font-family: var(--fonte-display);
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cartao-parte-titulo {
+  font-family: var(--fonte-display);
+  font-weight: 600;
+  color: var(--verde);
+  font-size: 16px;
+}
+
+.cartao-parte-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 14px 20px 18px;
+  border-top: 1px solid var(--borda);
+}
+
+.link-rapido-parte {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--verde);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link-rapido-parte:hover {
+  text-decoration: underline;
+}
+
+/* ---- Moldura do player: cada vídeo ganha uma "cabine" própria ---- */
+.moldura-video {
+  position: relative;
+  padding: 8px 10px 14px;
+  background: linear-gradient(160deg, #0F3A2B, #1E7350);
+  overflow: hidden;
+}
+
+.moldura-video::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--dourado-brilho), transparent);
+}
+
+.moldura-video::after {
+  content: "";
+  position: absolute;
+  right: -30px;
+  bottom: -30px;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--dourado-brilho) 35%, transparent);
+  pointer-events: none;
+}
+
+.moldura-video-barra {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 6px 4px 10px;
+}
+
+.moldura-video-pontos {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.moldura-video-ponto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.moldura-video-marca {
+  font-family: var(--fonte-display);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--dourado-brilho) 70%, #FFFFFF);
+}
+
+.moldura-video iframe {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(15, 58, 43, 0.35);
 }
 
 #botao-atividade[hidden] {

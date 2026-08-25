@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
 
   const { data: aula, error: erroAula } = await supabase
     .from('aulas')
-    .select('id, titulo, panda_video_id, panda_video_ids')
+    .select('id, titulo, panda_video_id, partes')
     .eq('id', aulaId)
     .single()
 
@@ -66,13 +66,13 @@ Deno.serve(async (req) => {
     return respostaJson({ erro: 'sem_acesso' }, 403)
   }
 
-  const idsPartes: string[] = aula.panda_video_ids && aula.panda_video_ids.length > 0
-    ? aula.panda_video_ids
+  const partesDaAula: Array<{ video_id: string; titulo: string }> = aula.partes && aula.partes.length > 0
+    ? aula.partes
     : aula.panda_video_id
-      ? [aula.panda_video_id]
+      ? [{ video_id: aula.panda_video_id, titulo: '' }]
       : []
 
-  if (idsPartes.length === 0) {
+  if (partesDaAula.length === 0) {
     return respostaJson({ semVideo: true }, 200)
   }
 
@@ -126,16 +126,17 @@ Deno.serve(async (req) => {
     return `${dadosPanda.video_player}&watermark=${token}`
   }
 
-  if (idsPartes.length === 1) {
-    const playerUrl = await gerarPlayerUrl(idsPartes[0], '')
+  if (partesDaAula.length === 1) {
+    const playerUrl = await gerarPlayerUrl(partesDaAula[0].video_id, '')
     if (!playerUrl) return respostaJson({ erro: 'falha_panda' }, 502)
     return respostaJson({ playerUrl }, 200)
   }
 
   const partes = await Promise.all(
-    idsPartes.map(async (externalId, indice) => ({
+    partesDaAula.map(async (parte, indice) => ({
       ordem: indice + 1,
-      playerUrl: await gerarPlayerUrl(externalId, ` (parte ${indice + 1})`),
+      titulo: parte.titulo,
+      playerUrl: await gerarPlayerUrl(parte.video_id, ` (parte ${indice + 1})`),
     }))
   )
 
