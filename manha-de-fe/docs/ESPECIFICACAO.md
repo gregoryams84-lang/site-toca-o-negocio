@@ -101,7 +101,40 @@ O nome é o convite ao hábito: *"Você já viu sua Manhã de Fé hoje?"*
   política da Google Play cita literalmente "apps com botões que tocam trechos
   de conteúdo protegido" como violação — exatamente o nosso formato.
 - **Nada de Padre Marcelo, Canção Nova ou Shalom — nem 5 segundos.**
-- **Acervo próprio (custo até R$ 60, uma vez):**
+- **Cantar na missa ≠ colocar no app.** Cantar na celebração é execução ao
+  vivo numa liturgia (propósito da obra, nunca alvo de cobrança na prática);
+  colocar a gravação num app pago é reprodução + distribuição + execução
+  pública, com autorização obrigatória. O Brasil inteiro cantar um canto toda
+  semana não o torna livre — torna-o *famoso*, o que aumenta a chance de a
+  editora perceber e denunciar.
+- **Cada música tem dois direitos separados, e os dois precisam estar livres:**
+  1. **A obra** (melodia e letra) — 70 anos após a morte do autor;
+  2. **A gravação** (aquela execução específica do coro/cantor) — 70 anos a
+     contar da gravação (art. 96). Ex.: a Ave Maria de Schubert é livre (ele
+     morreu em 1828), mas o CD de um coral de 2018 achado no YouTube é
+     protegido até 2089 — baixar de lá e pôr no app é infração, mesmo a
+     música sendo de domínio público.
+- **O que não podemos usar:** Pescador de Homens, A Barca; cantos do
+  Pe. Zezinho, Ir. Miria Kolling, Pe. Fábio; hinários da CNBB e cantos da
+  Campanha da Fraternidade; Padre Marcelo Rossi, Canção Nova, Shalom; versões
+  **em português** de hinos antigos.
+- **O que podemos usar (a melodia é livre):** Ave Maria, Ave Verum Corpus,
+  Panis Angelicus, Salve Regina, Ave Maris Stella, Veni Creator, Tantum Ergo,
+  Pange Lingua, Adeste Fideles, Noite Feliz, canto gregoriano em geral.
+  E a coisa boa: **esse é exatamente o repertório que o público ama** — a
+  senhora de 75 anos cresceu ouvindo Ave Maria em casamento, Tantum Ergo na
+  bênção do Santíssimo e gregoriano na missa da juventude dela. Um app com
+  essa trilha soa mais reverente e mais caro do que um com música católica
+  pop de rádio — conversa direto com o "encantador".
+- **Como resolver as gravações (do melhor para o mais rápido):**
+  1. **Gravar as nossas próprias versões** — contratar um organista ou
+     tecladista de paróquia por um dia (R$ 300–800 no Brasil) para tocar ~20
+     melodias tradicionais, com **cessão de direitos por escrito**. A gravação
+     fica nossa, para sempre, sem discussão possível. Padrão-ouro;
+  2. Gravações CC0/CC-BY já existentes (Wikimedia Commons, Musopen);
+  3. Geração por IA (Suno Pro) para os buracos.
+- **Acervo próprio (custo até R$ 60, uma vez, sem contar a opção do
+  organista):**
   - Pixabay Music (uso comercial, sem crédito);
   - Gravações CC0/CC-BY do Wikimedia/Musopen — Ave Maria (Schubert e Gounod),
     Ave Verum (Mozart), Panis Angelicus, Tantum Ergo, gregoriano de verdade;
