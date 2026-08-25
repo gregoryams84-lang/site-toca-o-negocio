@@ -283,6 +283,13 @@ p {
   margin-top: 16px;
 }
 
+.links-externos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
 .lista-aulas-trilha .aula-em-breve {
   color: var(--neutro);
 }

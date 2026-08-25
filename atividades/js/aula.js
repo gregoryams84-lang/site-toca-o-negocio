@@ -8,7 +8,7 @@ const playerContainer = document.getElementById('player-video');
 const mensagemVideo = document.getElementById('mensagem-video');
 const botaoAtividade = document.getElementById('botao-atividade');
 const linkMaterial = document.getElementById('link-material');
-const linkExterno = document.getElementById('link-externo');
+const linksExternosContainer = document.getElementById('links-externos');
 const botaoConcluir = document.getElementById('botao-concluir');
 const avisoPendencia = document.getElementById('aula-pendencia-aviso');
 const avisoConcluida = document.getElementById('aula-concluida-aviso');
@@ -37,7 +37,7 @@ async function iniciar() {
 
   const { data: aula, error: erroAula } = await supabase
     .from('aulas')
-    .select('id, titulo, trilha_id, link_atividade, material_pdf_url, link_externo_url, link_externo_texto')
+    .select('id, titulo, trilha_id, link_atividade, material_pdf_url, links_externos')
     .eq('id', aulaId)
     .single();
 
@@ -95,10 +95,16 @@ async function iniciar() {
     linkMaterial.hidden = false;
   }
 
-  if (aula.link_externo_url) {
-    linkExterno.href = aula.link_externo_url;
-    linkExterno.textContent = aula.link_externo_texto || 'Link da aula';
-    linkExterno.hidden = false;
+  if (Array.isArray(aula.links_externos)) {
+    for (const link of aula.links_externos) {
+      const elemento = document.createElement('a');
+      elemento.className = 'botao botao-secundario';
+      elemento.href = link.url;
+      elemento.textContent = link.texto || 'Link da aula';
+      elemento.target = '_blank';
+      elemento.rel = 'noopener';
+      linksExternosContainer.appendChild(elemento);
+    }
   }
 
   if (matricula) {
