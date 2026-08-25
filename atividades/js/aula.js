@@ -8,6 +8,7 @@ const playerContainer = document.getElementById('player-video');
 const mensagemVideo = document.getElementById('mensagem-video');
 const botaoAtividade = document.getElementById('botao-atividade');
 const linkMaterial = document.getElementById('link-material');
+const linkExterno = document.getElementById('link-externo');
 const botaoConcluir = document.getElementById('botao-concluir');
 const avisoPendencia = document.getElementById('aula-pendencia-aviso');
 const avisoConcluida = document.getElementById('aula-concluida-aviso');
@@ -36,7 +37,7 @@ async function iniciar() {
 
   const { data: aula, error: erroAula } = await supabase
     .from('aulas')
-    .select('id, titulo, trilha_id, link_atividade, material_pdf_url')
+    .select('id, titulo, trilha_id, link_atividade, material_pdf_url, link_externo_url, link_externo_texto')
     .eq('id', aulaId)
     .single();
 
@@ -92,6 +93,12 @@ async function iniciar() {
   if (aula.material_pdf_url) {
     linkMaterial.href = aula.material_pdf_url;
     linkMaterial.hidden = false;
+  }
+
+  if (aula.link_externo_url) {
+    linkExterno.href = aula.link_externo_url;
+    linkExterno.textContent = aula.link_externo_texto || 'Link da aula';
+    linkExterno.hidden = false;
   }
 
   if (matricula) {
