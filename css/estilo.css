@@ -929,6 +929,120 @@ a.plano-card:hover {
   font-size: 15px;
 }
 
+/* ---- Trilha completa: timeline de aulas (topo da página de trilha) ---- */
+.trilha-completa-secao {
+  background: var(--papel);
+}
+
+.trilha-completa-eyebrow {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ambar);
+  margin: 0 0 8px;
+}
+
+.trilha-completa-secao h2 {
+  margin-bottom: 12px;
+}
+
+.trilha-completa-intro {
+  max-width: 640px;
+  color: var(--neutro);
+  margin-bottom: 36px;
+}
+
+.trilha-completa-lista {
+  list-style: none;
+  margin: 0 0 36px;
+  padding: 0;
+}
+
+.trilha-completa-item {
+  display: flex;
+  gap: 20px;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.trilha-completa-item:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 23px;
+  top: 48px;
+  bottom: 0;
+  width: 2px;
+  background: var(--borda);
+}
+
+.trilha-completa-marca {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--verde);
+  color: #FFFFFF;
+  font-family: var(--fonte-display);
+  font-weight: 700;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.trilha-completa-corpo {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 18px 24px;
+  margin-top: 2px;
+  box-shadow: 0 2px 10px rgba(22, 25, 28, 0.05);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.trilha-completa-corpo:hover {
+  box-shadow: 0 6px 20px rgba(22, 25, 28, 0.08);
+  transform: translateY(-2px);
+}
+
+.trilha-completa-corpo h3 {
+  font-family: var(--fonte-display);
+  color: var(--verde);
+  font-size: 19px;
+  margin: 0 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.trilha-completa-corpo p {
+  color: var(--tinta);
+  margin: 0;
+  font-size: 15px;
+}
+
+.trilha-completa-tag {
+  display: inline-block;
+  font-family: var(--fonte-base);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--verde);
+  background: color-mix(in srgb, var(--verde) 12%, #FFFFFF);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
+.trilha-completa-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
 /* ---- Ações do cabeçalho ---- */
 .cabecalho-acoes {
   display: flex;
