@@ -48,7 +48,7 @@ let trilhas = [];
 let planoSelecionado = null;
 let trilhaIdsSelecionadas = [];
 
-const { data: trilhasCarregadas, error: erroTrilhas } = await supabase.from('trilhas').select('id, nome');
+const { data: trilhasCarregadas, error: erroTrilhas } = await supabase.from('trilhas').select('id, nome').order('ordem');
 
 if (erroTrilhas) {
   console.error('Falha ao buscar trilhas', erroTrilhas);
