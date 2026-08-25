@@ -169,19 +169,35 @@ async function iniciar() {
     return;
   }
 
-  if (!dadosVideo.playerUrl) {
+  function criarIframeVideo(url) {
+    const iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.allow = 'accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;';
+    iframe.allowFullscreen = true;
+    iframe.width = '100%';
+    iframe.height = '480';
+    iframe.style.border = '0';
+    return iframe;
+  }
+
+  if (Array.isArray(dadosVideo.partes) && dadosVideo.partes.length > 0) {
+    // Aula gravada em várias partes (Gregory sobe uma de cada vez, sem
+    // saber de antemão quantas vai ter) -- cada uma vira um player com
+    // rótulo próprio, empilhados na ordem.
+    for (const parte of dadosVideo.partes) {
+      const rotulo = document.createElement('p');
+      rotulo.className = 'texto-video';
+      rotulo.style.fontWeight = '600';
+      rotulo.textContent = `Parte ${parte.ordem}`;
+      playerContainer.appendChild(rotulo);
+      playerContainer.appendChild(criarIframeVideo(parte.playerUrl));
+    }
+  } else if (dadosVideo.playerUrl) {
+    playerContainer.appendChild(criarIframeVideo(dadosVideo.playerUrl));
+  } else {
     mensagemVideo.textContent = 'Não foi possível carregar o vídeo agora. Tente novamente em instantes.';
     return;
   }
-
-  const iframe = document.createElement('iframe');
-  iframe.src = dadosVideo.playerUrl;
-  iframe.allow = 'accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;';
-  iframe.allowFullscreen = true;
-  iframe.width = '100%';
-  iframe.height = '480';
-  iframe.style.border = '0';
-  playerContainer.appendChild(iframe);
 
   videoCarregado = true;
   tentarLiberarBotaoConcluir();

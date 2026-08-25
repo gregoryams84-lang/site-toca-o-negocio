@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
 
   const { data: aula, error: erroAula } = await supabase
     .from('aulas')
-    .select('id, titulo, panda_video_id')
+    .select('id, titulo, panda_video_id, panda_video_ids')
     .eq('id', aulaId)
     .single()
 
@@ -66,7 +66,13 @@ Deno.serve(async (req) => {
     return respostaJson({ erro: 'sem_acesso' }, 403)
   }
 
-  if (!aula.panda_video_id) {
+  const idsPartes: string[] = aula.panda_video_ids && aula.panda_video_ids.length > 0
+    ? aula.panda_video_ids
+    : aula.panda_video_id
+      ? [aula.panda_video_id]
+      : []
+
+  if (idsPartes.length === 0) {
     return respostaJson({ semVideo: true }, 200)
   }
 
@@ -82,45 +88,60 @@ Deno.serve(async (req) => {
     .eq('id', usuario.id)
     .single()
   const nomeAluno = perfil?.nome ?? usuario.email ?? 'Aluno'
-
-  // aulas.panda_video_id armazena o video_external_id do Panda (não o id interno).
-  // A API do Panda exige a flag `?external_id` na URL para aceitar essa busca por
-  // external id (confirmado ao vivo: sem essa flag, o endpoint responde 404
-  // mesmo com um video_external_id válido — ver docs.pandavideo.com/reference/get-video-properties).
-  let dadosPanda: { video_player?: string }
-  try {
-    const respostaPanda = await fetch(`https://api-v2.pandavideo.com.br/videos/${aula.panda_video_id}?external_id`, {
-      headers: { Authorization: PANDA_API_TOKEN },
-    })
-
-    if (!respostaPanda.ok) {
-      return respostaJson({ erro: 'falha_panda' }, 502)
-    }
-
-    dadosPanda = await respostaPanda.json()
-  } catch {
-    return respostaJson({ erro: 'falha_panda' }, 502)
-  }
-
-  if (!dadosPanda.video_player) {
-    return respostaJson({ erro: 'falha_panda' }, 502)
-  }
+  const emailUsuario = usuario.email
+  const tituloAula = aula.titulo
 
   const chave = await importarChaveHmac(PANDA_DRM_SECRET)
-  const agora = Math.floor(Date.now() / 1000)
-  const token = await create(
-    { alg: 'HS256', typ: 'JWT' },
-    {
-      drm_group_id: PANDA_DRM_GROUP_ID,
-      string1: `Aula: ${aula.titulo}`,
-      string2: `Nome: ${nomeAluno}`,
-      string3: `E-mail: ${usuario.email}`,
-      exp: agora + 3600,
-    },
-    chave
+
+  // panda_video_id/panda_video_ids armazenam o video_external_id do Panda
+  // (não o id interno). A API do Panda exige a flag `?external_id` na URL
+  // para aceitar essa busca por external id (confirmado ao vivo: sem essa
+  // flag, o endpoint responde 404 mesmo com um video_external_id válido —
+  // ver docs.pandavideo.com/reference/get-video-properties).
+  async function gerarPlayerUrl(externalId: string, rotuloParte: string): Promise<string | null> {
+    let dadosPanda: { video_player?: string }
+    try {
+      const respostaPanda = await fetch(`https://api-v2.pandavideo.com.br/videos/${externalId}?external_id`, {
+        headers: { Authorization: PANDA_API_TOKEN },
+      })
+      if (!respostaPanda.ok) return null
+      dadosPanda = await respostaPanda.json()
+    } catch {
+      return null
+    }
+    if (!dadosPanda.video_player) return null
+
+    const agora = Math.floor(Date.now() / 1000)
+    const token = await create(
+      { alg: 'HS256', typ: 'JWT' },
+      {
+        drm_group_id: PANDA_DRM_GROUP_ID,
+        string1: `Aula: ${tituloAula}${rotuloParte}`,
+        string2: `Nome: ${nomeAluno}`,
+        string3: `E-mail: ${emailUsuario}`,
+        exp: agora + 3600,
+      },
+      chave
+    )
+    return `${dadosPanda.video_player}&watermark=${token}`
+  }
+
+  if (idsPartes.length === 1) {
+    const playerUrl = await gerarPlayerUrl(idsPartes[0], '')
+    if (!playerUrl) return respostaJson({ erro: 'falha_panda' }, 502)
+    return respostaJson({ playerUrl }, 200)
+  }
+
+  const partes = await Promise.all(
+    idsPartes.map(async (externalId, indice) => ({
+      ordem: indice + 1,
+      playerUrl: await gerarPlayerUrl(externalId, ` (parte ${indice + 1})`),
+    }))
   )
 
-  const playerUrl = `${dadosPanda.video_player}&watermark=${token}`
+  if (partes.some((parte) => !parte.playerUrl)) {
+    return respostaJson({ erro: 'falha_panda' }, 502)
+  }
 
-  return respostaJson({ playerUrl }, 200)
+  return respostaJson({ partes }, 200)
 })
