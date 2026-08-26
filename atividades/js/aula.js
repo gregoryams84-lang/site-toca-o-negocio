@@ -214,6 +214,40 @@ async function iniciar() {
     return link;
   }
 
+  function criarBlocoCodigo(codigo, tituloCodigo) {
+    const bloco = document.createElement('div');
+    bloco.className = 'cartao-parte-codigo';
+
+    const cabecalho = document.createElement('div');
+    cabecalho.className = 'cartao-parte-codigo-cabecalho';
+    const titulo = document.createElement('span');
+    titulo.className = 'cartao-parte-codigo-titulo';
+    titulo.textContent = tituloCodigo || 'Código pra copiar';
+    const botaoCopiar = document.createElement('button');
+    botaoCopiar.type = 'button';
+    botaoCopiar.className = 'cartao-parte-codigo-copiar';
+    botaoCopiar.textContent = 'Copiar';
+    botaoCopiar.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(codigo);
+        botaoCopiar.textContent = 'Copiado!';
+      } catch {
+        botaoCopiar.textContent = 'Não foi possível copiar';
+      }
+      setTimeout(() => { botaoCopiar.textContent = 'Copiar'; }, 2000);
+    });
+    cabecalho.append(titulo, botaoCopiar);
+    bloco.appendChild(cabecalho);
+
+    const pre = document.createElement('pre');
+    const codeEl = document.createElement('code');
+    codeEl.textContent = codigo;
+    pre.appendChild(codeEl);
+    bloco.appendChild(pre);
+
+    return bloco;
+  }
+
   if (Array.isArray(dadosVideo.partes) && dadosVideo.partes.length > 0) {
     // Aula gravada em várias partes (Gregory sobe uma de cada vez, sem
     // saber de antemão quantas vai ter) -- cada uma vira um card próprio,
@@ -235,6 +269,10 @@ async function iniciar() {
       cartao.appendChild(cabecalho);
 
       cartao.appendChild(criarMolduraVideo(parte.playerUrl));
+
+      if (parte.codigo) {
+        cartao.appendChild(criarBlocoCodigo(parte.codigo, parte.codigoTitulo));
+      }
 
       const acoes = document.createElement('div');
       acoes.className = 'cartao-parte-acoes';

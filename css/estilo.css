@@ -373,6 +373,64 @@ p {
   text-decoration: underline;
 }
 
+/* ---- Quadro de código copiável (ex.: configuração do mcp.json) ---- */
+.cartao-parte-codigo {
+  margin: 0 20px 18px;
+  background: #0F1613;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.cartao-parte-codigo-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  background: color-mix(in srgb, var(--verde) 55%, #0F1613);
+}
+
+.cartao-parte-codigo-titulo {
+  font-family: var(--fonte-base);
+  font-weight: 600;
+  font-size: 13px;
+  color: #FFFFFF;
+}
+
+.cartao-parte-codigo-copiar {
+  flex: 0 0 auto;
+  border: 1px solid color-mix(in srgb, #FFFFFF 30%, transparent);
+  background: transparent;
+  color: #FFFFFF;
+  font-family: var(--fonte-base);
+  font-weight: 600;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.cartao-parte-codigo-copiar:hover {
+  background: color-mix(in srgb, #FFFFFF 15%, transparent);
+}
+
+.cartao-parte-codigo pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.cartao-parte-codigo code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #D9E5DD;
+  white-space: pre;
+}
+
 /* ---- Moldura do player: cada vídeo ganha uma "cabine" própria ---- */
 .moldura-video {
   position: relative;

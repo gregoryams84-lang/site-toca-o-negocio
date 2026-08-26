@@ -66,7 +66,7 @@ Deno.serve(async (req) => {
     return respostaJson({ erro: 'sem_acesso' }, 403)
   }
 
-  const partesDaAula: Array<{ video_id: string; titulo: string }> = aula.partes && aula.partes.length > 0
+  const partesDaAula: Array<{ video_id: string; titulo: string; codigo?: string; codigo_titulo?: string }> = aula.partes && aula.partes.length > 0
     ? aula.partes
     : aula.panda_video_id
       ? [{ video_id: aula.panda_video_id, titulo: '' }]
@@ -136,6 +136,8 @@ Deno.serve(async (req) => {
     partesDaAula.map(async (parte, indice) => ({
       ordem: indice + 1,
       titulo: parte.titulo,
+      codigo: parte.codigo,
+      codigoTitulo: parte.codigo_titulo,
       playerUrl: await gerarPlayerUrl(parte.video_id, ` (parte ${indice + 1})`),
     }))
   )
