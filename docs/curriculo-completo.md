@@ -36,21 +36,22 @@ Nível iniciante da vida toda do negócio. Sem pré-requisito.
 
 ## Trilha 2 — Vender pela internet e pelo WhatsApp (`trilha-vendas`)
 
-Progressão em 3 níveis: presença → conteúdo → automação.
+Redefinida em 2026-08-27 (4 aulas, não mais 6) — encadeada direto com o
+agente Chatvolt montado na Aula 4 da Trilha 1. Nenhuma aula gravada
+ainda.
 
-1. **Perfil que vende sem gastar** *(básico)* — estruturar Instagram/
-   Facebook com ajuda de IA.
-2. **WhatsApp Business configurado direito** *(básico)* — catálogo,
-   mensagem automática, organização de conversa.
-3. **Conteúdo com IA que não parece IA** *(intermediário)* — texto,
-   imagem e legenda mantendo a voz do negócio.
-4. **Rotina de postagem sem travar** *(intermediário)* — banco de
-   ideias e calendário semanal.
-5. **Automatizando a postagem com n8n** *(profissional)* — fluxo básico
-   de automação (gerar, agendar, publicar).
-6. **Um agente que atende por você** *(profissional)* — resposta
-   automática de IA no WhatsApp/Messenger/Direct, com regra de quando
-   passa pra humano.
+1. **Deixe seu Instagram e Facebook prontos pra aprovação da Meta** —
+   Página do Facebook completa, Instagram profissional, os dois
+   vinculados — os requisitos que a Meta cobra antes de aprovar
+   WhatsApp Business.
+2. **Cadastre o WhatsApp na Meta e conecte o agente** — cadastro do
+   WhatsApp Business e conexão do agente da Trilha 1 ao WhatsApp e ao
+   Instagram.
+3. **Automação de conteúdo pras redes sociais** — montar uma automação
+   que gera lote de conteúdo pra postar, com aprovação do dono antes de
+   publicar.
+4. **Fechamento e próximo passo: Formalização da empresa** — recap do
+   que ficou pronto e chamado pra Trilha 3.
 
 ## Trilha 3 — Formalizar e manter a empresa em dia (`trilha-formalizacao`)
 
