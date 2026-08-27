@@ -1,8 +1,10 @@
 # Currículo completo — Toca o Negócio
 
 Referência única das 4 trilhas do curso. Conteúdo escrito (roteiro +
-atividade interativa + PDF) está completo e revisado pras 24 aulas.
-Repositório do conteúdo: `app-atividades-curso`
+atividade interativa + PDF) foi originalmente planejado pras 24 aulas,
+mas as aulas 1-3 da Trilha 1 já foram regravadas com conteúdo real
+(diferente do plano original) — as aulas realmente gravadas sempre têm
+prioridade sobre este resumo. Repositório do conteúdo: `app-atividades-curso`
 (`dados/<trilha>/aula-0N.json`, `conteudo/<trilha>/aula-0N-roteiro.md`,
 `conteudo/<trilha>/aula-0N-pdf.md`).
 
@@ -10,15 +12,21 @@ Repositório do conteúdo: `app-atividades-curso`
 
 Nível iniciante da vida toda do negócio. Sem pré-requisito.
 
-1. **Você já usa IA. O problema é como.** — reconhecer, pelas três
-   perguntas, se uma tarefa do negócio vale a pena automatizar.
-2. **As ferramentas que cabem no bolso** — identificar qual tipo de
-   ferramenta de IA serve pra qual tipo de tarefa, testando na prática.
-3. **Fazendo a IA trabalhar por você** — montar um pedido reutilizável
-   (contexto, tarefa, formato, exemplo) e melhorá-lo por iteração.
-4. **Atendimento sem parecer robô** — revisar uma resposta de IA
-   genérica até soar como o próprio dono, e saber quando a revisão
-   manual é obrigatória.
+1. **Os 3 agentes que tocam meu negócio por mim** (grátis) — reconhecer
+   os pontos do negócio onde um agente de IA pode assumir o trabalho
+   repetitivo, e o que continua sendo só do dono.
+2. **Preparando seu computador pra usar IA de verdade** — verificar o
+   Windows 11 Pro, instalar o Claude Pro, criar conta no GitHub e
+   conectar o VS Code.
+3. **MCPs e Skills: o Claude com superpoderes** — entender o que são
+   MCPs e Skills, cadastrar e instalar as principais ferramentas (3
+   kits), configurar tudo no VS Code, e colocar a mão na massa criando
+   um site do zero. 9 vídeos, aula finalizada.
+4. **Monte seu agente de atendimento no WhatsApp** — configurar do zero
+   um agente de IA real no Chatvolt, conectado ao WhatsApp do negócio,
+   com base de conhecimento própria e testado. 5 vídeos planejados
+   (apresentação, Chatvolt, criar agente, base de conhecimento, teste)
+   — ainda não gravada.
 5. **Organização da rotina** — usar IA em tarefas de fundo (agenda,
    cobrança, rascunho) sem aparecer pro cliente.
 6. **O que não é pra delegar** — limites do uso de IA; fecha com um
