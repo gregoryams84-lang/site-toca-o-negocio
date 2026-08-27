@@ -59,6 +59,11 @@ function renderizarAulas(container, aulas, idsConcluidos) {
     status.innerHTML = concluida ? ICONE_STATUS_CONCLUIDA : ICONE_STATUS_PENDENTE;
     item.appendChild(status);
 
+    const indice = document.createElement('span');
+    indice.className = 'aula-item-indice';
+    indice.textContent = `Aula ${aula.ordem}`;
+    item.appendChild(indice);
+
     const link = document.createElement('a');
     link.href = `aula.html?aula_id=${aula.id}`;
     link.textContent = aula.titulo;
@@ -85,7 +90,7 @@ if (!session) {
   const { data: matriculas, error } = await supabase
     .from('matriculas')
     .select(
-      'id, status, data_expiracao, trilhas ( nome, descricao, carga_horaria_horas, aulas ( id, titulo, ordem, link_atividade ) )'
+      'id, status, data_expiracao, trilhas ( nome, descricao, carga_horaria_horas, ordem, aulas ( id, titulo, ordem, link_atividade ) )'
     )
     .eq('status', 'ativa');
 
@@ -99,6 +104,12 @@ if (!session) {
       try {
         const item = document.createElement('article');
         item.className = 'trilha-card';
+        if (matricula.trilhas.ordem) {
+          const eyebrow = document.createElement('p');
+          eyebrow.className = 'trilha-card-eyebrow';
+          eyebrow.textContent = `Trilha ${matricula.trilhas.ordem}`;
+          item.appendChild(eyebrow);
+        }
         const titulo = document.createElement('h3');
         titulo.textContent = matricula.trilhas.nome;
         const descricao = document.createElement('p');

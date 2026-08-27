@@ -146,6 +146,15 @@ p {
   box-shadow: 0 4px 16px rgba(20, 81, 60, 0.1);
 }
 
+.trilha-card-eyebrow {
+  color: var(--terracota);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+}
+
 .trilha-card h3, .passo-card h3 {
   color: var(--verde);
 }
@@ -215,6 +224,15 @@ p {
 
 .aula-item--concluida .aula-item-status {
   color: var(--verde);
+}
+
+.aula-item-indice {
+  flex: none;
+  color: var(--terracota);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 .aula-item a {
