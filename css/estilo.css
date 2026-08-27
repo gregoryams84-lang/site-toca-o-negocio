@@ -210,6 +210,16 @@ p {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  background: #FFFFFF;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.aula-item:hover {
+  border-color: var(--verde);
+  box-shadow: 0 2px 8px rgba(22, 25, 28, 0.06);
 }
 
 .aula-item-status {
@@ -224,6 +234,11 @@ p {
 
 .aula-item--concluida .aula-item-status {
   color: var(--verde);
+}
+
+.aula-item--concluida {
+  border-color: color-mix(in srgb, var(--verde) 25%, var(--borda));
+  background: color-mix(in srgb, var(--verde) 3%, #FFFFFF);
 }
 
 .aula-item-indice {
