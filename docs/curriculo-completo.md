@@ -27,10 +27,12 @@ Nível iniciante da vida toda do negócio. Sem pré-requisito.
    com base de conhecimento própria e testado. 5 vídeos planejados
    (apresentação, Chatvolt, criar agente, base de conhecimento, teste)
    — ainda não gravada.
-5. **Organização da rotina** — usar IA em tarefas de fundo (agenda,
-   cobrança, rascunho) sem aparecer pro cliente.
-6. **O que não é pra delegar** — limites do uso de IA; fecha com um
-   mini-plano de uso de IA pro próprio negócio.
+5. **Automatize o que acontece por trás do agente** — entender o n8n e
+   usar pra automatizar o que acontece depois da conversa com o agente
+   de WhatsApp da Aula 4. 3 vídeos planejados (apresentação, conceito
+   n8n, automação pro agente) — ainda não gravada. **Fecha a trilha**
+   (a Trilha 1 agora tem 5 aulas, não 6 — a antiga Aula 6 "O que não é
+   pra delegar" foi removida do plano em 2026-08-27).
 
 ## Trilha 2 — Vender pela internet e pelo WhatsApp (`trilha-vendas`)
 
