@@ -684,15 +684,42 @@ p {
 }
 
 /* ---- Páginas de trilha (pilar) ---- */
-.trilha-breadcrumb {
-  font-size: 14px;
-  color: var(--neutro);
-  margin-bottom: 16px;
+.trilha-topo-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
-.trilha-breadcrumb a {
+.botao-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1.5px solid var(--verde);
+  border-radius: 8px;
   color: var(--verde);
-  text-decoration: underline;
+  background: transparent;
+  font-family: var(--fonte-base);
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.botao-voltar:hover {
+  background: color-mix(in srgb, var(--verde) 8%, var(--papel));
+}
+
+.botao-voltar svg {
+  flex: 0 0 auto;
+}
+
+.trilha-breadcrumb-atual {
+  font-size: 14px;
+  color: var(--neutro);
+  margin: 0;
 }
 
 .trilha-hero {
