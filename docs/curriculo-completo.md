@@ -23,7 +23,7 @@ horária do certificado: 80 horas.
    MCPs e Skills, cadastrar e instalar as principais ferramentas (3
    kits), configurar tudo no VS Code, e colocar a mão na massa criando
    um site do zero. 9 vídeos.
-4. **Monte seu agente de atendimento no WhatsApp** — criar do zero, no
+4. **Crie Funcionários** — criar do zero, no
    Chatvolt, um agente de IA treinado com informação real do negócio,
    publicado e testado (exemplo prático: Pizzaria Nona). 4 vídeos.
 5. **Automatize a criação do seu conteúdo** — montar no n8n, sem
