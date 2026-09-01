@@ -2,37 +2,36 @@
 
 Referência única das 4 trilhas do curso. Conteúdo escrito (roteiro +
 atividade interativa + PDF) foi originalmente planejado pras 24 aulas,
-mas as aulas 1-3 da Trilha 1 já foram regravadas com conteúdo real
+mas as aulas da Trilha 1 já foram todas regravadas com conteúdo real
 (diferente do plano original) — as aulas realmente gravadas sempre têm
 prioridade sobre este resumo. Repositório do conteúdo: `app-atividades-curso`
 (`dados/<trilha>/aula-0N.json`, `conteudo/<trilha>/aula-0N-roteiro.md`,
 `conteudo/<trilha>/aula-0N-pdf.md`).
 
-## Trilha 1 — IA no Negócio (`trilha-ia`)
+## Trilha 1 — IA no Negócio (`trilha-ia`) — TRILHA COMPLETA (finalizada em 2026-09-01)
 
-Nível iniciante da vida toda do negócio. Sem pré-requisito.
+Nível iniciante da vida toda do negócio. Sem pré-requisito. Carga
+horária do certificado: 80 horas.
 
 1. **Os 3 agentes que tocam meu negócio por mim** (grátis) — reconhecer
    os pontos do negócio onde um agente de IA pode assumir o trabalho
    repetitivo, e o que continua sendo só do dono.
 2. **Preparando seu computador pra usar IA de verdade** — verificar o
    Windows 11 Pro, instalar o Claude Pro, criar conta no GitHub e
-   conectar o VS Code.
+   conectar o VS Code. 8 vídeos.
 3. **MCPs e Skills: o Claude com superpoderes** — entender o que são
    MCPs e Skills, cadastrar e instalar as principais ferramentas (3
    kits), configurar tudo no VS Code, e colocar a mão na massa criando
-   um site do zero. 9 vídeos, aula finalizada.
-4. **Monte seu agente de atendimento no WhatsApp** — configurar do zero
-   um agente de IA real no Chatvolt, conectado ao WhatsApp do negócio,
-   com base de conhecimento própria e testado. 5 vídeos planejados
-   (apresentação, Chatvolt, criar agente, base de conhecimento, teste)
-   — ainda não gravada.
-5. **Automatize o que acontece por trás do agente** — entender o n8n e
-   usar pra automatizar o que acontece depois da conversa com o agente
-   de WhatsApp da Aula 4. 3 vídeos planejados (apresentação, conceito
-   n8n, automação pro agente) — ainda não gravada. **Fecha a trilha**
-   (a Trilha 1 agora tem 5 aulas, não 6 — a antiga Aula 6 "O que não é
-   pra delegar" foi removida do plano em 2026-08-27).
+   um site do zero. 9 vídeos.
+4. **Monte seu agente de atendimento no WhatsApp** — criar do zero, no
+   Chatvolt, um agente de IA treinado com informação real do negócio,
+   publicado e testado (exemplo prático: Pizzaria Nona). 4 vídeos.
+5. **Automatize a criação do seu conteúdo** — montar no n8n, sem
+   programar, uma automação que gera sozinha o post do dia (legenda,
+   imagem e narração) e entrega pronto pra aprovação por e-mail. 2
+   vídeos. **Fecha a trilha** (5 aulas, não 6 — a antiga Aula 6 "O que
+   não é pra delegar" foi removida do plano em 2026-08-27) e anuncia a
+   Trilha 2 (marketing/redes sociais + vincular o WhatsApp ao agente).
 
 ## Trilha 2 — Vender pela internet e pelo WhatsApp (`trilha-vendas`)
 
