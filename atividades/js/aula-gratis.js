@@ -80,18 +80,56 @@ form.addEventListener('submit', async (evento) => {
     body: { slugTrilha },
   });
 
-  if (erroVideo || !dadosVideo || dadosVideo.semVideo || !dadosVideo.playerUrl) {
+  if (erroVideo || !dadosVideo || dadosVideo.semVideo) {
     avisoSemVideo.hidden = false;
     return;
   }
 
-  const iframe = document.createElement('iframe');
-  iframe.src = dadosVideo.playerUrl;
-  iframe.allow = 'accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;';
-  iframe.allowFullscreen = true;
-  iframe.width = '100%';
-  iframe.height = '480';
-  iframe.style.border = '0';
-  playerVideo.appendChild(iframe);
+  function criarIframeVideo(url) {
+    const iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.allow = 'accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;';
+    iframe.allowFullscreen = true;
+    iframe.loading = 'lazy';
+    return iframe;
+  }
+
+  function criarMolduraVideo(url) {
+    const moldura = document.createElement('div');
+    moldura.className = 'moldura-video';
+    const barra = document.createElement('div');
+    barra.className = 'moldura-video-barra';
+    barra.innerHTML = '<span class="moldura-video-pontos"><span class="moldura-video-ponto"></span><span class="moldura-video-ponto"></span><span class="moldura-video-ponto"></span></span><span class="moldura-video-marca">Toca o Negócio</span>';
+    moldura.appendChild(barra);
+    moldura.appendChild(criarIframeVideo(url));
+    return moldura;
+  }
+
+  if (Array.isArray(dadosVideo.partes) && dadosVideo.partes.length > 0) {
+    for (const parte of dadosVideo.partes) {
+      const cartao = document.createElement('div');
+      cartao.className = 'cartao-parte';
+
+      const cabecalho = document.createElement('div');
+      cabecalho.className = 'cartao-parte-cabecalho';
+      const numero = document.createElement('span');
+      numero.className = 'cartao-parte-numero';
+      numero.textContent = String(parte.ordem);
+      const titulo = document.createElement('span');
+      titulo.className = 'cartao-parte-titulo';
+      titulo.textContent = parte.titulo ? parte.titulo : `Parte ${parte.ordem}`;
+      cabecalho.append(numero, titulo);
+      cartao.appendChild(cabecalho);
+
+      cartao.appendChild(criarMolduraVideo(parte.playerUrl));
+      playerVideo.appendChild(cartao);
+    }
+  } else if (dadosVideo.playerUrl) {
+    playerVideo.appendChild(criarMolduraVideo(dadosVideo.playerUrl));
+  } else {
+    avisoSemVideo.hidden = false;
+    return;
+  }
+
   areaVideo.hidden = false;
 });

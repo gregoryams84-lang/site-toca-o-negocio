@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
 
   const { data: aulaGratis, error: erroAula } = await supabaseAdmin
     .from('aulas_gratuitas')
-    .select('panda_video_id')
+    .select('panda_video_id, partes')
     .eq('trilha_id', trilha.id)
     .maybeSingle()
 
@@ -59,33 +59,52 @@ Deno.serve(async (req) => {
     console.error('Falha ao buscar aula gratuita', { slugTrilha, erro: erroAula })
   }
 
-  if (!aulaGratis || !aulaGratis.panda_video_id) {
+  const partesGratis: Array<{ video_id: string; titulo?: string }> = aulaGratis?.partes && aulaGratis.partes.length > 0
+    ? aulaGratis.partes
+    : aulaGratis?.panda_video_id
+      ? [{ video_id: aulaGratis.panda_video_id }]
+      : []
+
+  if (partesGratis.length === 0) {
     return respostaJson({ semVideo: true }, 200)
   }
 
-  // aulas_gratuitas.panda_video_id armazena o video_external_id do Panda
-  // (mesma convenção de aulas.panda_video_id) — a API do Panda exige a
-  // flag `?external_id` na URL pra aceitar essa busca (confirmado no
-  // código de gerar-link-video: sem essa flag, 404 mesmo com id válido).
-  let dadosPanda: { video_player?: string }
-  try {
-    const respostaPanda = await fetch(
-      `https://api-v2.pandavideo.com.br/videos/${aulaGratis.panda_video_id}?external_id`,
-      { headers: { Authorization: PANDA_API_TOKEN } }
-    )
-
-    if (!respostaPanda.ok) {
-      return respostaJson({ erro: 'falha_panda' }, 502)
+  // panda_video_id / partes[].video_id armazenam o video_external_id do
+  // Panda (mesma convenção de aulas.panda_video_id) — a API do Panda
+  // exige a flag `?external_id` na URL pra aceitar essa busca
+  // (confirmado no código de gerar-link-video: sem essa flag, 404 mesmo
+  // com id válido).
+  async function buscarPlayerUrl(externalId: string): Promise<string | null> {
+    try {
+      const respostaPanda = await fetch(
+        `https://api-v2.pandavideo.com.br/videos/${externalId}?external_id`,
+        { headers: { Authorization: PANDA_API_TOKEN } }
+      )
+      if (!respostaPanda.ok) return null
+      const dadosPanda: { video_player?: string } = await respostaPanda.json()
+      return dadosPanda.video_player ?? null
+    } catch {
+      return null
     }
+  }
 
-    dadosPanda = await respostaPanda.json()
-  } catch {
+  if (partesGratis.length === 1) {
+    const playerUrl = await buscarPlayerUrl(partesGratis[0].video_id)
+    if (!playerUrl) return respostaJson({ erro: 'falha_panda' }, 502)
+    return respostaJson({ playerUrl }, 200)
+  }
+
+  const partes = await Promise.all(
+    partesGratis.map(async (parte, indice) => ({
+      ordem: indice + 1,
+      titulo: parte.titulo ?? '',
+      playerUrl: await buscarPlayerUrl(parte.video_id),
+    }))
+  )
+
+  if (partes.some((parte) => !parte.playerUrl)) {
     return respostaJson({ erro: 'falha_panda' }, 502)
   }
 
-  if (!dadosPanda.video_player) {
-    return respostaJson({ erro: 'falha_panda' }, 502)
-  }
-
-  return respostaJson({ playerUrl: dadosPanda.video_player }, 200)
+  return respostaJson({ partes }, 200)
 })
