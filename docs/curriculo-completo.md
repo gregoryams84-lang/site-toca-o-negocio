@@ -36,21 +36,27 @@ horária do certificado: 80 horas.
 ## Trilha 2 — Vender pela internet e pelo WhatsApp (`trilha-vendas`)
 
 Redefinida em 2026-08-27 (4 aulas, não mais 6) — encadeada direto com o
-agente Chatvolt montado na Aula 4 da Trilha 1. Nenhuma aula gravada
-ainda.
+agente Chatvolt montado na Aula 4 da Trilha 1. Aulas 1-3 gravadas e
+publicadas em 2026-09-04 — o tema real divergiu bastante do plano
+original (títulos abaixo já refletem o conteúdo real). Aula 4 falta o
+último vídeo.
 
-1. **Deixe seu Instagram e Facebook prontos pra aprovação da Meta** —
-   Página do Facebook completa, Instagram profissional, os dois
-   vinculados — os requisitos que a Meta cobra antes de aprovar
-   WhatsApp Business.
-2. **Cadastre o WhatsApp na Meta e conecte o agente** — cadastro do
-   WhatsApp Business e conexão do agente da Trilha 1 ao WhatsApp e ao
-   Instagram.
-3. **Automação de conteúdo pras redes sociais** — montar uma automação
-   que gera lote de conteúdo pra postar, com aprovação do dono antes de
-   publicar.
+1. **A página do Facebook do seu negócio, pronta pra Meta** — criar a
+   Página do Facebook (nunca perfil pessoal) com dados reais da
+   empresa. 2 vídeos.
+2. **Portfólio de Negócios no Facebook** — montar o Portfólio de
+   Negócios na Meta (business.facebook.com), vinculando Página,
+   Instagram e conta de anúncios com os dados do CNPJ. 1 vídeo (~9min).
+3. **Crie seu agente e conecte ao WhatsApp** — criar o agente no
+   Chatvolt (com ajuda do Claude), conectar ao WhatsApp oficial e criar
+   o primeiro template de mensagem pra aprovação da Meta. 3 vídeos
+   (~32min). **Nota:** o vídeo de criação do agente parece reaproveitar
+   a mesma gravação já usada na Aula 4 da Trilha 1 (mesmo exemplo
+   "Pizzaria Nona") — Gregory ainda vai decidir se mantém ou regrava
+   algo específico pra esta trilha.
 4. **Fechamento e próximo passo: Formalização da empresa** — recap do
-   que ficou pronto e chamado pra Trilha 3.
+   que ficou pronto e chamado pra Trilha 3. Ainda não gravada (falta o
+   último vídeo).
 
 ## Trilha 3 — Formalizar e manter a empresa em dia (`trilha-formalizacao`)
 
